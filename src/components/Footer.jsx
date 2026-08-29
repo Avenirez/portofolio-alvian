@@ -2,9 +2,13 @@ import React from 'react';
 import { ArrowUp, Code2, Heart } from 'lucide-react';
 import { personalInfo } from '../data/projectsData';
 
-export default function Footer() {
+export default function Footer({ onGoHome }) {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (onGoHome) {
+      onGoHome();
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -23,8 +27,12 @@ export default function Footer() {
         justifyContent: 'space-between',
         gap: '20px'
       }}>
-        {/* Brand */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        {/* Brand Logo */}
+        <div
+          onClick={scrollToTop}
+          title="Kembali ke Halaman Utama"
+          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+        >
           <span style={{ fontWeight: '700', fontSize: '1.1rem' }}>
             Alvian<span className="gradient-text">Dev</span>
           </span>

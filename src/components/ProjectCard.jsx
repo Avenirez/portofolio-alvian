@@ -15,7 +15,7 @@ export default function ProjectCard({ project, onSelectProject }) {
   const spotY = useMotionValue(50);
   const spotOpacity = useMotionValue(0);
 
-  const springConfig = { damping: 20, stiffness: 200 };
+  const springConfig = { damping: 25, stiffness: 450 };
   const rotateX = useSpring(rawRotateX, springConfig);
   const rotateY = useSpring(rawRotateY, springConfig);
   const opacitySpring = useSpring(spotOpacity, springConfig);

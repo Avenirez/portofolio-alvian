@@ -14,22 +14,12 @@ export default function CursorGlow() {
     if (isTouchDevice) return;
 
     const handleMouseMove = (e) => {
-      mousePos.current = { x: e.clientX, y: e.clientY };
-
-      if (!isVisible.current) {
-        isVisible.current = true;
-        if (glowRef.current) {
+      if (glowRef.current) {
+        glowRef.current.style.transform = `translate3d(${e.clientX - 225}px, ${e.clientY - 225}px, 0)`;
+        if (!isVisible.current) {
+          isVisible.current = true;
           glowRef.current.style.opacity = '0.65';
         }
-      }
-
-      if (!requestRef.current) {
-        requestRef.current = requestAnimationFrame(() => {
-          if (glowRef.current) {
-            glowRef.current.style.transform = `translate3d(${mousePos.current.x - 225}px, ${mousePos.current.y - 225}px, 0)`;
-          }
-          requestRef.current = null;
-        });
       }
     };
 
@@ -46,7 +36,6 @@ export default function CursorGlow() {
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
   }, []);
 

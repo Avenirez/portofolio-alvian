@@ -128,7 +128,7 @@ export const projectsData = [
       "Leaflet Geolocation (Database/Maps)",
       "CSS Animations"
     ],
-    "featured": true,
+    "featured": false,
     "keyFeatures": [
       "Pencarian kondisi cuaca kota-kota di seluruh dunia",
       "Visualisasi peta interaktif lokasi dengan Leaflet.js",

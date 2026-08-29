@@ -8,7 +8,7 @@ const navItems = [
   { id: 'kontak', label: 'Kontak' }
 ];
 
-export default function Navbar({ currentTheme, setTheme }) {
+export default function Navbar({ currentTheme, setTheme, onGoHome }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
@@ -49,10 +49,6 @@ export default function Navbar({ currentTheme, setTheme }) {
       setActiveSection(currentSection);
     };
 
-    // Event 'scroll' bisa nge-fire lebih dari sekali per frame. Tanpa
-    // throttle, setiap tick-nya membaca offsetTop 3 elemen dari DOM --
-    // kecil, tapi tetap kerja yang tidak perlu. requestAnimationFrame
-    // memastikan perhitungan cuma jalan maksimal 1x per frame render.
     const handleScroll = () => {
       if (!ticking) {
         ticking = true;
@@ -99,15 +95,30 @@ export default function Navbar({ currentTheme, setTheme }) {
         justifyContent: 'space-between'
       }}>
         {/* Logo */}
-        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          textDecoration: 'none',
-          color: 'var(--text-main)',
-          fontSize: '1.25rem',
-          fontWeight: '800'
-        }}>
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            setMobileMenuOpen(false);
+            setActiveSection('');
+            if (onGoHome) {
+              onGoHome();
+            } else {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+          }}
+          title="Kembali ke Halaman Utama"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            textDecoration: 'none',
+            color: 'var(--text-main)',
+            fontSize: '1.25rem',
+            fontWeight: '800',
+            cursor: 'pointer'
+          }}
+        >
           <span>Alvian<span className="gradient-text">Dev</span></span>
         </a>
 

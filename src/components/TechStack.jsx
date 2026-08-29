@@ -69,7 +69,11 @@ export default function TechStack() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: index * 0.03 }}
-            whileHover={{ scale: 1.06, y: -2 }}
+            whileHover={{ 
+              scale: 1.06, 
+              y: -2,
+              transition: { type: 'spring', stiffness: 500, damping: 25 }
+            }}
             style={{
               padding: '10px 22px',
               borderRadius: 'var(--radius-full)',
@@ -84,7 +88,7 @@ export default function TechStack() {
               boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
               cursor: 'default',
               backdropFilter: 'blur(10px)',
-              transition: 'border-color 0.2s ease, box-shadow 0.2s ease'
+              transition: 'border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease'
             }}
             className="tech-pill-card"
           >

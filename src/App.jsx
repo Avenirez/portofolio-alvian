@@ -38,6 +38,14 @@ export default function App() {
     return matchesCategory && matchesSearch;
   });
 
+  // Reset filters, close modal, and scroll to top
+  const handleGoHome = () => {
+    setActiveCategory('all');
+    setSearchQuery('');
+    setSelectedProject(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Scroll Progress Indicator */}
@@ -50,6 +58,7 @@ export default function App() {
       <Navbar
         currentTheme={currentTheme}
         setTheme={setTheme}
+        onGoHome={handleGoHome}
       />
 
       {/* Main Content */}
@@ -111,7 +120,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer onGoHome={handleGoHome} />
 
       {/* Project Detail Modal */}
       <AnimatePresence>
