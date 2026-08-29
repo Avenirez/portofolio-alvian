@@ -1,0 +1,326 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  /* Default Sunset Amber & Pink Theme */
+  --accent-primary: #f59e0b;
+  --accent-secondary: #ec4899;
+  --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);
+  --accent-glow: rgba(245, 158, 11, 0.35);
+  --accent-light: rgba(245, 158, 11, 0.15);
+  --border-hover: rgba(245, 158, 11, 0.4);
+  
+  --font-main: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Theme Presets */
+[data-theme='cyberneon'] {
+  --accent-primary: #00f2fe;
+  --accent-secondary: #4facfe;
+  --accent-gradient: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  --accent-glow: rgba(0, 242, 254, 0.35);
+  --accent-light: rgba(0, 242, 254, 0.15);
+  --border-hover: rgba(0, 242, 254, 0.4);
+}
+
+[data-theme='cyberpunk'] {
+  --accent-primary: #8b5cf6;
+  --accent-secondary: #06b6d4;
+  --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+  --accent-glow: rgba(139, 92, 246, 0.35);
+  --accent-light: rgba(139, 92, 246, 0.15);
+  --border-hover: rgba(139, 92, 246, 0.4);
+}
+
+[data-theme='emerald'] {
+  --accent-primary: #10b981;
+  --accent-secondary: #06b6d4;
+  --accent-gradient: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+  --accent-glow: rgba(16, 185, 129, 0.35);
+  --accent-light: rgba(16, 185, 129, 0.15);
+  --border-hover: rgba(16, 185, 129, 0.4);
+}
+
+[data-theme='ocean'] {
+  --accent-primary: #3b82f6;
+  --accent-secondary: #6366f1;
+  --accent-gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+  --accent-glow: rgba(59, 130, 246, 0.35);
+  --accent-light: rgba(59, 130, 246, 0.15);
+  --border-hover: rgba(59, 130, 246, 0.4);
+}
+
+[data-theme='sunset'] {
+  --accent-primary: #f59e0b;
+  --accent-secondary: #ec4899;
+  --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);
+  --accent-glow: rgba(245, 158, 11, 0.35);
+  --accent-light: rgba(245, 158, 11, 0.15);
+  --border-hover: rgba(245, 158, 11, 0.4);
+}
+
+/* Dark Mode (Default Figma Pitch Dark) */
+:root, [data-mode='dark'] {
+  --bg-primary: #08090e;
+  --bg-secondary: #0f111a;
+  --bg-card: rgba(18, 22, 36, 0.65);
+  --bg-card-hover: rgba(26, 32, 54, 0.85);
+  --bg-input: rgba(14, 17, 29, 0.8);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-hover: var(--accent-glow);
+  
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-dim: #6b7280;
+
+  --shadow-main: 0 20px 40px -15px rgba(0, 0, 0, 0.8);
+  --glass-bg: rgba(10, 12, 20, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* Light Mode */
+[data-mode='light'] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.8);
+  --bg-card-hover: rgba(255, 255, 255, 0.95);
+  --bg-input: #f1f5f9;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.18);
+  
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #94a3b8;
+
+  --shadow-main: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: var(--radius-full);
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-display);
+}
+
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Glassmorphism Classes Optimized for High GPU Performance */
+.glass-card {
+  background: var(--bg-card);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-main);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  contain: layout paint;
+}
+
+.glass-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-hover);
+  box-shadow: 0 20px 40px var(--accent-glow);
+}
+
+.glass-nav {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--glass-border);
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.glass-modal {
+  background: var(--bg-secondary);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  contain: layout paint;
+}
+
+@media (max-width: 768px) {
+  .glass-card {
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+  }
+  .glass-nav {
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .glass-modal {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* Hormati preferensi pengguna yang mematikan animasi di OS/browser mereka */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Glowing Accent Buttons */
+.btn-primary {
+  background: var(--accent-gradient);
+  color: #ffffff;
+  border: none;
+  padding: 12px 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 20px var(--accent-glow);
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px var(--accent-glow);
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--border-color);
+  padding: 12px 26px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all var(--transition-normal);
+  text-decoration: none;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: var(--accent-light);
+  transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; filter: blur(40px); }
+  50% { opacity: 0.8; filter: blur(60px); }
+}
+
+.animate-glow {
+  animation: pulseGlow 6s ease-in-out infinite;
+}
+
+/* Signature touch: motif "radar ping" terinspirasi dari fokus GIS
+   (JakScope) — lingkaran yang membesar & memudar dari satu titik,
+   seperti location ping di peta. Dipakai di badge status hero. */
+@keyframes radarPing {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+.radar-ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: currentColor;
+  animation: radarPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Spotlight border-glow untuk Project Card: gradient radial yang
+   mengikuti posisi cursor (--spot-x/--spot-y diupdate lewat JS),
+   di-mask supaya cuma keliatan sebagai cincin tipis di border, tidak
+   menutupi gambar/konten di dalamnya. */
+.project-card-spotlight {
+  position: relative;
+}
+
+.project-card-spotlight::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(320px circle at var(--spot-x, 50%) var(--spot-y, 50%), var(--accent-primary), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: 2;
+}
+
+.project-card-spotlight:hover::before {
+  opacity: 1;
+}

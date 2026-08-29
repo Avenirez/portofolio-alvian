@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Multi-stop Gradient Blending All 5 Theme Colors: Cyan -> Emerald -> Amber -> Pink -> Violet -->
+    <linearGradient id="fiveThemeBlendGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="25%" stop-color="#10b981"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="75%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Transparent Background with 5-Theme Gradient Blend Letter 'A' -->
+  <text 
+    x="50%" 
+    y="52%" 
+    font-family="'Space Grotesk', 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif" 
+    font-weight="900" 
+    font-size="460" 
+    fill="url(#fiveThemeBlendGrad)" 
+    text-anchor="middle" 
+    dominant-baseline="central"
+  >A</text>
+</svg>
