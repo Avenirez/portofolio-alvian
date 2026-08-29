@@ -6,12 +6,24 @@ import { personalInfo } from '../data/projectsData';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [honeypot, setHoneypot] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+
+    // Jika honeypot terisi, itu adalah bot spam otomatis. Simulasikan berhasil tanpa mengirim API request.
+    if (honeypot) {
+      setSubmitted(true);
+      return;
+    }
+
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedMessage) return;
     
     setLoading(true);
     try {
@@ -22,10 +34,10 @@ export default function ContactSection() {
           "Accept": "application/json"
         },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          _subject: `New Portfolio Message from ${formData.name}`
+          name: trimmedName.slice(0, 100),
+          email: trimmedEmail.slice(0, 100),
+          message: trimmedMessage.slice(0, 1000),
+          _subject: `New Portfolio Message from ${trimmedName.slice(0, 50)}`
         })
       });
       setSubmitted(true);
@@ -133,6 +145,18 @@ export default function ContactSection() {
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {/* Honeypot field tersembunyi untuk penangkap bot spam */}
+              <div style={{ display: 'none' }} aria-hidden="true">
+                <input
+                  type="text"
+                  name="bot_check_field"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
+
               <div>
                 <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', letterSpacing: '0.05em', color: 'var(--accent-primary)', textTransform: 'uppercase', marginBottom: '8px' }}>
                   NAMA ANDA
@@ -140,6 +164,7 @@ export default function ContactSection() {
                 <input
                   type="text"
                   required
+                  maxLength={100}
                   placeholder="Masukkan nama Anda..."
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -154,6 +179,7 @@ export default function ContactSection() {
                 <input
                   type="email"
                   required
+                  maxLength={100}
                   placeholder="nama@email.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -168,6 +194,7 @@ export default function ContactSection() {
                 <textarea
                   required
                   rows={4}
+                  maxLength={1000}
                   placeholder="Tuliskan pesan atau kebutuhan projek Anda di sini..."
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
