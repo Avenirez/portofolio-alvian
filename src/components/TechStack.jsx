@@ -11,7 +11,8 @@ const techBadges = [
   { name: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql/4169E1', url: 'https://www.postgresql.org' },
   { name: 'Tailwind CSS', icon: 'https://cdn.simpleicons.org/tailwindcss/06B6D4', url: 'https://tailwindcss.com' },
   { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/3178C6', url: 'https://www.typescriptlang.org' },
-  { name: 'QRIS Payment Gateway', icon: 'https://cdn.simpleicons.org/fastapi/009688', url: 'https://qris.id' },
+  { name: 'QRIS Payment Gateway', icon: '/qris-logo.svg', url: 'https://qris.id' },
+  { name: 'FastAPI', icon: 'https://cdn.simpleicons.org/fastapi/009688', url: 'https://fastapi.tiangolo.com' },
   { name: 'OpenStreetMap API', icon: 'https://cdn.simpleicons.org/openstreetmap/7EBC6F', url: 'https://www.openstreetmap.org' },
   { name: 'Leaflet GL', icon: 'https://cdn.simpleicons.org/leaflet/199900', url: 'https://leafletjs.com' },
   { name: 'Vite', icon: 'https://cdn.simpleicons.org/vite/646CFF', url: 'https://vite.dev' },
@@ -20,8 +21,8 @@ const techBadges = [
   { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E', url: 'https://www.figma.com' }
 ];
 
-const row1 = techBadges.slice(0, 8);
-const row2 = techBadges.slice(8);
+const row1 = techBadges.slice(0, 9);
+const row2 = techBadges.slice(9);
 
 export default function TechStack() {
   return (

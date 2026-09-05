@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Download, Mail } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
 import { LinkedinIcon } from './SocialIcons';
 import { personalInfo } from '../data/projectsData';
 import MagneticButton from './MagneticButton';
@@ -32,6 +32,47 @@ const wordVariants = {
   hidden: { opacity: 0, y: 16 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } }
 };
+
+function TypewriterTitle({ prefix = "Hi, I'm ", name = personalInfo.name }) {
+  const fullText = prefix + name;
+  const prefixLen = prefix.length;
+  const [charCount, setCharCount] = useState(0);
+
+  useEffect(() => {
+    if (charCount < fullText.length) {
+      const timeout = setTimeout(() => {
+        setCharCount((prev) => prev + 1);
+      }, 70 + Math.floor(Math.random() * 40)); // Realistic human coding keystroke delay
+      return () => clearTimeout(timeout);
+    }
+  }, [charCount, fullText.length]);
+
+  const currentPrefix = fullText.slice(0, Math.min(charCount, prefixLen));
+  const currentName = charCount > prefixLen ? fullText.slice(prefixLen, charCount) : '';
+
+  return (
+    <motion.h1
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      style={{
+        fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)',
+        fontWeight: '800',
+        lineHeight: 1.15,
+        marginBottom: '12px',
+        letterSpacing: '-0.02em',
+        color: '#ffffff',
+        display: 'inline-flex',
+        alignItems: 'baseline',
+        flexWrap: 'wrap'
+      }}
+    >
+      <span>{currentPrefix}</span>
+      {currentName && <span className="text-shimmer">{currentName}</span>}
+      <span className="typing-cursor" />
+    </motion.h1>
+  );
+}
 
 export default function HeroSection() {
   const nameWords = personalInfo.name.split(' ');
@@ -115,20 +156,8 @@ export default function HeroSection() {
 
             {/* Terminal Body */}
             <div className="terminal-body">
-              {/* Main Title */}
-              <motion.h1
-                variants={titleVariants}
-                style={{
-                  fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)',
-                  fontWeight: '800',
-                  lineHeight: 1.15,
-                  marginBottom: '12px',
-                  letterSpacing: '-0.02em',
-                  color: '#ffffff'
-                }}
-              >
-                Hi, I'm <span className="text-shimmer">{personalInfo.name}</span>
-              </motion.h1>
+              {/* Main Title with Coding Typing Animation */}
+              <TypewriterTitle prefix="Hi, I'm " name={personalInfo.name} />
 
               {/* Subtitle / Tagline */}
               <motion.h2 variants={itemVariants} style={{
@@ -242,7 +271,15 @@ export default function HeroSection() {
                 justifyContent: 'center',
                 fontSize: '4.5rem'
               }}>
-                👨‍💻
+                <img
+                  src="/favicon.svg"
+                  alt={personalInfo.name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                  }}
+                />
               </div>
             </div>
 
@@ -261,6 +298,21 @@ export default function HeroSection() {
       </div>
 
       <style>{`
+        .typing-cursor {
+          display: inline-block;
+          width: 4px;
+          height: 0.85em;
+          background-color: var(--accent-primary);
+          margin-left: 6px;
+          vertical-align: middle;
+          border-radius: 2px;
+          box-shadow: 0 0 10px var(--accent-primary);
+          animation: blinkCursor 0.75s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+        @keyframes blinkCursor {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
         @media (max-width: 900px) {
           .hero-grid {
             grid-template-columns: 1fr !important;

@@ -92,7 +92,7 @@ export default function ContactSection() {
             marginBottom: '36px',
             maxWidth: '480px'
           }}>
-            Saya selalu terbuka untuk peluang kolaborasi baru, pengembangan aplikasi web interaktif, maupun konsultasi teknis. Tinggalkan pesan Anda pada formulir ini 👉
+            Saya selalu terbuka untuk peluang kolaborasi baru, pengembangan aplikasi web interaktif, maupun konsultasi teknis. Tinggalkan pesan Anda pada formulir ini:
           </p>
 
           {/* Social Icons Row */}

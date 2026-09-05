@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Palette, Menu, X } from 'lucide-react';
+import { Menu, X, Gamepad2 } from 'lucide-react';
 
 const navItems = [
   { id: 'projek', label: 'Projek' },
@@ -8,7 +8,7 @@ const navItems = [
   { id: 'kontak', label: 'Kontak' }
 ];
 
-export default function Navbar({ currentTheme, setTheme, onGoHome }) {
+export default function Navbar({ currentTheme, setTheme, onGoHome, onOpenGame }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
@@ -165,9 +165,36 @@ export default function Navbar({ currentTheme, setTheme, onGoHome }) {
           })}
         </div>
 
-        {/* Action Controls (Theme Switcher & Dark/Light Toggle) */}
+        {/* Action Controls (Arcade Game & Theme Switcher) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           
+          {/* Tech Memory Game Arcade Button */}
+          {onOpenGame && (
+            <button
+              onClick={onOpenGame}
+              title="Buka Game Arcade Interaktif"
+              className="arcade-nav-btn"
+              style={{
+                background: 'var(--accent-light)',
+                border: '1px solid var(--accent-glow)',
+                color: 'var(--accent-primary)',
+                padding: '8px 14px',
+                borderRadius: 'var(--radius-full)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                fontSize: '0.85rem',
+                fontWeight: '700',
+                boxShadow: '0 0 12px var(--accent-glow)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <Gamepad2 size={16} />
+              <span className="arcade-label-text">Arcade</span>
+            </button>
+          )}
+
           {/* Theme Palette Switcher */}
           <div style={{ position: 'relative' }}>
             <button
@@ -188,7 +215,6 @@ export default function Navbar({ currentTheme, setTheme, onGoHome }) {
                 transition: 'all 0.2s ease'
               }}
             >
-              <Palette size={16} color="var(--accent-primary)" />
               <span className="theme-label-text">Tema Website</span>
             </button>
 

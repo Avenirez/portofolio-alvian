@@ -149,15 +149,22 @@ h1, h2, h3, h4, .font-display {
   display: inline-block;
 }
 
-/* Glassmorphism Classes Optimized for High GPU Performance */
+/* Glassmorphism Classes with Sci-Fi Chamfered Cut-Out Corners */
 .glass-card {
   background: var(--bg-card);
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  clip-path: polygon(
+    14px 0,
+    100% 0,
+    100% calc(100% - 14px),
+    calc(100% - 14px) 100%,
+    0 100%,
+    0 14px
+  );
   box-shadow: var(--shadow-main);
-  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   contain: layout paint;
 }
 
@@ -538,14 +545,21 @@ h1, h2, h3, h4, .font-display {
   color: var(--accent-primary);
 }
 
-/* Shiny Pill Badge (21st.dev) */
+/* Shiny Pill Badge (21st.dev Sci-Fi Chamfer) */
 .shiny-pill-badge {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding: 8px 20px;
-  border-radius: var(--radius-full);
+  clip-path: polygon(
+    10px 0%,
+    100% 0%,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0% 100%,
+    0% 10px
+  );
   background: rgba(18, 22, 36, 0.75);
   border: 1px solid var(--accent-glow);
   box-shadow: 0 0 20px var(--accent-glow);
@@ -622,24 +636,51 @@ h1, h2, h3, h4, .font-display {
   position: relative;
 }
 
-/* 7b. Asymmetrical Cut-Corner Chamfer Glass Card */
+/* 7b. Asymmetrical Cut-Corner Chamfer Glass Card & Pills */
 .chamfer-card {
   position: relative;
   background: var(--bg-card);
-  border-radius: var(--radius-lg);
   clip-path: polygon(
-    24px 0%,
+    20px 0%,
     100% 0%,
-    100% calc(100% - 24px),
-    calc(100% - 24px) 100%,
+    100% calc(100% - 20px),
+    calc(100% - 20px) 100%,
     0% 100%,
-    0% 24px
+    0% 20px
   );
   box-shadow: 0 25px 50px rgba(0,0,0,0.7);
   backdrop-filter: blur(10px);
 }
 
-/* 7c. Sci-Fi HUD Corner Brackets */
+.tech-pill-card {
+  clip-path: polygon(
+    10px 0%,
+    100% 0%,
+    100% calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    0% 100%,
+    0% 10px
+  );
+  border-radius: 0 !important;
+}
+
+.terminal-window {
+  position: relative;
+  background: rgba(12, 15, 26, 0.85);
+  border: 1px solid var(--border-color);
+  clip-path: polygon(
+    22px 0%,
+    100% 0%,
+    100% calc(100% - 22px),
+    calc(100% - 22px) 100%,
+    0% 100%,
+    0% 22px
+  );
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--accent-glow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  overflow: hidden;
+}
 .hud-container {
   position: relative;
   padding: 20px 24px;

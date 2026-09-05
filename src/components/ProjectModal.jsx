@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X, ExternalLink, CheckCircle2, AlertCircle, Layers } from 'lucide-react';
+import { X, ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
 
 
 export default function ProjectModal({ project, onClose }) {
@@ -142,8 +142,8 @@ export default function ProjectModal({ project, onClose }) {
         {/* Key Features List */}
         {project.keyFeatures && (
           <div style={{ marginBottom: '24px' }}>
-            <h4 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Layers size={18} color="var(--accent-primary)" /> Fitur Utama:
+            <h4 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '12px' }}>
+              Fitur Utama:
             </h4>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '10px' }}>
               {project.keyFeatures.map((feature, i) => (
