@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import CursorGlow from './components/CursorGlow';
 import ScrollProgressBar from './components/ScrollProgressBar';
+import GlobalBackground from './components/GlobalBackground';
 import HeroSection from './components/HeroSection';
 import FilterSearch from './components/FilterSearch';
 import ProjectCard from './components/ProjectCard';
@@ -47,7 +48,10 @@ export default function App() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      {/* Global Multi-Layered Background System */}
+      <GlobalBackground />
+
       {/* Scroll Progress Indicator */}
       <ScrollProgressBar />
 
@@ -56,6 +60,7 @@ export default function App() {
 
       {/* Responsive Navigation Header */}
       <Navbar
+
         currentTheme={currentTheme}
         setTheme={setTheme}
         onGoHome={handleGoHome}
