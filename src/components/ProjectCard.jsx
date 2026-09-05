@@ -81,7 +81,7 @@ export default function ProjectCard({ project, index, onSelectProject }) {
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`glass-card ${isBentoHero ? 'bento-card-hero' : ''}`}
+      className="glass-card"
       style={{
         borderRadius: 'var(--radius-md)',
         overflow: 'hidden',
@@ -92,17 +92,9 @@ export default function ProjectCard({ project, index, onSelectProject }) {
         rotateX,
         rotateY,
         transformStyle: 'preserve-3d',
-        perspective: 1000,
-        gridColumn: isBentoHero ? 'span 2' : 'span 1'
+        perspective: 1000
       }}
     >
-      <style>{`
-        @media (max-width: 900px) {
-          .bento-card-hero {
-            grid-column: span 1 !important;
-          }
-        }
-      `}</style>
 
       {/* 21st.dev Border Beam for Featured or Highlighted cards */}
       {project.featured && (
