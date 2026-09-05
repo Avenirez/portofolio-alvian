@@ -4,6 +4,8 @@ import { ArrowRight, Sparkles, Download, Mail } from 'lucide-react';
 import { LinkedinIcon } from './SocialIcons';
 import { personalInfo } from '../data/projectsData';
 import MagneticButton from './MagneticButton';
+import HeroBackground from './HeroBackground';
+import BorderBeam from './BorderBeam';
 
 // Stagger container untuk seluruh kolom kiri (badge -> judul -> bio -> CTA -> sosial)
 const columnVariants = {
@@ -44,29 +46,8 @@ export default function HeroSection() {
       position: 'relative',
       overflow: 'hidden'
     }}>
-      {/* Background ambient glowing orbs */}
-      <div style={{
-        position: 'absolute',
-        top: '15%',
-        left: '5%',
-        width: '350px',
-        height: '350px',
-        background: 'radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%)',
-        filter: 'blur(50px)',
-        pointerEvents: 'none',
-        zIndex: 0
-      }} />
-      <div style={{
-        position: 'absolute',
-        bottom: '10%',
-        right: '10%',
-        width: '400px',
-        height: '400px',
-        background: 'radial-gradient(circle, var(--accent-glow) 0%, rgba(0,0,0,0) 70%)',
-        filter: 'blur(60px)',
-        pointerEvents: 'none',
-        zIndex: 0
-      }} />
+      {/* 21st.dev Grid & Meteor Background */}
+      <HeroBackground />
 
       <div style={{
         maxWidth: '1140px',
@@ -133,7 +114,7 @@ export default function HeroSection() {
               color: '#ffffff'
             }}
           >
-            Hi, I'm <span style={{ color: '#ffffff' }}>{personalInfo.name}</span>
+            Hi, I'm <span className="text-shimmer">{personalInfo.name}</span>
           </motion.h1>
 
           {/* Subtitle / Tagline */}
@@ -207,7 +188,7 @@ export default function HeroSection() {
             zIndex: 0
           }} />
 
-          {/* Main Visual Card */}
+          {/* Main Visual Card with 21st.dev Border Beam */}
           <div className="glass-card animate-float" style={{
             width: '100%',
             maxWidth: '380px',
@@ -218,8 +199,11 @@ export default function HeroSection() {
             background: 'var(--bg-card)',
             border: '1px solid var(--border-hover)',
             boxShadow: '0 25px 50px rgba(0,0,0,0.7), 0 0 30px var(--accent-glow)',
-            zIndex: 1
+            zIndex: 1,
+            overflow: 'hidden'
           }}>
+            <BorderBeam size={200} duration={8} borderRadius="var(--radius-lg)" />
+
             {/* Avatar Frame with Glowing Ring */}
             <div style={{
               width: '180px',

@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
 import { ExternalLink, Eye, Sparkles } from 'lucide-react';
+import BorderBeam from './BorderBeam';
 
 export default function ProjectCard({ project, onSelectProject }) {
   const cardRef = useRef(null);
@@ -20,16 +21,8 @@ export default function ProjectCard({ project, onSelectProject }) {
   const rotateY = useSpring(rawRotateY, springConfig);
   const opacitySpring = useSpring(spotOpacity, springConfig);
 
-  // PENTING: background di bawah pakai template string reaktif (bukan
-  // spotX.get()/spotY.get() langsung). Kalau motion value di-.get() lalu
-  // ditaruh di dalam string biasa, React/framer-motion cuma baca nilainya
-  // SEKALI saat render itu terjadi -- hasilnya posisi spotlight "beku",
-  // tidak ikut kursor sama sekali walau terlihat halus di kode. Dengan
-  // useMotionTemplate, string ini otomatis update tiap spotX/spotY berubah
-  // TANPA memicu re-render React (framer-motion yang urus langsung ke DOM).
   const spotlightBackground = useMotionTemplate`radial-gradient(400px circle at ${spotX}% ${spotY}%, var(--accent-light), transparent 80%)`;
 
-  // Hitung ulang posisi frame berikutnya (di-throttle ke 1x per frame lewat rAF)
   const applyPointerFrame = () => {
     rafRef.current = null;
     const rect = rectRef.current;
@@ -48,25 +41,18 @@ export default function ProjectCard({ project, onSelectProject }) {
 
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    rawRotateX.set(((y - centerY) / centerY) * -5);
-    rawRotateY.set(((x - centerX) / centerX) * 5);
+    rawRotateX.set(((y - centerY) / centerY) * -7);
+    rawRotateY.set(((x - centerX) / centerX) * 7);
   };
 
   const handleMouseEnter = () => {
     if (!cardRef.current || window.matchMedia('(pointer: coarse)').matches) return;
-    // Ukur posisi & ukuran card SEKALI saja saat cursor masuk. Sebelumnya
-    // getBoundingClientRect() dipanggil di SETIAP event mousemove -- ini
-    // fungsi yang memaksa browser menghitung ulang layout (forced reflow),
-    // dan mousemove bisa nge-fire puluhan kali per detik. Itu penyebab
-    // utama hover di project card terasa berat/kasar.
     rectRef.current = cardRef.current.getBoundingClientRect();
   };
 
   const handleMouseMove = (e) => {
     if (!rectRef.current) return;
     lastEventRef.current = e;
-    // Batasi update ke 1x per animation frame (pola sama seperti
-    // CursorGlow.jsx) supaya tidak menumpuk kerja saat mouse gerak cepat.
     if (!rafRef.current) {
       rafRef.current = requestAnimationFrame(applyPointerFrame);
     }
@@ -107,6 +93,11 @@ export default function ProjectCard({ project, onSelectProject }) {
         perspective: 1000
       }}
     >
+      {/* 21st.dev Border Beam for Featured or Highlighted cards */}
+      {project.featured && (
+        <BorderBeam size={160} duration={6} borderRadius="var(--radius-md)" />
+      )}
+
       {/* Dynamic Spotlight Glow Layer */}
       <motion.div
         style={{
@@ -118,6 +109,7 @@ export default function ProjectCard({ project, onSelectProject }) {
           background: spotlightBackground
         }}
       />
+
 
       {/* Thumbnail Container */}
       <div style={{

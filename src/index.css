@@ -324,3 +324,105 @@ h1, h2, h3, h4, .font-display {
 .project-card-spotlight:hover::before {
   opacity: 1;
 }
+
+/* 21st.dev Inspired UI Utilities & Animations */
+
+/* 1. Shimmer Text Effect */
+@keyframes textShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    110deg,
+    var(--text-main) 0%,
+    var(--accent-primary) 25%,
+    var(--accent-secondary) 50%,
+    var(--accent-primary) 75%,
+    var(--text-main) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textShimmer 4.5s ease-in-out infinite;
+}
+
+/* 2. Cyber Grid Pattern Background */
+.cyber-grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 20%, transparent 100%);
+}
+
+/* 3. Infinite Marquee Ticker */
+@keyframes marqueeLeft {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+.marquee-container {
+  overflow: hidden;
+  display: flex;
+  user-select: none;
+  gap: 16px;
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.marquee-track-left {
+  display: flex;
+  flex-shrink: 0;
+  gap: 16px;
+  min-width: 100%;
+  animation: marqueeLeft 32s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track-right {
+  display: flex;
+  flex-shrink: 0;
+  gap: 16px;
+  min-width: 100%;
+  animation: marqueeRight 32s linear infinite;
+  will-change: transform;
+}
+
+.marquee-container:hover .marquee-track-left,
+.marquee-container:hover .marquee-track-right {
+  animation-play-state: paused;
+}
+
+/* 4. Meteor Light Sweeps */
+@keyframes meteorSweep {
+  0% {
+    transform: rotate(215deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(215deg) translateX(-800px);
+    opacity: 0;
+  }
+}
+
+.meteor-line {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(to right, var(--accent-primary), transparent);
+  box-shadow: 0 0 10px var(--accent-primary);
+  animation: meteorSweep linear infinite;
+  pointer-events: none;
+}
+

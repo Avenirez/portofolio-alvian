@@ -20,20 +20,24 @@ const techBadges = [
   { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E' }
 ];
 
+const row1 = techBadges.slice(0, 8);
+const row2 = techBadges.slice(8);
+
 export default function TechStack() {
   return (
     <section id="keahlian" style={{
-      padding: '50px 24px',
-      maxWidth: '1100px',
+      padding: '70px 24px',
+      maxWidth: '1200px',
       margin: '0 auto',
-      width: '100%'
+      width: '100%',
+      position: 'relative'
     }}>
       <div style={{
         textAlign: 'center',
-        marginBottom: '28px'
+        marginBottom: '36px'
       }}>
         <h3 style={{
-          fontSize: '1.35rem',
+          fontSize: '1.5rem',
           fontWeight: '800',
           color: 'var(--text-main)',
           letterSpacing: '-0.01em'
@@ -41,10 +45,10 @@ export default function TechStack() {
           Tech Stack & Ekosistem Teknologi
         </h3>
         <p style={{
-          fontSize: '0.9rem',
+          fontSize: '0.92rem',
           color: 'var(--text-muted)',
           marginTop: '8px',
-          maxWidth: '560px',
+          maxWidth: '580px',
           marginInline: 'auto',
           lineHeight: '1.6'
         }}>
@@ -52,67 +56,98 @@ export default function TechStack() {
         </p>
       </div>
 
-      {/* Centered Multi-Row Tech Pill Grid */}
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: '14px 16px',
-        maxWidth: '960px',
-        margin: '0 auto'
-      }}>
-        {techBadges.map((tech, index) => (
-          <motion.div
-            key={tech.name}
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: index * 0.03 }}
-            whileHover={{ 
-              scale: 1.06, 
-              y: -2,
-              transition: { type: 'spring', stiffness: 500, damping: 25 }
-            }}
-            style={{
-              padding: '10px 22px',
-              borderRadius: 'var(--radius-full)',
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-color)',
-              color: 'var(--text-main)',
-              fontSize: '0.875rem',
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
-              cursor: 'default',
-              backdropFilter: 'blur(10px)',
-              transition: 'border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease'
-            }}
-            className="tech-pill-card"
-          >
-            <img
-              src={tech.icon}
-              alt={tech.name}
-              style={{
-                width: '20px',
-                height: '20px',
-                objectFit: 'contain',
-                filter: tech.name === 'Next.js' ? 'none' : 'drop-shadow(0 0 4px rgba(255,255,255,0.15))'
-              }}
-            />
-            <span>{tech.name}</span>
-          </motion.div>
-        ))}
+      {/* 21st.dev Infinite Marquee Tickers */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        
+        {/* Row 1: Left Scroll */}
+        <div className="marquee-container">
+          <div className="marquee-track-left">
+            {[...row1, ...row1, ...row1].map((tech, index) => (
+              <motion.div
+                key={`r1-${tech.name}-${index}`}
+                whileHover={{ scale: 1.08, y: -3 }}
+                style={{
+                  padding: '12px 24px',
+                  borderRadius: 'var(--radius-full)',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-main)',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(10px)',
+                  whiteSpace: 'nowrap'
+                }}
+                className="tech-pill-card"
+              >
+                <img
+                  src={tech.icon}
+                  alt={tech.name}
+                  style={{
+                    width: '22px',
+                    height: '22px',
+                    objectFit: 'contain'
+                  }}
+                />
+                <span>{tech.name}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Row 2: Right Scroll */}
+        <div className="marquee-container">
+          <div className="marquee-track-right">
+            {[...row2, ...row2, ...row2].map((tech, index) => (
+              <motion.div
+                key={`r2-${tech.name}-${index}`}
+                whileHover={{ scale: 1.08, y: -3 }}
+                style={{
+                  padding: '12px 24px',
+                  borderRadius: 'var(--radius-full)',
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-main)',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(10px)',
+                  whiteSpace: 'nowrap'
+                }}
+                className="tech-pill-card"
+              >
+                <img
+                  src={tech.icon}
+                  alt={tech.name}
+                  style={{
+                    width: '22px',
+                    height: '22px',
+                    objectFit: 'contain'
+                  }}
+                />
+                <span>{tech.name}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
       </div>
 
       <style>{`
         .tech-pill-card:hover {
           border-color: var(--accent-primary) !important;
-          box-shadow: 0 6px 20px var(--accent-glow) !important;
+          box-shadow: 0 8px 25px var(--accent-glow) !important;
         }
       `}</style>
     </section>
   );
 }
+
