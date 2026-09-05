@@ -67,39 +67,31 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          {/* Availability Status Badge */}
-          <motion.div variants={itemVariants} style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '10px',
-            background: 'var(--accent-light)',
-            border: '1px solid var(--accent-glow)',
-            padding: '6px 18px',
-            borderRadius: 'var(--radius-full)',
-            marginBottom: '24px',
-            boxShadow: '0 0 15px var(--accent-glow)'
-          }}>
-            <span style={{ position: 'relative', width: '8px', height: '8px', display: 'inline-block', color: 'var(--accent-primary)' }}>
-              <span className="radar-ping" />
+          {/* 21st.dev Item 1: Shiny Pill Badge */}
+          <motion.div variants={itemVariants} style={{ marginBottom: '24px' }}>
+            <div className="shiny-pill-badge">
+              <span style={{ position: 'relative', width: '8px', height: '8px', display: 'inline-block', color: 'var(--accent-primary)' }}>
+                <span className="radar-ping" />
+                <span style={{
+                  position: 'relative',
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: 'var(--accent-primary)',
+                  boxShadow: '0 0 10px var(--accent-primary)',
+                  display: 'block'
+                }} />
+              </span>
               <span style={{
-                position: 'relative',
-                width: '8px',
-                height: '8px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--accent-primary)',
-                boxShadow: '0 0 10px var(--accent-primary)',
-                display: 'block'
-              }} />
-            </span>
-            <span style={{
-              fontSize: '0.82rem',
-              fontWeight: '700',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--accent-primary)'
-            }}>
-              LOOKING FOR FREELANCE WORK
-            </span>
+                fontSize: '0.82rem',
+                fontWeight: '700',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--accent-primary)'
+              }}>
+                LOOKING FOR FREELANCE WORK
+              </span>
+            </div>
           </motion.div>
 
           {/* Main Title */}
@@ -138,25 +130,25 @@ export default function HeroSection() {
             {personalInfo.bio}
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* 21st.dev Item 3: Shimmer & Border Magic Buttons */}
           <motion.div variants={itemVariants} style={{
             display: 'flex',
             flexWrap: 'wrap',
-            gap: '16px',
+            gap: '18px',
             alignItems: 'center',
             marginBottom: '40px'
           }}>
-            <MagneticButton href="#projek" className="btn-primary">
+            <MagneticButton href="#projek" className="btn-shimmer">
               Explore Projects <ArrowRight size={18} />
             </MagneticButton>
-            <MagneticButton href="#kontak" className="btn-secondary" style={{
-              background: 'rgba(255, 255, 255, 0.04)',
-              borderColor: 'rgba(255, 255, 255, 0.15)',
-              padding: '14px 28px'
-            }}>
-              Contact Me <Mail size={18} />
+
+            <MagneticButton href="#kontak" className="btn-border-magic">
+              <span className="btn-border-magic-inner">
+                Contact Me <Mail size={18} />
+              </span>
             </MagneticButton>
           </motion.div>
+
 
           {/* Quick Social Links */}
           <motion.div variants={itemVariants} style={{

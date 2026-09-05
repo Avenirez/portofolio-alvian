@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const figmaCategories = [
   { id: 'all', label: 'All' },
@@ -9,12 +10,6 @@ const figmaCategories = [
 ];
 
 export default function FilterSearch({ activeCategory, setActiveCategory, searchQuery, setSearchQuery }) {
-  // Nilai di kotak input dipisah dari searchQuery yang dipakai App.jsx untuk
-  // memfilter. Kalau setSearchQuery langsung dipanggil di tiap ketikan,
-  // grid project di bawah ikut animasi masuk/keluar (AnimatePresence) di
-  // SETIAP huruf yang diketik -- kartu jadi "lompat-lompat" saat mengetik
-  // cepat. Dengan debounce 300ms, kotak input tetap terasa instan (state
-  // lokal), tapi filter+animasi grid baru jalan setelah user berhenti mengetik.
   const [inputValue, setInputValue] = useState(searchQuery);
 
   useEffect(() => {
@@ -58,7 +53,7 @@ export default function FilterSearch({ activeCategory, setActiveCategory, search
           </h2>
         </div>
 
-        {/* Right side: Search Bar & Category Pills */}
+        {/* Right side: Search Bar & 21st.dev Category Sliding Pill Tabs */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
@@ -95,15 +90,16 @@ export default function FilterSearch({ activeCategory, setActiveCategory, search
             />
           </div>
 
-          {/* Category Tabs */}
+          {/* 21st.dev Sliding Pill Category Bar */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
+            gap: '4px',
             background: 'var(--bg-card)',
             padding: '4px',
             borderRadius: 'var(--radius-full)',
-            border: '1px solid var(--border-color)'
+            border: '1px solid var(--border-color)',
+            position: 'relative'
           }}>
             {figmaCategories.map((cat) => {
               const isActive = activeCategory === cat.id;
@@ -112,18 +108,33 @@ export default function FilterSearch({ activeCategory, setActiveCategory, search
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
                   style={{
-                    padding: '6px 16px',
+                    position: 'relative',
+                    padding: '8px 18px',
                     borderRadius: 'var(--radius-full)',
-                    background: isActive ? 'var(--accent-gradient)' : 'transparent',
+                    background: 'transparent',
                     border: 'none',
                     color: isActive ? '#ffffff' : 'var(--text-muted)',
                     fontWeight: isActive ? '700' : '500',
-                    fontSize: '0.82rem',
+                    fontSize: '0.84rem',
                     cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    boxShadow: isActive ? '0 0 15px var(--accent-glow)' : 'none'
+                    transition: 'color 0.2s ease',
+                    zIndex: 1
                   }}
                 >
+                  {isActive && (
+                    <motion.span
+                      layoutId="active-category-pill"
+                      style={{
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: 'var(--radius-full)',
+                        background: 'var(--accent-gradient)',
+                        boxShadow: '0 0 20px var(--accent-glow)',
+                        zIndex: -1
+                      }}
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    />
+                  )}
                   {cat.label}
                 </button>
               );
@@ -134,3 +145,4 @@ export default function FilterSearch({ activeCategory, setActiveCategory, search
     </div>
   );
 }
+
