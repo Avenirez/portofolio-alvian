@@ -293,8 +293,8 @@ export default function ProjectCard({ project, index, onSelectProject }) {
             </button>
 
             <div style={{ display: 'flex', gap: '10px' }}>
-              <a href={project.demoUrl} target="_blank" rel="noreferrer" title="Live Demo" style={{ color: 'var(--text-muted)' }}>
-                <ExternalLink size={18} />
+              <a href={project.demoUrl} target="_blank" rel="noreferrer" title="Live Demo" style={{ color: 'var(--accent-primary)', fontSize: '0.85rem', fontWeight: '700', textDecoration: 'none' }}>
+                Demo &rarr;
               </a>
             </div>
           </div>
