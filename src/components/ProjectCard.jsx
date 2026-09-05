@@ -289,12 +289,12 @@ export default function ProjectCard({ project, index, onSelectProject }) {
                 gap: '6px'
               }}
             >
-              Lihat Selengkapnya &rarr;
+              Lihat Selengkapnya
             </button>
 
             <div style={{ display: 'flex', gap: '10px' }}>
               <a href={project.demoUrl} target="_blank" rel="noreferrer" title="Live Demo" style={{ color: 'var(--accent-primary)', fontSize: '0.85rem', fontWeight: '700', textDecoration: 'none' }}>
-                Demo &rarr;
+                Demo
               </a>
             </div>
           </div>

@@ -154,7 +154,7 @@ export default function ProjectModal({ project, onClose }) {
                   color: 'var(--text-main)',
                   border: '1px solid var(--border-color)'
                 }}>
-                  <span>• {feature}</span>
+                  <span>{feature}</span>
                 </div>
               ))}
             </div>
@@ -210,7 +210,7 @@ export default function ProjectModal({ project, onClose }) {
           borderTop: '1px solid var(--border-color)'
         }}>
           <a href={project.demoUrl} target="_blank" rel="noreferrer" className="btn-primary" style={{ clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)' }}>
-            Uji Coba Live Demo &rarr;
+            Uji Coba Live Demo
           </a>
         </div>
 

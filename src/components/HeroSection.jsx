@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mail } from 'lucide-react';
 import { LinkedinIcon } from './SocialIcons';
 import { personalInfo } from '../data/projectsData';
 import MagneticButton from './MagneticButton';
@@ -208,12 +207,12 @@ export default function HeroSection() {
                 marginBottom: '24px'
               }}>
                 <MagneticButton href="#projek" className="btn-shimmer">
-                  Explore Projects <ArrowRight size={18} />
+                  Explore Projects
                 </MagneticButton>
 
                 <MagneticButton href="#kontak" className="btn-border-magic">
                   <span className="btn-border-magic-inner">
-                    Contact Me <Mail size={18} />
+                    Contact Me
                   </span>
                 </MagneticButton>
               </motion.div>
@@ -299,7 +298,6 @@ export default function HeroSection() {
               {personalInfo.name}
             </h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--accent-primary)' }} />
               {personalInfo.location}
             </p>
           </div>
