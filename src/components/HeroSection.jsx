@@ -33,7 +33,7 @@ const wordVariants = {
 };
 
 function TypewriterTitle({ name = personalInfo.name }) {
-  const fullText = `Hi, I'm ${name}`;
+  const fullText = `Hi, I'm ${name} — ${personalInfo.role}`;
   const [charCount, setCharCount] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -279,17 +279,24 @@ export default function HeroSection() {
               width: '100%',
               height: '100%',
               borderRadius: '50%',
-              background: 'var(--bg-primary)',
+              background: '#0d1117',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '5.5rem',
-              fontWeight: '900',
-              fontFamily: 'Space Grotesk',
               position: 'relative',
-              zIndex: 2
+              zIndex: 2,
+              overflow: 'hidden'
             }}>
-              <span className="gradient-text">A</span>
+              <img
+                src="/avatar.png"
+                alt={personalInfo.name}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  borderRadius: '50%'
+                }}
+              />
             </div>
           </div>
 

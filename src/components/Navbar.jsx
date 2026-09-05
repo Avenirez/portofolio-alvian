@@ -173,9 +173,8 @@ export default function Navbar({ currentTheme, setTheme, onGoHome }) {
             <button
               onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
               title="Ganti Tema Warna"
-              className="btn-theme-colorful"
               style={{
-                background: 'linear-gradient(135deg, #00f2fe 0%, #10b981 25%, #f59e0b 50%, #ec4899 75%, #8b5cf6 100%)',
+                background: 'var(--accent-gradient)',
                 border: 'none',
                 color: '#ffffff',
                 padding: '8px 18px',
@@ -183,12 +182,13 @@ export default function Navbar({ currentTheme, setTheme, onGoHome }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                gap: '8px',
                 cursor: 'pointer',
                 fontSize: '0.85rem',
                 fontWeight: '700',
-                textShadow: '0 1px 3px rgba(0,0,0,0.5)',
-                boxShadow: '0 4px 15px rgba(0, 242, 254, 0.3), 0 0 20px rgba(139, 92, 246, 0.3)',
-                transition: 'transform 0.2s ease, filter 0.2s ease'
+                textShadow: '0 1px 3px rgba(0,0,0,0.4)',
+                boxShadow: '0 4px 20px var(--accent-glow)',
+                transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)'
               }}
             >
               <span className="theme-label-text">Tema Website</span>
