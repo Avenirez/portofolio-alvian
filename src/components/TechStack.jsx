@@ -32,12 +32,24 @@ export default function TechStack() {
       width: '100%',
       position: 'relative'
     }}>
-      <div style={{
+      {/* Tech Stack Header with Sci-Fi HUD Brackets */}
+      <div className="hud-container" style={{
         textAlign: 'center',
-        marginBottom: '36px'
+        marginBottom: '36px',
+        maxWidth: '840px',
+        marginInline: 'auto'
       }}>
+        <span className="hud-corner hud-tl" />
+        <span className="hud-corner hud-tr" />
+        <span className="hud-corner hud-bl" />
+        <span className="hud-corner hud-br" />
+
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <span className="hud-label">[SYS_TECH_STACK // ACTIVE]</span>
+        </div>
+
         <h3 style={{
-          fontSize: '1.5rem',
+          fontSize: '1.6rem',
           fontWeight: '800',
           color: 'var(--text-main)',
           letterSpacing: '-0.01em'
@@ -55,6 +67,7 @@ export default function TechStack() {
           Kombinasi framework, tools, dan infrastruktur modern yang saya gunakan dalam membangun aplikasi web berperforma tinggi.
         </p>
       </div>
+
 
       {/* 21st.dev Infinite Marquee Tickers */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

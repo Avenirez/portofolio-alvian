@@ -61,109 +61,138 @@ export default function HeroSection() {
         zIndex: 1
       }} className="hero-grid">
 
-        {/* Left Column: Headline & Bio */}
+        {/* Left Column: Mac VS Code Terminal Window */}
         <motion.div
           variants={columnVariants}
           initial="hidden"
           animate="visible"
+          style={{ position: 'relative' }}
         >
-          {/* 21st.dev Item 1: Shiny Pill Badge */}
-          <motion.div variants={itemVariants} style={{ marginBottom: '24px' }}>
-            <div className="shiny-pill-badge">
-              <span style={{ position: 'relative', width: '8px', height: '8px', display: 'inline-block', color: 'var(--accent-primary)' }}>
-                <span className="radar-ping" />
-                <span style={{
-                  position: 'relative',
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: 'var(--accent-primary)',
-                  boxShadow: '0 0 10px var(--accent-primary)',
-                  display: 'block'
-                }} />
-              </span>
-              <span style={{
-                fontSize: '0.82rem',
-                fontWeight: '700',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'var(--accent-primary)'
-              }}>
-                LOOKING FOR FREELANCE WORK
-              </span>
+          {/* Terminal Code Window Container */}
+          <div className="terminal-window" style={{ position: 'relative', marginTop: '14px' }}>
+            
+            {/* Terminal Header with Traffic Dots & Tab Title */}
+            <div className="terminal-header">
+              <div className="terminal-dots">
+                <span className="terminal-dot red" />
+                <span className="terminal-dot yellow" />
+                <span className="terminal-dot green" />
+              </div>
+              <div className="terminal-tab">
+                <span>⚡</span> alvian_bio.config.ts
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', fontFamily: 'Space Grotesk' }}>
+                UTF-8
+              </div>
             </div>
-          </motion.div>
 
-          {/* Main Title */}
-          <motion.h1
-            variants={titleVariants}
-            style={{
-              fontSize: 'clamp(2.8rem, 5.2vw, 4.2rem)',
-              fontWeight: '800',
-              lineHeight: 1.1,
-              marginBottom: '14px',
-              letterSpacing: '-0.02em',
-              color: '#ffffff'
-            }}
-          >
-            Hi, I'm <span className="text-shimmer">{personalInfo.name}</span>
-          </motion.h1>
+            {/* Terminal Body */}
+            <div className="terminal-body">
+              {/* Floating Shiny Badge Anchor */}
+              <div style={{
+                position: 'absolute',
+                top: '-22px',
+                right: '24px',
+                zIndex: 10
+              }}>
+                <div className="shiny-pill-badge">
+                  <span style={{ position: 'relative', width: '8px', height: '8px', display: 'inline-block', color: 'var(--accent-primary)' }}>
+                    <span className="radar-ping" />
+                    <span style={{
+                      position: 'relative',
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      backgroundColor: 'var(--accent-primary)',
+                      boxShadow: '0 0 10px var(--accent-primary)',
+                      display: 'block'
+                    }} />
+                  </span>
+                  <span style={{
+                    fontSize: '0.78rem',
+                    fontWeight: '700',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: 'var(--accent-primary)'
+                  }}>
+                    LOOKING FOR FREELANCE WORK
+                  </span>
+                </div>
+              </div>
 
-          {/* Subtitle / Tagline */}
-          <motion.h2 variants={itemVariants} style={{
-            fontSize: 'clamp(1.3rem, 2.5vw, 2rem)',
-            fontWeight: '700',
-            marginBottom: '20px',
-            lineHeight: 1.3
-          }}>
-            <span className="gradient-text">{personalInfo.role}</span>
-          </motion.h2>
+              {/* Code Line Numbers & Main Title */}
+              <motion.h1
+                variants={titleVariants}
+                style={{
+                  fontSize: 'clamp(2.5rem, 4.8vw, 3.8rem)',
+                  fontWeight: '800',
+                  lineHeight: 1.1,
+                  marginBottom: '14px',
+                  letterSpacing: '-0.02em',
+                  color: '#ffffff'
+                }}
+              >
+                Hi, I'm <span className="text-shimmer">{personalInfo.name}</span>
+              </motion.h1>
 
-          {/* Bio Description */}
-          <motion.p variants={itemVariants} style={{
-            fontSize: '1.05rem',
-            color: 'var(--text-muted)',
-            marginBottom: '36px',
-            maxWidth: '560px',
-            lineHeight: 1.7
-          }}>
-            {personalInfo.bio}
-          </motion.p>
+              {/* Subtitle / Tagline */}
+              <motion.h2 variants={itemVariants} style={{
+                fontSize: 'clamp(1.2rem, 2.2vw, 1.8rem)',
+                fontWeight: '700',
+                marginBottom: '18px',
+                lineHeight: 1.3
+              }}>
+                <span className="gradient-text">{personalInfo.role}</span>
+              </motion.h2>
 
-          {/* 21st.dev Item 3: Shimmer & Border Magic Buttons */}
-          <motion.div variants={itemVariants} style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '18px',
-            alignItems: 'center',
-            marginBottom: '40px'
-          }}>
-            <MagneticButton href="#projek" className="btn-shimmer">
-              Explore Projects <ArrowRight size={18} />
-            </MagneticButton>
+              {/* Bio Description */}
+              <motion.p variants={itemVariants} style={{
+                fontSize: '1rem',
+                color: 'var(--text-muted)',
+                marginBottom: '32px',
+                maxWidth: '560px',
+                lineHeight: 1.7
+              }}>
+                {personalInfo.bio}
+              </motion.p>
 
-            <MagneticButton href="#kontak" className="btn-border-magic">
-              <span className="btn-border-magic-inner">
-                Contact Me <Mail size={18} />
-              </span>
-            </MagneticButton>
-          </motion.div>
+              {/* CTA Buttons */}
+              <motion.div variants={itemVariants} style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '18px',
+                alignItems: 'center',
+                marginBottom: '28px'
+              }}>
+                <MagneticButton href="#projek" className="btn-shimmer">
+                  Explore Projects <ArrowRight size={18} />
+                </MagneticButton>
 
+                <MagneticButton href="#kontak" className="btn-border-magic">
+                  <span className="btn-border-magic-inner">
+                    Contact Me <Mail size={18} />
+                  </span>
+                </MagneticButton>
+              </motion.div>
 
-          {/* Quick Social Links */}
-          <motion.div variants={itemVariants} style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px'
-          }}>
-            <span style={{ fontSize: '0.85rem', color: 'var(--text-dim)', fontWeight: '600' }}>CONNECT:</span>
-            <a href={personalInfo.socials.linkedin} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s', display: 'flex', alignItems: 'center' }}>
-              <LinkedinIcon size={20} />
-            </a>
-          </motion.div>
+              {/* Quick Social Links */}
+              <motion.div variants={itemVariants} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                paddingTop: '16px',
+                borderTop: '1px solid var(--border-color)'
+              }}>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-dim)', fontWeight: '600' }}>CONNECT:</span>
+                <a href={personalInfo.socials.linkedin} target="_blank" rel="noreferrer" style={{ color: 'var(--text-muted)', transition: 'color 0.2s', display: 'flex', alignItems: 'center' }}>
+                  <LinkedinIcon size={20} />
+                </a>
+              </motion.div>
+            </div>
+          </div>
         </motion.div>
 
-        {/* Right Column: 3D Tilt Cyber Avatar Frame */}
+        {/* Right Column: Asymmetrical Cut-Corner Chamfer Glass Card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -180,19 +209,17 @@ export default function HeroSection() {
             zIndex: 0
           }} />
 
-          {/* Main Visual Card with 21st.dev Border Beam */}
-          <div className="glass-card animate-float" style={{
+          {/* Asymmetrical Cut-Corner Card */}
+          <div className="chamfer-card animate-float" style={{
             width: '100%',
             maxWidth: '380px',
             padding: '28px',
-            borderRadius: 'var(--radius-lg)',
             textAlign: 'center',
             position: 'relative',
             background: 'var(--bg-card)',
             border: '1px solid var(--border-hover)',
             boxShadow: '0 25px 50px rgba(0,0,0,0.7), 0 0 30px var(--accent-glow)',
-            zIndex: 1,
-            overflow: 'hidden'
+            zIndex: 1
           }}>
             <BorderBeam size={200} duration={8} borderRadius="var(--radius-lg)" />
 
@@ -231,6 +258,7 @@ export default function HeroSection() {
             </p>
           </div>
         </motion.div>
+
 
       </div>
 

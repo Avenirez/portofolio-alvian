@@ -28,30 +28,38 @@ export default function FilterSearch({ activeCategory, setActiveCategory, search
       flexDirection: 'column',
       gap: '20px'
     }}>
-      {/* Subtitle tag & Title */}
-      <div style={{
+      {/* Subtitle tag & Title in Sci-Fi HUD Bracket Frame */}
+      <div className="hud-container" style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
-        gap: '16px'
+        gap: '20px'
       }}>
+        {/* Corner Brackets */}
+        <span className="hud-corner hud-tl" />
+        <span className="hud-corner hud-tr" />
+        <span className="hud-corner hud-bl" />
+        <span className="hud-corner hud-br" />
+
         <div>
-          <span style={{
-            fontSize: '0.8rem',
-            fontWeight: '700',
-            letterSpacing: '0.1em',
-            textTransform: 'uppercase',
-            color: 'var(--accent-primary)',
-            display: 'block',
-            marginBottom: '6px'
-          }}>
-            PORTFOLIO SHOWCASE
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px' }}>
+            <span className="hud-label">[SYS_SHOWCASE // V3.0]</span>
+            <span style={{
+              fontSize: '0.78rem',
+              fontWeight: '700',
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'var(--accent-primary)'
+            }}>
+              PORTFOLIO SHOWCASE
+            </span>
+          </div>
           <h2 style={{ fontSize: '2.2rem', fontWeight: '800', color: 'var(--text-main)' }}>
             Featured Projects
           </h2>
         </div>
+
 
         {/* Right side: Search Bar & 21st.dev Category Sliding Pill Tabs */}
         <div style={{

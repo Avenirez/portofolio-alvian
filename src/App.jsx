@@ -80,20 +80,21 @@ export default function App() {
             setSearchQuery={setSearchQuery}
           />
 
-          {/* Project Grid */}
+          {/* Apple / Vercel-style Bento Grid Layout */}
           <div style={{
-            maxWidth: '1100px',
+            maxWidth: '1140px',
             margin: '0 auto',
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
             gap: '28px'
-          }}>
+          }} className="bento-project-grid">
             <AnimatePresence>
               {filteredProjects.length > 0 ? (
-                filteredProjects.map((project) => (
+                filteredProjects.map((project, index) => (
                   <ProjectCard
                     key={project.id}
                     project={project}
+                    index={index}
                     onSelectProject={setSelectedProject}
                   />
                 ))

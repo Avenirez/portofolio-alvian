@@ -3,11 +3,13 @@ import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-mot
 import { ExternalLink, Eye, Sparkles } from 'lucide-react';
 import BorderBeam from './BorderBeam';
 
-export default function ProjectCard({ project, onSelectProject }) {
+export default function ProjectCard({ project, index, onSelectProject }) {
   const cardRef = useRef(null);
   const rectRef = useRef(null);
   const rafRef = useRef(null);
   const lastEventRef = useRef(null);
+
+  const isBentoHero = index === 0;
 
   // Motion values for tilt and spotlight position
   const rawRotateX = useMotionValue(0);
@@ -79,7 +81,7 @@ export default function ProjectCard({ project, onSelectProject }) {
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="glass-card"
+      className={`glass-card ${isBentoHero ? 'bento-card-hero' : ''}`}
       style={{
         borderRadius: 'var(--radius-md)',
         overflow: 'hidden',
@@ -90,9 +92,18 @@ export default function ProjectCard({ project, onSelectProject }) {
         rotateX,
         rotateY,
         transformStyle: 'preserve-3d',
-        perspective: 1000
+        perspective: 1000,
+        gridColumn: isBentoHero ? 'span 2' : 'span 1'
       }}
     >
+      <style>{`
+        @media (max-width: 900px) {
+          .bento-card-hero {
+            grid-column: span 1 !important;
+          }
+        }
+      `}</style>
+
       {/* 21st.dev Border Beam for Featured or Highlighted cards */}
       {project.featured && (
         <BorderBeam size={160} duration={6} borderRadius="var(--radius-md)" />
