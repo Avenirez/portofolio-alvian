@@ -173,39 +173,24 @@ export default function Navbar({ currentTheme, setTheme, onGoHome }) {
             <button
               onClick={() => setThemeDropdownOpen(!themeDropdownOpen)}
               title="Ganti Tema Warna"
+              className="btn-theme-colorful"
               style={{
-                background: 'var(--bg-card)',
-                border: '1px solid var(--border-color)',
-                color: 'var(--text-main)',
-                padding: '8px 14px',
+                background: 'linear-gradient(135deg, #00f2fe 0%, #10b981 25%, #f59e0b 50%, #ec4899 75%, #8b5cf6 100%)',
+                border: 'none',
+                color: '#ffffff',
+                padding: '8px 18px',
                 clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
+                justifyContent: 'center',
                 cursor: 'pointer',
                 fontSize: '0.85rem',
-                fontWeight: '600',
-                transition: 'all 0.2s ease'
+                fontWeight: '700',
+                textShadow: '0 1px 3px rgba(0,0,0,0.5)',
+                boxShadow: '0 4px 15px rgba(0, 242, 254, 0.3), 0 0 20px rgba(139, 92, 246, 0.3)',
+                transition: 'transform 0.2s ease, filter 0.2s ease'
               }}
             >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  padding: '2px 6px',
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)'
-                }}
-                title="Kombinasi 5 Warna Tema"
-              >
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00f2fe', boxShadow: '0 0 4px #00f2fe' }} />
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#f59e0b', boxShadow: '0 0 4px #f59e0b' }} />
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#8b5cf6', boxShadow: '0 0 4px #8b5cf6' }} />
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 4px #10b981' }} />
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6', boxShadow: '0 0 4px #3b82f6' }} />
-              </div>
               <span className="theme-label-text">Tema Website</span>
             </button>
 

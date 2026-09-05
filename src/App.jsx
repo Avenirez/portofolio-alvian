@@ -75,8 +75,6 @@ export default function App() {
           <FilterSearch
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
           />
 
           {/* Balanced Project Showcase Grid */}

@@ -41,25 +41,6 @@ export default function Footer({ onGoHome }) {
         <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
           © {new Date().getFullYear()} {personalInfo.name}. Dirancang menggunakan React, Vite & Framer Motion.
         </div>
-
-        {/* Back to Top Button */}
-        <button
-          onClick={scrollToTop}
-          title="Kembali ke atas"
-          style={{
-            background: 'var(--bg-card)',
-            border: '1px solid var(--border-color)',
-            color: 'var(--text-main)',
-            padding: '8px 16px',
-            clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
-            cursor: 'pointer',
-            fontSize: '0.85rem',
-            fontWeight: '700',
-            transition: 'all 0.2s ease'
-          }}
-        >
-          TOP ↑
-        </button>
       </div>
     </footer>
   );

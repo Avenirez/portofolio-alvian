@@ -33,20 +33,19 @@ const wordVariants = {
 };
 
 function TypewriterTitle({ name = personalInfo.name }) {
-  const prefix = "Hi, I'm ";
-  const targetName = name;
+  const fullText = `Hi, I'm ${name}`;
   const [charCount, setCharCount] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     let timeout;
-    if (!isDeleting && charCount < targetName.length) {
-      // Typing name phase
+    if (!isDeleting && charCount < fullText.length) {
+      // Typing phase
       timeout = setTimeout(() => {
         setCharCount((prev) => prev + 1);
-      }, 75);
-    } else if (!isDeleting && charCount === targetName.length) {
-      // Hold phase: 3 seconds (3000ms) pause at full name
+      }, 70);
+    } else if (!isDeleting && charCount === fullText.length) {
+      // Hold phase: 3 seconds
       timeout = setTimeout(() => {
         setIsDeleting(true);
       }, 3000);
@@ -54,18 +53,18 @@ function TypewriterTitle({ name = personalInfo.name }) {
       // Erasing phase
       timeout = setTimeout(() => {
         setCharCount((prev) => prev - 1);
-      }, 40);
+      }, 35);
     } else if (isDeleting && charCount === 0) {
-      // Restart typing loop after brief pause
+      // Restart loop
       timeout = setTimeout(() => {
         setIsDeleting(false);
       }, 400);
     }
 
     return () => clearTimeout(timeout);
-  }, [charCount, isDeleting, targetName.length]);
+  }, [charCount, isDeleting, fullText.length]);
 
-  const currentName = targetName.slice(0, charCount);
+  const currentText = fullText.slice(0, charCount);
 
   return (
     <motion.h1
@@ -81,12 +80,10 @@ function TypewriterTitle({ name = personalInfo.name }) {
         color: '#ffffff',
         display: 'inline-flex',
         alignItems: 'baseline',
-        flexWrap: 'wrap',
-        gap: '0'
+        flexWrap: 'wrap'
       }}
     >
-      <span>{prefix}</span>
-      <span className="text-shimmer">{currentName}</span>
+      <span className="text-shimmer">{currentText}</span>
       <span className="typing-cursor" />
     </motion.h1>
   );
@@ -175,7 +172,7 @@ export default function HeroSection() {
             {/* Terminal Body */}
             <div className="terminal-body">
               {/* Main Title with Coding Typing Animation */}
-              <TypewriterTitle prefix="Hi, I'm " name={personalInfo.name} />
+              <TypewriterTitle name={personalInfo.name} />
 
               {/* Subtitle / Tagline */}
               <motion.h2 variants={itemVariants} style={{
@@ -234,70 +231,73 @@ export default function HeroSection() {
           </motion.div>
         </motion.div>
 
-        {/* Right Column: Avatar Card */}
+        {/* Right Column: Circular Avatar Only (No Outer Rectangular Card) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}
+          style={{
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px 0'
+          }}
         >
-          {/* Dynamic Halo Glow behind frame */}
+          {/* Dynamic Halo Glow behind circle */}
           <div style={{
             position: 'absolute',
-            inset: '-20px',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '280px',
+            height: '280px',
             background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
             borderRadius: '50%',
             filter: 'blur(35px)',
             zIndex: 0
           }} />
 
-          {/* Sleek Glass Avatar Card */}
-          <div className="glass-card animate-float" style={{
-            width: '100%',
-            maxWidth: '380px',
-            padding: '28px',
-            borderRadius: 'var(--radius-lg)',
-            textAlign: 'center',
+          {/* Circular Monogram Container with Border Beam running on the circle */}
+          <div className="animate-float" style={{
             position: 'relative',
+            width: '210px',
+            height: '210px',
+            borderRadius: '50%',
+            padding: '3px',
             background: 'var(--bg-card)',
-            border: '1px solid var(--border-hover)',
-            boxShadow: '0 25px 50px rgba(0,0,0,0.7), 0 0 30px var(--accent-glow)',
+            boxShadow: '0 0 35px var(--accent-glow)',
             zIndex: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             overflow: 'hidden'
           }}>
-            <BorderBeam size={200} duration={8} borderRadius="var(--radius-lg)" />
-
-            {/* Circular Monogram Frame with Glowing Ring */}
+            <BorderBeam size={160} duration={6} borderRadius="50%" />
             <div style={{
-              width: '170px',
-              height: '170px',
+              width: '100%',
+              height: '100%',
               borderRadius: '50%',
-              margin: '0 auto 20px auto',
+              background: 'var(--bg-primary)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '5.5rem',
+              fontWeight: '900',
+              fontFamily: 'Space Grotesk',
               position: 'relative',
-              padding: '4px',
-              background: 'var(--accent-gradient)',
-              boxShadow: '0 0 30px var(--accent-glow)'
+              zIndex: 2
             }}>
-              <div style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: '50%',
-                background: 'var(--bg-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '4.5rem',
-                fontWeight: '900',
-                fontFamily: 'Space Grotesk'
-              }}>
-                <span className="gradient-text">A</span>
-              </div>
+              <span className="gradient-text">A</span>
             </div>
+          </div>
 
-            <h3 style={{ fontSize: '1.4rem', fontWeight: '800', marginBottom: '4px', color: 'var(--text-main)' }}>
+          <div style={{ marginTop: '20px', textAlign: 'center', zIndex: 1 }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '4px', color: 'var(--text-main)' }}>
               {personalInfo.name}
             </h3>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: '600' }}>
               {personalInfo.location}
             </p>
           </div>
