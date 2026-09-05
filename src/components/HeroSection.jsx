@@ -106,7 +106,7 @@ export default function HeroSection() {
                 <span className="terminal-dot green" />
               </div>
               <div className="terminal-tab">
-                <span>⚡</span> alvian_bio.config.ts
+                alvian_bio.config.ts
               </div>
               <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', fontFamily: 'Space Grotesk' }}>
                 UTF-8

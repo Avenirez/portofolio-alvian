@@ -2,22 +2,22 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const techBadges = [
-  { name: 'React', icon: 'https://cdn.simpleicons.org/react/61DAFB' },
-  { name: 'Next.js', icon: 'https://cdn.simpleicons.org/nextdotjs/white' },
-  { name: 'Astro', icon: 'https://cdn.simpleicons.org/astro/FF5D01' },
-  { name: 'Svelte', icon: 'https://cdn.simpleicons.org/svelte/FF3E00' },
-  { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs/5FA04E' },
-  { name: 'Supabase', icon: 'https://cdn.simpleicons.org/supabase/3FCF8E' },
-  { name: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql/4169E1' },
-  { name: 'Tailwind CSS', icon: 'https://cdn.simpleicons.org/tailwindcss/06B6D4' },
-  { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/3178C6' },
-  { name: 'QRIS Payment Gateway', icon: 'https://cdn.simpleicons.org/fastapi/009688' },
-  { name: 'OpenStreetMap API', icon: 'https://cdn.simpleicons.org/openstreetmap/7EBC6F' },
-  { name: 'Leaflet GL', icon: 'https://cdn.simpleicons.org/leaflet/199900' },
-  { name: 'Vite', icon: 'https://cdn.simpleicons.org/vite/646CFF' },
-  { name: 'Framer Motion', icon: 'https://cdn.simpleicons.org/framer/0055FF' },
-  { name: 'Vercel Cloud', icon: 'https://cdn.simpleicons.org/vercel/white' },
-  { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E' }
+  { name: 'React', icon: 'https://cdn.simpleicons.org/react/61DAFB', url: 'https://react.dev' },
+  { name: 'Next.js', icon: 'https://cdn.simpleicons.org/nextdotjs/white', url: 'https://nextjs.org' },
+  { name: 'Astro', icon: 'https://cdn.simpleicons.org/astro/FF5D01', url: 'https://astro.build' },
+  { name: 'Svelte', icon: 'https://cdn.simpleicons.org/svelte/FF3E00', url: 'https://svelte.dev' },
+  { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs/5FA04E', url: 'https://nodejs.org' },
+  { name: 'Supabase', icon: 'https://cdn.simpleicons.org/supabase/3FCF8E', url: 'https://supabase.com' },
+  { name: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql/4169E1', url: 'https://www.postgresql.org' },
+  { name: 'Tailwind CSS', icon: 'https://cdn.simpleicons.org/tailwindcss/06B6D4', url: 'https://tailwindcss.com' },
+  { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/3178C6', url: 'https://www.typescriptlang.org' },
+  { name: 'QRIS Payment Gateway', icon: 'https://cdn.simpleicons.org/fastapi/009688', url: 'https://qris.id' },
+  { name: 'OpenStreetMap API', icon: 'https://cdn.simpleicons.org/openstreetmap/7EBC6F', url: 'https://www.openstreetmap.org' },
+  { name: 'Leaflet GL', icon: 'https://cdn.simpleicons.org/leaflet/199900', url: 'https://leafletjs.com' },
+  { name: 'Vite', icon: 'https://cdn.simpleicons.org/vite/646CFF', url: 'https://vite.dev' },
+  { name: 'Framer Motion', icon: 'https://cdn.simpleicons.org/framer/0055FF', url: 'https://motion.dev' },
+  { name: 'Vercel Cloud', icon: 'https://cdn.simpleicons.org/vercel/white', url: 'https://vercel.com' },
+  { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E', url: 'https://www.figma.com' }
 ];
 
 const row1 = techBadges.slice(0, 8);
@@ -76,38 +76,45 @@ export default function TechStack() {
         <div className="marquee-container">
           <div className="marquee-track-left">
             {[...row1, ...row1, ...row1].map((tech, index) => (
-              <motion.div
+              <a
                 key={`r1-${tech.name}-${index}`}
-                whileHover={{ scale: 1.08, y: -3 }}
-                style={{
-                  padding: '12px 24px',
-                  borderRadius: 'var(--radius-full)',
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border-color)',
-                  color: 'var(--text-main)',
-                  fontSize: '0.9rem',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
-                  cursor: 'pointer',
-                  backdropFilter: 'blur(10px)',
-                  whiteSpace: 'nowrap'
-                }}
-                className="tech-pill-card"
+                href={tech.url}
+                target="_blank"
+                rel="noreferrer"
+                style={{ textDecoration: 'none' }}
               >
-                <img
-                  src={tech.icon}
-                  alt={tech.name}
+                <motion.div
+                  whileHover={{ scale: 1.08, y: -3 }}
                   style={{
-                    width: '22px',
-                    height: '22px',
-                    objectFit: 'contain'
+                    padding: '12px 24px',
+                    borderRadius: 'var(--radius-full)',
+                    background: 'var(--bg-card)',
+                    border: '1px solid var(--border-color)',
+                    color: 'var(--text-main)',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+                    cursor: 'pointer',
+                    backdropFilter: 'blur(10px)',
+                    whiteSpace: 'nowrap'
                   }}
-                />
-                <span>{tech.name}</span>
-              </motion.div>
+                  className="tech-pill-card"
+                >
+                  <img
+                    src={tech.icon}
+                    alt={tech.name}
+                    style={{
+                      width: '22px',
+                      height: '22px',
+                      objectFit: 'contain'
+                    }}
+                  />
+                  <span>{tech.name}</span>
+                </motion.div>
+              </a>
             ))}
           </div>
         </div>
@@ -116,43 +123,51 @@ export default function TechStack() {
         <div className="marquee-container">
           <div className="marquee-track-right">
             {[...row2, ...row2, ...row2].map((tech, index) => (
-              <motion.div
+              <a
                 key={`r2-${tech.name}-${index}`}
-                whileHover={{ scale: 1.08, y: -3 }}
-                style={{
-                  padding: '12px 24px',
-                  borderRadius: 'var(--radius-full)',
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border-color)',
-                  color: 'var(--text-main)',
-                  fontSize: '0.9rem',
-                  fontWeight: '600',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
-                  cursor: 'pointer',
-                  backdropFilter: 'blur(10px)',
-                  whiteSpace: 'nowrap'
-                }}
-                className="tech-pill-card"
+                href={tech.url}
+                target="_blank"
+                rel="noreferrer"
+                style={{ textDecoration: 'none' }}
               >
-                <img
-                  src={tech.icon}
-                  alt={tech.name}
+                <motion.div
+                  whileHover={{ scale: 1.08, y: -3 }}
                   style={{
-                    width: '22px',
-                    height: '22px',
-                    objectFit: 'contain'
+                    padding: '12px 24px',
+                    borderRadius: 'var(--radius-full)',
+                    background: 'var(--bg-card)',
+                    border: '1px solid var(--border-color)',
+                    color: 'var(--text-main)',
+                    fontSize: '0.9rem',
+                    fontWeight: '600',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.25)',
+                    cursor: 'pointer',
+                    backdropFilter: 'blur(10px)',
+                    whiteSpace: 'nowrap'
                   }}
-                />
-                <span>{tech.name}</span>
-              </motion.div>
+                  className="tech-pill-card"
+                >
+                  <img
+                    src={tech.icon}
+                    alt={tech.name}
+                    style={{
+                      width: '22px',
+                      height: '22px',
+                      objectFit: 'contain'
+                    }}
+                  />
+                  <span>{tech.name}</span>
+                </motion.div>
+              </a>
             ))}
           </div>
         </div>
 
       </div>
+
 
       <style>{`
         .tech-pill-card:hover {

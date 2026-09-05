@@ -190,13 +190,6 @@ export default function Navbar({ currentTheme, setTheme, onGoHome }) {
             >
               <Palette size={16} color="var(--accent-primary)" />
               <span className="theme-label-text">Tema Website</span>
-              <div style={{
-                width: '10px',
-                height: '10px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--accent-primary)',
-                boxShadow: '0 0 8px var(--accent-primary)'
-              }} />
             </button>
 
             {/* Dropdown Menu */}

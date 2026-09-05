@@ -103,7 +103,15 @@ export default function ContactSection() {
             <a href={personalInfo.socials.linkedin} target="_blank" rel="noreferrer" className="social-icon-btn">
               <LinkedinIcon size={18} />
             </a>
-            <a href={personalInfo.socials.website} target="_blank" rel="noreferrer" className="social-icon-btn" title="Website Portofolio">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="social-icon-btn"
+              title="Website Portofolio (Kembali ke atas)"
+            >
               <Globe size={18} />
             </a>
           </div>
