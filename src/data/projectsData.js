@@ -217,29 +217,6 @@ export const projectsData = [
       "Penyimpanan otomatis tugas di LocalStorage"
     ],
     "challenges": "Membuat komponen tab slider indikator dan animasi penyelesaian tugas menggunakan murni Vanilla JavaScript & CSS Variables."
-  },
-  {
-    "id": 8,
-    "title": "Portofolio Alvian",
-    "category": "frontend",
-    "categoryLabel": "Frontend & Web App",
-    "description": "Aplikasi web modern Portofolio Alvian yang dideploy otomatis di Vercel.",
-    "fullDescription": "Portofolio Alvian adalah projek web app yang dibangun menggunakan React, Vite, JavaScript dan di-host di Vercel infrastructure dengan performa tinggi.",
-    "image": "/projects/default-project.webp",
-    "demoUrl": "https://portofolio-alvian-avenirezs-projects.vercel.app",
-    "githubUrl": "https://github.com/Avenirez/portofolio-alvian",
-    "technologies": [
-      "React",
-      "Vite",
-      "JavaScript"
-    ],
-    "featured": false,
-    "keyFeatures": [
-      "Integrasi Vercel Deployment otomatis",
-      "Desain antarmuka responsif",
-      "Optimasi performa & SEO"
-    ],
-    "challenges": "Memastikan proses CI/CD deployment otomatis berjalan lancar dan optimal."
   }
 ];
 

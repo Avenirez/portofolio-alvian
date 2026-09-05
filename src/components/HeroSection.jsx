@@ -34,29 +34,20 @@ const wordVariants = {
 };
 
 function TypewriterTitle({ name = personalInfo.name }) {
-  const phrases = [
-    { prefix: "Hi, I'm ", highlight: name },
-    { prefix: "I'm a ", highlight: "Fullstack Developer" },
-    { prefix: "I Build ", highlight: "Modern Web Apps" }
-  ];
-
-  const [phraseIdx, setPhraseIdx] = useState(0);
+  const prefix = "Hi, I'm ";
+  const targetName = name;
   const [charCount, setCharCount] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const currentPhrase = phrases[phraseIdx];
-  const fullText = currentPhrase.prefix + currentPhrase.highlight;
-  const prefixLen = currentPhrase.prefix.length;
-
   useEffect(() => {
     let timeout;
-    if (!isDeleting && charCount < fullText.length) {
-      // Typing phase
+    if (!isDeleting && charCount < targetName.length) {
+      // Typing name phase
       timeout = setTimeout(() => {
         setCharCount((prev) => prev + 1);
-      }, 70);
-    } else if (!isDeleting && charCount === fullText.length) {
-      // Hold phase at full text: RECOMMENDATION 3 seconds (3000ms)
+      }, 75);
+    } else if (!isDeleting && charCount === targetName.length) {
+      // Hold phase: 3 seconds (3000ms) pause at full name
       timeout = setTimeout(() => {
         setIsDeleting(true);
       }, 3000);
@@ -64,18 +55,18 @@ function TypewriterTitle({ name = personalInfo.name }) {
       // Erasing phase
       timeout = setTimeout(() => {
         setCharCount((prev) => prev - 1);
-      }, 35);
+      }, 40);
     } else if (isDeleting && charCount === 0) {
-      // Switch to next phrase
-      setIsDeleting(false);
-      setPhraseIdx((prev) => (prev + 1) % phrases.length);
+      // Restart typing loop after brief pause
+      timeout = setTimeout(() => {
+        setIsDeleting(false);
+      }, 400);
     }
 
     return () => clearTimeout(timeout);
-  }, [charCount, isDeleting, fullText.length, phrases.length]);
+  }, [charCount, isDeleting, targetName.length]);
 
-  const currentPrefix = fullText.slice(0, Math.min(charCount, prefixLen));
-  const currentHighlight = charCount > prefixLen ? fullText.slice(prefixLen, charCount) : '';
+  const currentName = targetName.slice(0, charCount);
 
   return (
     <motion.h1
@@ -95,8 +86,8 @@ function TypewriterTitle({ name = personalInfo.name }) {
         gap: '0'
       }}
     >
-      <span>{currentPrefix}</span>
-      {currentHighlight && <span className="text-shimmer">{currentHighlight}</span>}
+      <span>{prefix}</span>
+      <span className="text-shimmer">{currentName}</span>
       <span className="typing-cursor" />
     </motion.h1>
   );
@@ -277,26 +268,26 @@ export default function HeroSection() {
           }}>
             <BorderBeam size={200} duration={8} borderRadius="var(--radius-lg)" />
 
-            {/* Sci-Fi Monogram Frame with Glowing Ring */}
+            {/* Circular Monogram Frame with Glowing Ring */}
             <div style={{
-              width: '160px',
-              height: '160px',
+              width: '170px',
+              height: '170px',
+              borderRadius: '50%',
               margin: '0 auto 20px auto',
               position: 'relative',
-              padding: '3px',
+              padding: '4px',
               background: 'var(--accent-gradient)',
-              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)',
               boxShadow: '0 0 30px var(--accent-glow)'
             }}>
               <div style={{
                 width: '100%',
                 height: '100%',
-                clipPath: 'polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px)',
+                borderRadius: '50%',
                 background: 'var(--bg-primary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '4.2rem',
+                fontSize: '4.5rem',
                 fontWeight: '900',
                 fontFamily: 'Space Grotesk'
               }}>

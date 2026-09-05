@@ -177,16 +177,35 @@ export default function Navbar({ currentTheme, setTheme, onGoHome }) {
                 background: 'var(--bg-card)',
                 border: '1px solid var(--border-color)',
                 color: 'var(--text-main)',
-                padding: '8px 16px',
+                padding: '8px 14px',
                 clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
                 display: 'flex',
                 alignItems: 'center',
+                gap: '8px',
                 cursor: 'pointer',
                 fontSize: '0.85rem',
                 fontWeight: '600',
                 transition: 'all 0.2s ease'
               }}
             >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '2px 6px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+                title="Kombinasi 5 Warna Tema"
+              >
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#00f2fe', boxShadow: '0 0 4px #00f2fe' }} />
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#f59e0b', boxShadow: '0 0 4px #f59e0b' }} />
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#8b5cf6', boxShadow: '0 0 4px #8b5cf6' }} />
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', boxShadow: '0 0 4px #10b981' }} />
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6', boxShadow: '0 0 4px #3b82f6' }} />
+              </div>
               <span className="theme-label-text">Tema Website</span>
             </button>
 

@@ -8,7 +8,6 @@ import HeroSection from './components/HeroSection';
 import FilterSearch from './components/FilterSearch';
 import ProjectCard from './components/ProjectCard';
 import ProjectModal from './components/ProjectModal';
-import ProjectPlayground from './components/ProjectPlayground';
 import TechStack from './components/TechStack';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
@@ -117,9 +116,6 @@ export default function App() {
             </AnimatePresence>
           </div>
         </section>
-
-        {/* Interactive Project Simulator & Feature Playground */}
-        <ProjectPlayground />
 
         {/* Tech Stack Section */}
         <TechStack />
