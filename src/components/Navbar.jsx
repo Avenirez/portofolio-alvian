@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Gamepad2 } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 const navItems = [
   { id: 'projek', label: 'Projek' },
@@ -8,7 +8,7 @@ const navItems = [
   { id: 'kontak', label: 'Kontak' }
 ];
 
-export default function Navbar({ currentTheme, setTheme, onGoHome, onOpenGame }) {
+export default function Navbar({ currentTheme, setTheme, onGoHome }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [themeDropdownOpen, setThemeDropdownOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
@@ -165,36 +165,9 @@ export default function Navbar({ currentTheme, setTheme, onGoHome, onOpenGame })
           })}
         </div>
 
-        {/* Action Controls (Arcade Game & Theme Switcher) */}
+        {/* Action Controls (Theme Switcher) */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           
-          {/* Tech Memory Game Arcade Button */}
-          {onOpenGame && (
-            <button
-              onClick={onOpenGame}
-              title="Buka Game Arcade Interaktif"
-              className="arcade-nav-btn"
-              style={{
-                background: 'var(--accent-light)',
-                border: '1px solid var(--accent-glow)',
-                color: 'var(--accent-primary)',
-                padding: '8px 14px',
-                borderRadius: 'var(--radius-full)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                cursor: 'pointer',
-                fontSize: '0.85rem',
-                fontWeight: '700',
-                boxShadow: '0 0 12px var(--accent-glow)',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <Gamepad2 size={16} />
-              <span className="arcade-label-text">Arcade</span>
-            </button>
-          )}
-
           {/* Theme Palette Switcher */}
           <div style={{ position: 'relative' }}>
             <button
@@ -204,11 +177,10 @@ export default function Navbar({ currentTheme, setTheme, onGoHome, onOpenGame })
                 background: 'var(--bg-card)',
                 border: '1px solid var(--border-color)',
                 color: 'var(--text-main)',
-                padding: '8px 14px',
-                borderRadius: 'var(--radius-full)',
+                padding: '8px 16px',
+                clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
                 cursor: 'pointer',
                 fontSize: '0.85rem',
                 fontWeight: '600',

@@ -103,17 +103,6 @@ export default function ContactSection() {
             <a href={personalInfo.socials.linkedin} target="_blank" rel="noreferrer" className="social-icon-btn">
               <LinkedinIcon size={18} />
             </a>
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-              }}
-              className="social-icon-btn"
-              title="Website Portofolio (Kembali ke atas)"
-            >
-              <Globe size={18} />
-            </a>
           </div>
         </div>
 
@@ -121,7 +110,7 @@ export default function ContactSection() {
         <div style={{
           background: 'var(--bg-card)',
           border: '1px solid var(--border-hover)',
-          borderRadius: 'var(--radius-lg)',
+          clipPath: 'polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)',
           padding: '36px',
           boxShadow: '0 20px 40px rgba(0,0,0,0.6), 0 0 30px var(--accent-glow)'
         }}>
@@ -131,19 +120,6 @@ export default function ContactSection() {
               animate={{ opacity: 1, scale: 1 }}
               style={{ textAlign: 'center', padding: '40px 20px' }}
             >
-              <div style={{
-                width: '60px',
-                height: '60px',
-                borderRadius: '50%',
-                background: 'var(--accent-gradient)',
-                color: '#ffffff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 20px auto'
-              }}>
-                <Send size={26} />
-              </div>
               <h3 style={{ fontSize: '1.5rem', fontWeight: '800', marginBottom: '10px', color: 'var(--text-main)' }}>
                 Pesan Berhasil Terkirim!
               </h3>
@@ -216,7 +192,7 @@ export default function ContactSection() {
                 style={{
                   width: '100%',
                   padding: '14px 24px',
-                  borderRadius: 'var(--radius-full)',
+                  clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
                   background: 'var(--accent-gradient)',
                   border: 'none',
                   color: '#ffffff',
@@ -226,13 +202,12 @@ export default function ContactSection() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '10px',
                   boxShadow: '0 4px 20px var(--accent-glow)',
                   transition: 'transform 0.2s ease, opacity 0.2s ease',
                   opacity: loading ? 0.7 : 1
                 }}
               >
-                Kirim Pesan <Send size={16} />
+                Kirim Pesan
               </button>
             </form>
           )}
@@ -244,7 +219,7 @@ export default function ContactSection() {
         .social-icon-btn {
           width: 44px;
           height: 44px;
-          border-radius: 50%;
+          clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
           background: rgba(255, 255, 255, 0.05);
           border: 1px solid rgba(255, 255, 255, 0.12);
           color: #ffffff;
@@ -273,7 +248,7 @@ export default function ContactSection() {
 const inputStyle = {
   width: '100%',
   padding: '14px 18px',
-  borderRadius: 'var(--radius-md)',
+  clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
   background: 'rgba(10, 12, 20, 0.9)',
   border: '1px solid rgba(255, 255, 255, 0.12)',
   color: '#ffffff',

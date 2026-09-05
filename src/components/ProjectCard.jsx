@@ -1,6 +1,5 @@
 import React, { useRef } from 'react';
 import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
-import { ExternalLink, Eye, Sparkles } from 'lucide-react';
 import BorderBeam from './BorderBeam';
 
 export default function ProjectCard({ project, index, onSelectProject }) {
@@ -159,9 +158,9 @@ export default function ProjectCard({ project, index, onSelectProject }) {
           <button
             onClick={() => onSelectProject(project)}
             className="btn-primary"
-            style={{ padding: '8px 18px', fontSize: '0.85rem' }}
+            style={{ padding: '8px 18px', fontSize: '0.85rem', clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)' }}
           >
-            <Eye size={16} /> Detail Projek
+            Detail Projek
           </button>
         </div>
 
@@ -174,16 +173,13 @@ export default function ProjectCard({ project, index, onSelectProject }) {
             background: 'var(--accent-gradient)',
             color: '#ffffff',
             padding: '4px 12px',
-            borderRadius: 'var(--radius-full)',
+            clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
             fontSize: '0.75rem',
             fontWeight: '700',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '4px',
             boxShadow: '0 4px 12px var(--accent-glow)',
             zIndex: 3
           }}>
-            <Sparkles size={12} /> Featured
+            Featured
           </div>
         )}
 

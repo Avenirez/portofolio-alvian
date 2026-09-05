@@ -8,7 +8,7 @@ import HeroSection from './components/HeroSection';
 import FilterSearch from './components/FilterSearch';
 import ProjectCard from './components/ProjectCard';
 import ProjectModal from './components/ProjectModal';
-import TechMemoryGame from './components/TechMemoryGame';
+import ProjectPlayground from './components/ProjectPlayground';
 import TechStack from './components/TechStack';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
@@ -21,7 +21,6 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
-  const [isGameOpen, setIsGameOpen] = useState(false);
 
   // Apply Theme & Dark mode attribute to HTML root element
   useEffect(() => {
@@ -65,7 +64,6 @@ export default function App() {
         currentTheme={currentTheme}
         setTheme={setTheme}
         onGoHome={handleGoHome}
-        onOpenGame={() => setIsGameOpen(true)}
       />
 
       {/* Main Content */}
@@ -120,6 +118,9 @@ export default function App() {
           </div>
         </section>
 
+        {/* Interactive Project Simulator & Feature Playground */}
+        <ProjectPlayground />
+
         {/* Tech Stack Section */}
         <TechStack />
 
@@ -130,20 +131,13 @@ export default function App() {
       {/* Footer */}
       <Footer onGoHome={handleGoHome} />
 
-      {/* Project Detail Modal & Arcade Game Modal */}
+      {/* Project Detail Modal */}
       <AnimatePresence>
         {selectedProject && (
           <ProjectModal
             key="project-modal"
             project={selectedProject}
             onClose={() => setSelectedProject(null)}
-          />
-        )}
-        {isGameOpen && (
-          <TechMemoryGame
-            key="tech-memory-game"
-            isOpen={isGameOpen}
-            onClose={() => setIsGameOpen(false)}
           />
         )}
       </AnimatePresence>

@@ -1,40 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-  <!-- Circular container background with dark gradient fill & neon accent ring for browser tab visibility -->
-  <circle cx="256" cy="256" r="248" fill="#0d0f18"/>
-  <circle cx="256" cy="256" r="240" fill="none" stroke="#f59e0b" stroke-width="8" opacity="0.85"/>
+  <defs>
+    <linearGradient id="sciFiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
 
-  <!-- Avatar Illustration Container -->
-  <g transform="translate(0, 10)">
-    <!-- Ears -->
-    <path d="M 160 228 C 122 228 122 298 162 308" fill="#ffffff" stroke="#080808" stroke-width="12" stroke-linecap="round"/>
-    <path d="M 352 228 C 390 228 390 298 350 308" fill="#ffffff" stroke="#080808" stroke-width="12" stroke-linecap="round"/>
+  <!-- Chamfered Outer Shield Container -->
+  <path d="M 96 32 L 416 32 L 480 96 L 480 416 L 416 480 L 96 480 L 32 416 L 32 96 Z" fill="#08090e" stroke="url(#sciFiGrad)" stroke-width="14"/>
 
-    <!-- Neck & Turtleneck collar -->
-    <path d="M 188 340 L 188 395 C 188 425 324 425 324 395 L 324 340 Z" fill="#ffffff" stroke="#080808" stroke-width="12"/>
-    <path d="M 80 495 C 130 420 382 420 432 495 L 450 512 L 62 512 Z" fill="#080808"/>
-
-    <!-- Face shape -->
-    <path d="M 162 200 C 150 300 190 405 256 405 C 322 405 362 300 350 200 Z" fill="#ffffff" stroke="#080808" stroke-width="14" stroke-linejoin="round"/>
-
-    <!-- Glasses Frame -->
-    <!-- Left Lens -->
-    <rect x="174" y="218" width="68" height="56" rx="18" fill="#ffffff" stroke="#080808" stroke-width="14"/>
-    <!-- Right Lens -->
-    <rect x="270" y="218" width="68" height="56" rx="18" fill="#ffffff" stroke="#080808" stroke-width="14"/>
-    <!-- Bridge -->
-    <path d="M 242 232 Q 256 226 270 232" fill="none" stroke="#080808" stroke-width="14" stroke-linecap="round"/>
-    <!-- Temple joints -->
-    <path d="M 152 236 L 174 236 M 338 236 L 360 236" stroke="#080808" stroke-width="14" stroke-linecap="round"/>
-
-    <!-- Wavy Curtain Hair (Middle Part) -->
-    <!-- Top Hair Volume -->
-    <path d="M 130 220 C 80 150 140 45 256 45 C 372 45 432 150 382 220 C 370 170 348 135 325 135 C 300 135 280 180 256 220 C 232 180 212 135 187 135 C 164 135 142 170 130 220 Z" fill="#080808"/>
-    <!-- Left Curtain Strand -->
-    <path d="M 256 60 C 235 90 195 130 142 175 C 158 130 200 95 256 60 Z" fill="#080808"/>
-    <!-- Right Curtain Strand -->
-    <path d="M 256 60 C 277 90 317 130 370 175 C 354 130 312 95 256 60 Z" fill="#080808"/>
-    <!-- Center Parting Curve -->
-    <path d="M 256 60 C 248 110 220 185 182 230 C 215 190 245 140 256 60 Z" fill="#080808"/>
-    <path d="M 256 60 C 264 110 292 185 330 230 C 297 190 267 140 256 60 Z" fill="#080808"/>
-  </g>
+  <!-- Inner Monogram 'A' -->
+  <path d="M 256 90 L 370 380 H 305 L 280 310 H 232 L 207 380 H 142 Z M 256 185 L 245 255 H 267 Z" fill="url(#sciFiGrad)"/>
 </svg>

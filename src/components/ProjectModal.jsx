@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X, ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
-
+import { X } from 'lucide-react';
 
 export default function ProjectModal({ project, onClose }) {
   useEffect(() => {
@@ -58,7 +57,8 @@ export default function ProjectModal({ project, onClose }) {
           maxHeight: '90vh',
           overflowY: 'auto',
           zIndex: 10000,
-          padding: '32px'
+          padding: '32px',
+          clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)'
         }}
       >
         {/* Close Button */}
@@ -71,7 +71,7 @@ export default function ProjectModal({ project, onClose }) {
             background: 'var(--bg-card)',
             border: '1px solid var(--border-color)',
             color: 'var(--text-main)',
-            borderRadius: '50%',
+            clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
             width: '36px',
             height: '36px',
             display: 'flex',
@@ -84,11 +84,10 @@ export default function ProjectModal({ project, onClose }) {
           <X size={20} />
         </button>
 
-        {/* Project Screenshot HD — layoutId sama dengan thumbnail di ProjectCard
-            supaya transisinya "magic move" dari card ke modal */}
+        {/* Project Screenshot HD */}
         <div style={{
           position: 'relative',
-          borderRadius: 'var(--radius-md)',
+          clipPath: 'polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px)',
           overflow: 'hidden',
           marginBottom: '24px',
           boxShadow: '0 15px 30px rgba(0,0,0,0.4)',
@@ -120,7 +119,7 @@ export default function ProjectModal({ project, onClose }) {
             background: 'var(--accent-light)',
             color: 'var(--accent-primary)',
             padding: '4px 14px',
-            borderRadius: 'var(--radius-full)',
+            clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
             fontSize: '0.8rem',
             fontWeight: '700',
             textTransform: 'uppercase',
@@ -149,17 +148,13 @@ export default function ProjectModal({ project, onClose }) {
               {project.keyFeatures.map((feature, i) => (
                 <div key={i} style={{
                   background: 'var(--bg-input)',
-                  padding: '10px 14px',
-                  borderRadius: 'var(--radius-sm)',
+                  padding: '12px 16px',
+                  clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)',
                   fontSize: '0.85rem',
                   color: 'var(--text-main)',
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '10px',
                   border: '1px solid var(--border-color)'
                 }}>
-                  <CheckCircle2 size={16} color="var(--accent-primary)" style={{ marginTop: '2px', flexShrink: 0 }} />
-                  <span>{feature}</span>
+                  <span>• {feature}</span>
                 </div>
               ))}
             </div>
@@ -171,21 +166,15 @@ export default function ProjectModal({ project, onClose }) {
           <div style={{
             background: 'var(--accent-light)',
             border: '1px solid var(--accent-glow)',
-            padding: '14px 18px',
-            borderRadius: 'var(--radius-md)',
-            marginBottom: '24px',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '12px'
+            padding: '16px 20px',
+            clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
+            marginBottom: '24px'
           }}>
-            <AlertCircle size={20} color="var(--accent-primary)" style={{ marginTop: '2px', flexShrink: 0 }} />
-            <div>
-              <div style={{ fontWeight: '700', fontSize: '0.85rem', color: 'var(--accent-primary)', marginBottom: '4px' }}>
-                Tantangan & Solusi Teknis:
-              </div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--text-main)', lineHeight: 1.6 }}>
-                {project.challenges}
-              </div>
+            <div style={{ fontWeight: '700', fontSize: '0.85rem', color: 'var(--accent-primary)', marginBottom: '4px' }}>
+              Tantangan & Solusi Teknis:
+            </div>
+            <div style={{ fontSize: '0.85rem', color: 'var(--text-main)', lineHeight: 1.6 }}>
+              {project.challenges}
             </div>
           </div>
         )}
@@ -202,7 +191,7 @@ export default function ProjectModal({ project, onClose }) {
                 border: '1px solid var(--border-hover)',
                 color: 'var(--text-main)',
                 padding: '6px 14px',
-                borderRadius: 'var(--radius-full)',
+                clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
                 fontSize: '0.85rem',
                 fontWeight: '600'
               }}>
@@ -220,8 +209,8 @@ export default function ProjectModal({ project, onClose }) {
           paddingTop: '20px',
           borderTop: '1px solid var(--border-color)'
         }}>
-          <a href={project.demoUrl} target="_blank" rel="noreferrer" className="btn-primary">
-            <ExternalLink size={18} /> Uji Coba Live Demo
+          <a href={project.demoUrl} target="_blank" rel="noreferrer" className="btn-primary" style={{ clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)' }}>
+            Uji Coba Live Demo &rarr;
           </a>
         </div>
 

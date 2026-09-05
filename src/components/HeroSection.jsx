@@ -33,22 +33,49 @@ const wordVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } }
 };
 
-function TypewriterTitle({ prefix = "Hi, I'm ", name = personalInfo.name }) {
-  const fullText = prefix + name;
-  const prefixLen = prefix.length;
+function TypewriterTitle({ name = personalInfo.name }) {
+  const phrases = [
+    { prefix: "Hi, I'm ", highlight: name },
+    { prefix: "I'm a ", highlight: "Fullstack Developer" },
+    { prefix: "I Build ", highlight: "Modern Web Apps" }
+  ];
+
+  const [phraseIdx, setPhraseIdx] = useState(0);
   const [charCount, setCharCount] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const currentPhrase = phrases[phraseIdx];
+  const fullText = currentPhrase.prefix + currentPhrase.highlight;
+  const prefixLen = currentPhrase.prefix.length;
 
   useEffect(() => {
-    if (charCount < fullText.length) {
-      const timeout = setTimeout(() => {
+    let timeout;
+    if (!isDeleting && charCount < fullText.length) {
+      // Typing phase
+      timeout = setTimeout(() => {
         setCharCount((prev) => prev + 1);
-      }, 70 + Math.floor(Math.random() * 40)); // Realistic human coding keystroke delay
-      return () => clearTimeout(timeout);
+      }, 70);
+    } else if (!isDeleting && charCount === fullText.length) {
+      // Hold phase at full text: RECOMMENDATION 3 seconds (3000ms)
+      timeout = setTimeout(() => {
+        setIsDeleting(true);
+      }, 3000);
+    } else if (isDeleting && charCount > 0) {
+      // Erasing phase
+      timeout = setTimeout(() => {
+        setCharCount((prev) => prev - 1);
+      }, 35);
+    } else if (isDeleting && charCount === 0) {
+      // Switch to next phrase
+      setIsDeleting(false);
+      setPhraseIdx((prev) => (prev + 1) % phrases.length);
     }
-  }, [charCount, fullText.length]);
+
+    return () => clearTimeout(timeout);
+  }, [charCount, isDeleting, fullText.length, phrases.length]);
 
   const currentPrefix = fullText.slice(0, Math.min(charCount, prefixLen));
-  const currentName = charCount > prefixLen ? fullText.slice(prefixLen, charCount) : '';
+  const currentHighlight = charCount > prefixLen ? fullText.slice(prefixLen, charCount) : '';
 
   return (
     <motion.h1
@@ -64,11 +91,12 @@ function TypewriterTitle({ prefix = "Hi, I'm ", name = personalInfo.name }) {
         color: '#ffffff',
         display: 'inline-flex',
         alignItems: 'baseline',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        gap: '0'
       }}
     >
       <span>{currentPrefix}</span>
-      {currentName && <span className="text-shimmer">{currentName}</span>}
+      {currentHighlight && <span className="text-shimmer">{currentHighlight}</span>}
       <span className="typing-cursor" />
     </motion.h1>
   );
@@ -249,37 +277,30 @@ export default function HeroSection() {
           }}>
             <BorderBeam size={200} duration={8} borderRadius="var(--radius-lg)" />
 
-            {/* Avatar Frame with Glowing Ring */}
+            {/* Sci-Fi Monogram Frame with Glowing Ring */}
             <div style={{
-              width: '180px',
-              height: '180px',
-              borderRadius: '50%',
+              width: '160px',
+              height: '160px',
               margin: '0 auto 20px auto',
               position: 'relative',
-              padding: '4px',
+              padding: '3px',
               background: 'var(--accent-gradient)',
-              boxShadow: '0 0 25px var(--accent-glow)'
+              clipPath: 'polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px)',
+              boxShadow: '0 0 30px var(--accent-glow)'
             }}>
               <div style={{
                 width: '100%',
                 height: '100%',
-                borderRadius: '50%',
-                overflow: 'hidden',
+                clipPath: 'polygon(18px 0, 100% 0, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px)',
                 background: 'var(--bg-primary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '4.5rem'
+                fontSize: '4.2rem',
+                fontWeight: '900',
+                fontFamily: 'Space Grotesk'
               }}>
-                <img
-                  src="/favicon.svg"
-                  alt={personalInfo.name}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover'
-                  }}
-                />
+                <span className="gradient-text">A</span>
               </div>
             </div>
 

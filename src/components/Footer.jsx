@@ -1,5 +1,4 @@
 import React from 'react';
-import { ArrowUp, Code2, Heart } from 'lucide-react';
 import { personalInfo } from '../data/projectsData';
 
 export default function Footer({ onGoHome }) {
@@ -51,17 +50,15 @@ export default function Footer({ onGoHome }) {
             background: 'var(--bg-card)',
             border: '1px solid var(--border-color)',
             color: 'var(--text-main)',
-            width: '40px',
-            height: '40px',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            padding: '8px 16px',
+            clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
             cursor: 'pointer',
+            fontSize: '0.85rem',
+            fontWeight: '700',
             transition: 'all 0.2s ease'
           }}
         >
-          <ArrowUp size={18} />
+          TOP ↑
         </button>
       </div>
     </footer>
