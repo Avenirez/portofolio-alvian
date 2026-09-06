@@ -7,12 +7,17 @@ export default function Preloader({ onComplete }) {
 
   useEffect(() => {
     let startTimestamp = null;
-    const duration = 1800; // 1.8 seconds total duration
+    const duration = 3500; // 3.5 seconds total duration for readable, smooth progression
 
     const updateProgress = (timestamp) => {
       if (!startTimestamp) startTimestamp = timestamp;
       const elapsed = timestamp - startTimestamp;
-      const currentProgress = Math.min(Math.floor((elapsed / duration) * 100), 100);
+      
+      // Smooth cubic-bezier-like easing curve so progression slows down gracefully in stages
+      const progressRatio = Math.min(elapsed / duration, 1);
+      // Easing: decelerate towards completion
+      const easedRatio = 1 - Math.pow(1 - progressRatio, 2.2);
+      const currentProgress = Math.min(Math.floor(easedRatio * 100), 100);
 
       setProgress(currentProgress);
 
@@ -32,10 +37,10 @@ export default function Preloader({ onComplete }) {
       if (elapsed < duration) {
         requestAnimationFrame(updateProgress);
       } else {
-        // Short pause at 100% before triggering exit callback
+        // Hold at 100% for 600ms so user can read final welcome status before smooth fade out
         setTimeout(() => {
           if (onComplete) onComplete();
-        }, 400);
+        }, 600);
       }
     };
 
