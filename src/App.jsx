@@ -147,19 +147,23 @@ export default function App() {
               margin: '0 auto',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-              gap: '28px'
+              gap: '28px',
+              overflowAnchor: 'none'
             }}
           >
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence>
               {filteredProjects.length > 0 ? (
                 filteredProjects.map((project, index) => (
                   <motion.div
                     key={project.id}
                     layout
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 32 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{
+                      layout: { type: 'spring', stiffness: 300, damping: 30 },
+                      opacity: { duration: 0.35 }
+                    }}
                   >
                     <ProjectCard
                       project={project}
