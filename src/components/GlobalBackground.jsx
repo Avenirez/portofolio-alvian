@@ -309,7 +309,7 @@ export default function GlobalBackground() {
       ctx.fill();
 
       // D. Render Cosmic Constellation Lines
-      const maxDist = 125;
+      const maxDist = 145;
       for (let i = 0; i < stars.length; i++) {
         for (let j = i + 1; j < stars.length; j++) {
           const dx = stars[i].x - stars[j].x;
@@ -317,12 +317,12 @@ export default function GlobalBackground() {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxDist) {
-            const lineOpacity = (1 - dist / maxDist) * 0.14 * stars[i].alpha;
+            const lineOpacity = (1 - dist / maxDist) * 0.55 * (stars[i].alpha + 0.25);
             ctx.beginPath();
             ctx.moveTo(stars[i].x, stars[i].y);
             ctx.lineTo(stars[j].x, stars[j].y);
-            ctx.strokeStyle = `rgba(${primaryRgbStr}, ${lineOpacity})`;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = `rgba(${primaryRgbStr}, ${Math.min(0.85, lineOpacity)})`;
+            ctx.lineWidth = 1.5;
             ctx.stroke();
           }
         }
@@ -340,14 +340,18 @@ export default function GlobalBackground() {
 
         const nearest = starDistances.slice(0, 3);
         nearest.forEach(({ star, dist }) => {
-          if (dist < 180) {
-            const tetherOpacity = (1 - dist / 180) * 0.35;
+          if (dist < 220) {
+            const tetherOpacity = (1 - dist / 220) * 0.85;
+            ctx.save();
             ctx.beginPath();
             ctx.moveTo(mouse.x, mouse.y);
             ctx.lineTo(star.x, star.y);
             ctx.strokeStyle = `rgba(${primaryRgbStr}, ${tetherOpacity})`;
-            ctx.lineWidth = 0.8;
+            ctx.shadowColor = `rgba(${primaryRgbStr}, 0.8)`;
+            ctx.shadowBlur = 6;
+            ctx.lineWidth = 2.0;
             ctx.stroke();
+            ctx.restore();
           }
         });
       }
