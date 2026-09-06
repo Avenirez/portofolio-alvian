@@ -28,10 +28,35 @@ export default function GlobalBackground() {
     // Click effects array for GIS Radar Waypoint Pings & Cosmic Spark Bursts
     const clickEffects = [];
 
+    let lastTrailTime = 0;
+
     const handleMouseMove = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       mouse.active = true;
+
+      const now = performance.now();
+      if (now - lastTrailTime > 25) {
+        lastTrailTime = now;
+
+        // Leave 2 glowing white stardust dots (bintik-bintik putih) behind cursor movement
+        for (let i = 0; i < 2; i++) {
+          const offsetX = (Math.random() - 0.5) * 16;
+          const offsetY = (Math.random() - 0.5) * 16;
+          clickEffects.push({
+            type: 'driftingWhiteDot',
+            x: e.clientX + offsetX,
+            y: e.clientY + offsetY,
+            vx: (Math.random() - 0.5) * 1.4,
+            vy: (Math.random() - 0.5) * 1.4 - 0.5, // gentle float
+            size: Math.random() * 2.8 + 0.8,
+            color: Math.random() > 0.2 ? '#ffffff' : '#f8fafc',
+            alpha: 0.95,
+            decay: Math.random() * 0.022 + 0.014,
+            isStarSymbol: Math.random() > 0.6
+          });
+        }
+      }
     };
 
     const handleMouseLeave = () => {
