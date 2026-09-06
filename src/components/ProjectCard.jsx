@@ -83,21 +83,10 @@ export default function ProjectCard({ project, index, onSelectProject }) {
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1, rotateY: isFlipping ? 360 : 0 }}
+      animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      drag
-      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-      dragElastic={0.45}
-      dragSnapToOrigin={true}
-      whileDrag={{
-        scale: 1.06,
-        rotateZ: 4,
-        zIndex: 99,
-        cursor: 'grabbing',
-        boxShadow: '0 30px 60px rgba(0,0,0,0.85), 0 0 40px var(--accent-glow)'
-      }}
       whileTap={{ scale: 0.97 }}
-      transition={isFlipping ? { duration: 0.7, ease: [0.34, 1.56, 0.64, 1] } : { duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       onClick={handleCardClick}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
@@ -117,11 +106,22 @@ export default function ProjectCard({ project, index, onSelectProject }) {
         cursor: 'grab'
       }}
     >
-
-      {/* 21st.dev Border Beam for Featured or Highlighted cards */}
-      {project.featured && (
-        <BorderBeam size={160} duration={6} borderRadius="var(--radius-md)" />
-      )}
+      {/* Inner 3D Spin Flip Animation Wrapper */}
+      <motion.div
+        animate={{ rotateY: isFlipping ? 360 : 0 }}
+        transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          transformStyle: 'preserve-3d'
+        }}
+      >
+        {/* 21st.dev Border Beam for Featured or Highlighted cards */}
+        {project.featured && (
+          <BorderBeam size={160} duration={6} borderRadius="var(--radius-md)" />
+        )}
 
       {/* Glass Glare Shimmer Sweep Overlay */}
       <div className="card-glare-shimmer" />
@@ -340,8 +340,8 @@ export default function ProjectCard({ project, index, onSelectProject }) {
             </div>
           </div>
         </div>
-
       </div>
+      </motion.div>
 
       <style>{`
         .glass-card .card-glare-shimmer {

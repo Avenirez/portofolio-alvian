@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, Reorder } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Preloader from './components/Preloader';
 import CursorGlow from './components/CursorGlow';
@@ -21,6 +21,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(() => {
     return !sessionStorage.getItem('portfolio-preloader-seen');
   });
+  const [projectsList, setProjectsList] = useState(projectsData);
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -38,7 +39,7 @@ export default function App() {
   }, [currentTheme]);
 
   // Filter projects by category & search query
-  const filteredProjects = projectsData.filter((project) => {
+  const filteredProjects = projectsList.filter((project) => {
     const matchesCategory = activeCategory === 'all' || project.category === activeCategory;
     const matchesSearch =
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -93,23 +94,40 @@ export default function App() {
             setActiveCategory={setActiveCategory}
           />
 
-          {/* Balanced Project Showcase Grid */}
-          <div style={{
-            maxWidth: '1140px',
-            margin: '0 auto',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-            gap: '28px'
-          }}>
-            <AnimatePresence>
+          {/* Reorderable Project Showcase Grid */}
+          <Reorder.Group
+            axis="y"
+            values={filteredProjects}
+            onReorder={(newOrder) => {
+              setProjectsList((prevList) => {
+                const newIds = new Set(newOrder.map((p) => p.id));
+                const remaining = prevList.filter((p) => !newIds.has(p.id));
+                return [...newOrder, ...remaining];
+              });
+            }}
+            style={{
+              maxWidth: '1140px',
+              margin: '0 auto',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+              gap: '28px',
+              padding: 0
+            }}
+          >
+            <AnimatePresence mode="popLayout">
               {filteredProjects.length > 0 ? (
                 filteredProjects.map((project, index) => (
-                  <ProjectCard
+                  <Reorder.Item
                     key={project.id}
-                    project={project}
-                    index={index}
-                    onSelectProject={setSelectedProject}
-                  />
+                    value={project}
+                    style={{ listStyle: 'none' }}
+                  >
+                    <ProjectCard
+                      project={project}
+                      index={index}
+                      onSelectProject={setSelectedProject}
+                    />
+                  </Reorder.Item>
                 ))
               ) : (
                 <motion.div
@@ -128,7 +146,7 @@ export default function App() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </Reorder.Group>
         </section>
 
         {/* Tech Stack Section */}
