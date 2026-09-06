@@ -95,11 +95,11 @@ export default function ProjectModal({ project, onClose }) {
         }}>
           <motion.img
             layoutId={`project-image-${project.id}`}
-            src={`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl.includes('?') ? project.demoUrl : `${project.demoUrl}${project.demoUrl.endsWith('/') ? '' : '/'}?v=live`)}?w=1200&h=800`}
+            src={project.image || `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`}
             onError={(e) => {
-              if (!e.target.dataset.triedLocal) {
-                e.target.dataset.triedLocal = 'true';
-                e.target.src = project.image;
+              if (!e.target.dataset.triedFallback) {
+                e.target.dataset.triedFallback = 'true';
+                e.target.src = `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`;
               }
             }}
             alt={project.title}
