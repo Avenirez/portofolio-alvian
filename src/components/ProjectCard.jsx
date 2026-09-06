@@ -76,6 +76,7 @@ export default function ProjectCard({ project, index, onSelectProject }) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
+      whileTap={{ scale: 0.97, transition: { duration: 0.12 } }}
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
@@ -91,7 +92,8 @@ export default function ProjectCard({ project, index, onSelectProject }) {
         rotateX,
         rotateY,
         transformStyle: 'preserve-3d',
-        perspective: 1000
+        perspective: 1000,
+        cursor: 'pointer'
       }}
     >
 
@@ -327,11 +329,11 @@ export default function ProjectCard({ project, index, onSelectProject }) {
           left: -150%;
           width: 70%;
           height: 100%;
-          background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.25) 50%, transparent 100%);
+          background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%);
           transform: skewX(-25deg);
           pointer-events: none;
           z-index: 5;
-          transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .glass-card:hover .card-glare-shimmer {
           transform: translateX(450%) skewX(-25deg);
@@ -341,6 +343,10 @@ export default function ProjectCard({ project, index, onSelectProject }) {
         }
         .glass-card:hover .card-overlay {
           opacity: 1 !important;
+        }
+        .glass-card:active {
+          border-color: var(--accent-primary) !important;
+          box-shadow: 0 0 35px var(--accent-glow), 0 10px 30px rgba(0, 0, 0, 0.8) !important;
         }
       `}</style>
     </motion.div>
