@@ -350,13 +350,6 @@ export default function GlobalBackground() {
             ctx.stroke();
           }
         });
-
-        // Small glowing radar target ring at mouse position
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 8, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(${primaryRgbStr}, 0.25)`;
-        ctx.lineWidth = 1;
-        ctx.stroke();
       }
 
       // F. Render Twinkling Stars with Interactive Mouse Repulsion & Scroll Warp Trails
