@@ -20,6 +20,19 @@ export default function GlobalBackground() {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
+    // Track mouse position for interactive gravity/repulsion
+    const mouse = { x: -1000, y: -1000, active: false };
+
+    const handleMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.active = false;
+    };
+
     const handleResize = () => {
       if (!canvas) return;
       width = canvas.width = window.innerWidth;
@@ -27,6 +40,8 @@ export default function GlobalBackground() {
     };
 
     window.addEventListener('resize', handleResize);
+    window.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseleave', handleMouseLeave);
 
     // Pause animation when background is not visible (performance saver)
     const observerVisibility = new IntersectionObserver(([entry]) => {
@@ -38,20 +53,33 @@ export default function GlobalBackground() {
     });
     observerVisibility.observe(canvas);
 
-    // Cosmic Space Starfield System (Twinkling Stars)
-    const starCount = Math.min(Math.floor((width * height) / 12000), 75);
-    const stars = Array.from({ length: starCount }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      size: Math.random() * 1.8 + 0.5,
-      alpha: Math.random() * 0.7 + 0.2,
-      twinkleSpeed: Math.random() * 0.015 + 0.005,
-      twinkleDir: Math.random() > 0.5 ? 1 : -1,
-      speedY: Math.random() * 0.25 + 0.05,
-      speedX: (Math.random() - 0.5) * 0.15
-    }));
+    // 1. Cosmic Space Starfield System (Twinkling & Interactive Repulsion Stars)
+    const starCount = Math.min(Math.floor((width * height) / 11000), 85);
+    const stars = Array.from({ length: starCount }, () => {
+      const baseX = Math.random() * width;
+      const baseY = Math.random() * height;
+      return {
+        x: baseX,
+        y: baseY,
+        baseX,
+        baseY,
+        size: Math.random() * 1.9 + 0.6,
+        alpha: Math.random() * 0.7 + 0.25,
+        twinkleSpeed: Math.random() * 0.015 + 0.005,
+        twinkleDir: Math.random() > 0.5 ? 1 : -1,
+        speedY: Math.random() * 0.25 + 0.05,
+        speedX: (Math.random() - 0.5) * 0.15
+      };
+    });
 
-    // Floating tech & space symbols
+    // 2. Rotating Cosmic Orbital Satellite Rings
+    let orbitAngle1 = 0;
+    let orbitAngle2 = Math.PI;
+
+    // 3. Pulsing GIS Radar Rings
+    let radarPulseRadius = 0;
+
+    // 4. Floating tech & space symbols
     const techSymbols = ['{ }', '</>', '01', 'JS', 'React', 'Vite', 'GIS', 'API', 'SQL', 'CSS', '🪐', '✦'];
     const floatingNodes = Array.from({ length: 10 }, () => ({
       x: Math.random() * width,
@@ -63,7 +91,7 @@ export default function GlobalBackground() {
       size: Math.floor(Math.random() * 6) + 12
     }));
 
-    // Space Shooting Meteors
+    // 5. Space Shooting Meteors
     const meteors = Array.from({ length: 3 }, () => ({
       x: Math.random() * width * 1.5,
       y: Math.random() * height * 0.4 - 200,
@@ -117,8 +145,64 @@ export default function GlobalBackground() {
       const primaryRgbStr = `${primary.r}, ${primary.g}, ${primary.b}`;
       const secondaryRgbStr = `${secondary.r}, ${secondary.g}, ${secondary.b}`;
 
-      // 1. Render Cosmic Constellation Lines
-      const maxDist = 120;
+      // A. Render Pulsing GIS Satellite Radar Wave
+      radarPulseRadius += 0.8;
+      const maxRadarR = 260;
+      if (radarPulseRadius > maxRadarR) radarPulseRadius = 0;
+
+      const radarCenterX = width * 0.15;
+      const radarCenterY = height * 0.35;
+      const radarOpacity = (1 - radarPulseRadius / maxRadarR) * 0.18;
+
+      ctx.beginPath();
+      ctx.arc(radarCenterX, radarCenterY, radarPulseRadius, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${primaryRgbStr}, ${radarOpacity})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // B. Render Rotating Cyber Orbital Satellite Rings
+      const orbitCenterX = width * 0.85;
+      const orbitCenterY = height * 0.28;
+      const orbitR1 = 140;
+      const orbitR2 = 210;
+
+      orbitAngle1 += 0.006;
+      orbitAngle2 -= 0.004;
+
+      // Outer dashed orbital ring
+      ctx.beginPath();
+      ctx.setLineDash([6, 12]);
+      ctx.arc(orbitCenterX, orbitCenterY, orbitR1, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${primaryRgbStr}, 0.09)`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.setLineDash([]); // Reset line dash
+
+      ctx.beginPath();
+      ctx.setLineDash([4, 18]);
+      ctx.arc(orbitCenterX, orbitCenterY, orbitR2, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${secondaryRgbStr}, 0.07)`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Orbiting Satellite Nodes
+      const sat1X = orbitCenterX + Math.cos(orbitAngle1) * orbitR1;
+      const sat1Y = orbitCenterY + Math.sin(orbitAngle1) * orbitR1;
+      ctx.beginPath();
+      ctx.arc(sat1X, sat1Y, 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${primaryRgbStr}, 0.8)`;
+      ctx.fill();
+
+      const sat2X = orbitCenterX + Math.cos(orbitAngle2) * orbitR2;
+      const sat2Y = orbitCenterY + Math.sin(orbitAngle2) * orbitR2;
+      ctx.beginPath();
+      ctx.arc(sat2X, sat2Y, 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${secondaryRgbStr}, 0.8)`;
+      ctx.fill();
+
+      // C. Render Cosmic Constellation Lines
+      const maxDist = 125;
       for (let i = 0; i < stars.length; i++) {
         for (let j = i + 1; j < stars.length; j++) {
           const dx = stars[i].x - stars[j].x;
@@ -137,10 +221,25 @@ export default function GlobalBackground() {
         }
       }
 
-      // 2. Render Twinkling Space Stars (Optimized without shadowBlur)
+      // D. Render Twinkling Stars with Interactive Mouse Repulsion Physics
       stars.forEach((s) => {
         s.y -= s.speedY;
         s.x += s.speedX;
+
+        // Interactive Mouse Magnetic Repulsion
+        if (mouse.active) {
+          const mdx = s.x - mouse.x;
+          const mdy = s.y - mouse.y;
+          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          const repelRadius = 140;
+
+          if (mdist < repelRadius) {
+            const force = (repelRadius - mdist) / repelRadius;
+            const angle = Math.atan2(mdy, mdx);
+            s.x += Math.cos(angle) * force * 3.5;
+            s.y += Math.sin(angle) * force * 3.5;
+          }
+        }
 
         // Twinkle pulse effect
         s.alpha += s.twinkleSpeed * s.twinkleDir;
@@ -165,7 +264,7 @@ export default function GlobalBackground() {
         ctx.fill();
       });
 
-      // 3. Render Floating Tech & Space Code Symbols
+      // E. Render Floating Tech & Space Code Symbols
       ctx.font = '600 13px Space Grotesk, monospace';
       floatingNodes.forEach((node) => {
         node.y -= node.speedY;
@@ -182,7 +281,7 @@ export default function GlobalBackground() {
         ctx.fillText(node.symbol, node.x, node.y);
       });
 
-      // 4. Render Space Meteors (Shooting Stars)
+      // F. Render Space Meteors (Shooting Stars)
       meteors.forEach((m) => {
         m.x -= m.speed * 1.5;
         m.y += m.speed;
@@ -213,6 +312,8 @@ export default function GlobalBackground() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseleave', handleMouseLeave);
       observerTheme.disconnect();
       observerVisibility.disconnect();
       cancelAnimationFrame(animationFrameId);
