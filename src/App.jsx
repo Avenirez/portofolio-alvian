@@ -24,6 +24,9 @@ export default function App() {
   const [projectsList, setProjectsList] = useState(projectsData);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [isPausedByHover, setIsPausedByHover] = useState(false);
+  const [isClickPaused, setIsClickPaused] = useState(false);
+  const clickPauseTimerRef = React.useRef(null);
+
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -33,6 +36,17 @@ export default function App() {
     setIsLoading(false);
   };
 
+  // Temporarily pause auto-slide when a card is clicked/interacted with
+  const handleCardInteract = () => {
+    setIsClickPaused(true);
+    if (clickPauseTimerRef.current) {
+      clearTimeout(clickPauseTimerRef.current);
+    }
+    clickPauseTimerRef.current = setTimeout(() => {
+      setIsClickPaused(false);
+    }, 6000);
+  };
+
   // Apply Theme & Dark mode attribute to HTML root element
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', currentTheme);
@@ -40,19 +54,19 @@ export default function App() {
     localStorage.setItem('portfolio-theme', currentTheme);
   }, [currentTheme]);
 
-  // Auto-shift project cards left/right every 2.0 seconds
+  // Auto-shift project cards left/right every 3.0 seconds
   useEffect(() => {
-    if (!isAutoPlaying || isPausedByHover || projectsList.length <= 1) return;
+    if (!isAutoPlaying || isPausedByHover || isClickPaused || projectsList.length <= 1) return;
 
     const interval = setInterval(() => {
       setProjectsList((prevList) => {
         if (prevList.length <= 1) return prevList;
         return [...prevList.slice(1), prevList[0]];
       });
-    }, 2000);
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, isPausedByHover, projectsList.length]);
+  }, [isAutoPlaying, isPausedByHover, isClickPaused, projectsList.length]);
 
   const handleNextShift = () => {
     setProjectsList((prevList) => {
@@ -151,6 +165,7 @@ export default function App() {
                       project={project}
                       index={index}
                       onSelectProject={setSelectedProject}
+                      onCardInteract={handleCardInteract}
                     />
                   </motion.div>
                 ))

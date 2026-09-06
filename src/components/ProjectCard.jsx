@@ -2,12 +2,13 @@ import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
 import BorderBeam from './BorderBeam';
 
-export default function ProjectCard({ project, index, onSelectProject }) {
+export default function ProjectCard({ project, index, onSelectProject, onCardInteract }) {
   const cardRef = useRef(null);
   const rectRef = useRef(null);
   const rafRef = useRef(null);
   const lastEventRef = useRef(null);
-  const [isFlipping, setIsFlipping] = useState(false);
+  const [spinRotation, setSpinRotation] = useState(0);
+  const [isSpinning, setIsSpinning] = useState(false);
 
   const isBentoHero = index === 0;
 
@@ -29,7 +30,7 @@ export default function ProjectCard({ project, index, onSelectProject }) {
     rafRef.current = null;
     const rect = rectRef.current;
     const e = lastEventRef.current;
-    if (!rect || !e) return;
+    if (!rect || !e || isSpinning) return;
 
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -53,7 +54,7 @@ export default function ProjectCard({ project, index, onSelectProject }) {
   };
 
   const handleMouseMove = (e) => {
-    if (!rectRef.current) return;
+    if (!rectRef.current || isSpinning) return;
     lastEventRef.current = e;
     if (!rafRef.current) {
       rafRef.current = requestAnimationFrame(applyPointerFrame);
@@ -72,17 +73,29 @@ export default function ProjectCard({ project, index, onSelectProject }) {
   };
 
   const handleCardClick = (e) => {
-    // Trigger 3D Spin Rotation Animation
-    setIsFlipping(true);
+    // Notify parent to pause auto-slide temporarily
+    if (onCardInteract) {
+      onCardInteract();
+    }
+
+    if (isSpinning) return;
+
+    // Reset mouse tilt springs during 360 spin
+    rawRotateX.set(0);
+    rawRotateY.set(0);
+
+    setIsSpinning(true);
+    setSpinRotation((prev) => prev + 360);
+
     setTimeout(() => {
-      setIsFlipping(false);
+      setIsSpinning(false);
     }, 700);
   };
 
   return (
     <motion.div
-      animate={{ rotateY: isFlipping ? 360 : 0 }}
-      transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
+      animate={{ rotateY: spinRotation }}
+      transition={{ duration: 0.7, ease: [0.34, 1.25, 0.64, 1] }}
       style={{
         width: '100%',
         height: '100%',
@@ -180,7 +193,11 @@ export default function ProjectCard({ project, index, onSelectProject }) {
             zIndex: 3
           }}>
             <button
-              onClick={() => onSelectProject(project)}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onCardInteract) onCardInteract();
+                onSelectProject(project);
+              }}
               className="btn-primary"
               style={{
                 padding: '8px 18px',
@@ -314,7 +331,11 @@ export default function ProjectCard({ project, index, onSelectProject }) {
               transform: 'translateZ(30px)'
             }}>
               <button
-                onClick={() => onSelectProject(project)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onCardInteract) onCardInteract();
+                  onSelectProject(project);
+                }}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -331,7 +352,17 @@ export default function ProjectCard({ project, index, onSelectProject }) {
               </button>
 
               <div style={{ display: 'flex', gap: '10px' }}>
-                <a href={project.demoUrl} target="_blank" rel="noreferrer" title="Live Demo" style={{ color: 'var(--accent-primary)', fontSize: '0.85rem', fontWeight: '700', textDecoration: 'none' }}>
+                <a
+                  href={project.demoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  title="Live Demo"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onCardInteract) onCardInteract();
+                  }}
+                  style={{ color: 'var(--accent-primary)', fontSize: '0.85rem', fontWeight: '700', textDecoration: 'none' }}
+                >
                   Demo
                 </a>
               </div>
