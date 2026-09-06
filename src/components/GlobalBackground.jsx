@@ -20,8 +20,10 @@ export default function GlobalBackground() {
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
 
-    // Track mouse position for interactive gravity/repulsion
+    // Track mouse position and scroll velocity for interactive tethering & warp trails
     const mouse = { x: -1000, y: -1000, active: false };
+    let lastScrollY = window.scrollY;
+    let scrollSpeed = 0;
 
     const handleMouseMove = (e) => {
       mouse.x = e.clientX;
@@ -33,6 +35,12 @@ export default function GlobalBackground() {
       mouse.active = false;
     };
 
+    const handleScroll = () => {
+      const delta = Math.abs(window.scrollY - lastScrollY);
+      scrollSpeed = Math.min(delta * 0.4, 25);
+      lastScrollY = window.scrollY;
+    };
+
     const handleResize = () => {
       if (!canvas) return;
       width = canvas.width = window.innerWidth;
@@ -41,6 +49,7 @@ export default function GlobalBackground() {
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
 
     // Pause animation when background is not visible (performance saver)
@@ -79,7 +88,10 @@ export default function GlobalBackground() {
     // 3. Pulsing GIS Radar Rings
     let radarPulseRadius = 0;
 
-    // 4. Floating tech & space symbols
+    // 4. Topographic Wave Offset
+    let topoOffset = 0;
+
+    // 5. Floating tech & space symbols
     const techSymbols = ['{ }', '</>', '01', 'JS', 'React', 'Vite', 'GIS', 'API', 'SQL', 'CSS', '🪐', '✦'];
     const floatingNodes = Array.from({ length: 10 }, () => ({
       x: Math.random() * width,
@@ -91,7 +103,7 @@ export default function GlobalBackground() {
       size: Math.floor(Math.random() * 6) + 12
     }));
 
-    // 5. Space Shooting Meteors
+    // 6. Space Shooting Meteors
     const meteors = Array.from({ length: 3 }, () => ({
       x: Math.random() * width * 1.5,
       y: Math.random() * height * 0.4 - 200,
@@ -145,7 +157,31 @@ export default function GlobalBackground() {
       const primaryRgbStr = `${primary.r}, ${primary.g}, ${primary.b}`;
       const secondaryRgbStr = `${secondary.r}, ${secondary.g}, ${secondary.b}`;
 
-      // A. Render Pulsing GIS Satellite Radar Wave
+      // Decay scroll speed over time
+      scrollSpeed *= 0.92;
+
+      // A. Render Topographic GIS Contour Waves
+      topoOffset += 0.008;
+      ctx.beginPath();
+      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = `rgba(${primaryRgbStr}, 0.06)`;
+      for (let x = 0; x < width; x += 15) {
+        const y1 = height * 0.7 + Math.sin(x * 0.005 + topoOffset) * 28 + Math.cos(x * 0.003) * 15;
+        if (x === 0) ctx.moveTo(x, y1);
+        else ctx.lineTo(x, y1);
+      }
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.strokeStyle = `rgba(${secondaryRgbStr}, 0.04)`;
+      for (let x = 0; x < width; x += 15) {
+        const y2 = height * 0.74 + Math.sin(x * 0.004 - topoOffset) * 22 + Math.sin(x * 0.002) * 18;
+        if (x === 0) ctx.moveTo(x, y2);
+        else ctx.lineTo(x, y2);
+      }
+      ctx.stroke();
+
+      // B. Render Pulsing GIS Satellite Radar Wave
       radarPulseRadius += 0.8;
       const maxRadarR = 260;
       if (radarPulseRadius > maxRadarR) radarPulseRadius = 0;
@@ -160,7 +196,7 @@ export default function GlobalBackground() {
       ctx.lineWidth = 1;
       ctx.stroke();
 
-      // B. Render Rotating Cyber Orbital Satellite Rings
+      // C. Render Rotating Cyber Orbital Satellite Rings
       const orbitCenterX = width * 0.85;
       const orbitCenterY = height * 0.28;
       const orbitR1 = 140;
@@ -201,7 +237,7 @@ export default function GlobalBackground() {
       ctx.fillStyle = `rgba(${secondaryRgbStr}, 0.8)`;
       ctx.fill();
 
-      // C. Render Cosmic Constellation Lines
+      // D. Render Cosmic Constellation Lines
       const maxDist = 125;
       for (let i = 0; i < stars.length; i++) {
         for (let j = i + 1; j < stars.length; j++) {
@@ -221,9 +257,40 @@ export default function GlobalBackground() {
         }
       }
 
-      // D. Render Twinkling Stars with Interactive Mouse Repulsion Physics
+      // E. Render Laser Cursor Tether (Lines to 3 nearest stars)
+      if (mouse.active) {
+        // Find 3 nearest stars to cursor
+        const starDistances = stars.map((s) => {
+          const mdx = s.x - mouse.x;
+          const mdy = s.y - mouse.y;
+          return { star: s, dist: Math.sqrt(mdx * mdx + mdy * mdy) };
+        });
+        starDistances.sort((a, b) => a.dist - b.dist);
+
+        const nearest = starDistances.slice(0, 3);
+        nearest.forEach(({ star, dist }) => {
+          if (dist < 180) {
+            const tetherOpacity = (1 - dist / 180) * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(mouse.x, mouse.y);
+            ctx.lineTo(star.x, star.y);
+            ctx.strokeStyle = `rgba(${primaryRgbStr}, ${tetherOpacity})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        });
+
+        // Small glowing radar target ring at mouse position
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 8, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${primaryRgbStr}, 0.25)`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      // F. Render Twinkling Stars with Interactive Mouse Repulsion & Scroll Warp Trails
       stars.forEach((s) => {
-        s.y -= s.speedY;
+        s.y -= s.speedY + scrollSpeed * 0.4;
         s.x += s.speedX;
 
         // Interactive Mouse Magnetic Repulsion
@@ -258,13 +325,23 @@ export default function GlobalBackground() {
         if (s.x < -10) s.x = width + 10;
         if (s.x > width + 10) s.x = -10;
 
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
-        ctx.fill();
+        // Render Star (Warp Trail line when scrolling fast, or circle when static)
+        if (scrollSpeed > 2.5) {
+          ctx.beginPath();
+          ctx.moveTo(s.x, s.y);
+          ctx.lineTo(s.x, s.y + scrollSpeed * 1.8);
+          ctx.strokeStyle = `rgba(${primaryRgbStr}, ${s.alpha * 0.7})`;
+          ctx.lineWidth = s.size * 0.8;
+          ctx.stroke();
+        } else {
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+          ctx.fill();
+        }
       });
 
-      // E. Render Floating Tech & Space Code Symbols
+      // G. Render Floating Tech & Space Code Symbols
       ctx.font = '600 13px Space Grotesk, monospace';
       floatingNodes.forEach((node) => {
         node.y -= node.speedY;
@@ -281,7 +358,7 @@ export default function GlobalBackground() {
         ctx.fillText(node.symbol, node.x, node.y);
       });
 
-      // F. Render Space Meteors (Shooting Stars)
+      // H. Render Space Meteors (Shooting Stars)
       meteors.forEach((m) => {
         m.x -= m.speed * 1.5;
         m.y += m.speed;
@@ -313,6 +390,7 @@ export default function GlobalBackground() {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mouseleave', handleMouseLeave);
       observerTheme.disconnect();
       observerVisibility.disconnect();
