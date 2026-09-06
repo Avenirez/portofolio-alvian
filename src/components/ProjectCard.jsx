@@ -168,11 +168,18 @@ export default function ProjectCard({ project, index, onSelectProject, onCardInt
         }}>
           <motion.img
             layoutId={`project-image-${project.id}`}
-            src={project.image || `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`}
+            src={
+              project.demoUrl?.includes('lexaastore.cloud')
+                ? `https://image.thum.io/get/width/1200/crop/800/${project.demoUrl}`
+                : `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`
+            }
             onError={(e) => {
-              if (!e.target.dataset.triedFallback) {
-                e.target.dataset.triedFallback = 'true';
-                e.target.src = `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`;
+              if (!e.target.dataset.triedThum) {
+                e.target.dataset.triedThum = 'true';
+                e.target.src = `https://image.thum.io/get/width/1200/crop/800/${project.demoUrl}`;
+              } else if (!e.target.dataset.triedLocal) {
+                e.target.dataset.triedLocal = 'true';
+                e.target.src = project.image;
               }
             }}
             alt={project.title}
