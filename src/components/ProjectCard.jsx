@@ -100,6 +100,9 @@ export default function ProjectCard({ project, index, onSelectProject }) {
         <BorderBeam size={160} duration={6} borderRadius="var(--radius-md)" />
       )}
 
+      {/* Glass Glare Shimmer Sweep Overlay */}
+      <div className="card-glare-shimmer" />
+
       {/* Dynamic Spotlight Glow Layer */}
       <motion.div
         style={{
@@ -112,14 +115,15 @@ export default function ProjectCard({ project, index, onSelectProject }) {
         }}
       />
 
-
-      {/* Thumbnail Container */}
+      {/* Thumbnail Container with 3D Parallax Depth */}
       <div style={{
         position: 'relative',
         width: '100%',
         height: '210px',
         overflow: 'hidden',
-        background: 'var(--bg-secondary)'
+        background: 'var(--bg-secondary)',
+        transform: 'translateZ(10px)',
+        transformStyle: 'preserve-3d'
       }}>
         <motion.img
           layoutId={`project-image-${project.id}`}
@@ -158,13 +162,19 @@ export default function ProjectCard({ project, index, onSelectProject }) {
           <button
             onClick={() => onSelectProject(project)}
             className="btn-primary"
-            style={{ padding: '8px 18px', fontSize: '0.85rem', clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)' }}
+            style={{
+              padding: '8px 18px',
+              fontSize: '0.85rem',
+              clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
+              transform: 'translateZ(45px)',
+              boxShadow: '0 8px 25px var(--accent-glow)'
+            }}
           >
             Detail Projek
           </button>
         </div>
 
-        {/* Featured Badge */}
+        {/* Featured Badge with 3D Parallax Depth */}
         {project.featured && (
           <div style={{
             position: 'absolute',
@@ -176,14 +186,15 @@ export default function ProjectCard({ project, index, onSelectProject }) {
             clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
             fontSize: '0.75rem',
             fontWeight: '700',
-            boxShadow: '0 4px 12px var(--accent-glow)',
-            zIndex: 3
+            boxShadow: '0 6px 18px var(--accent-glow)',
+            zIndex: 4,
+            transform: 'translateZ(35px)'
           }}>
             Featured
           </div>
         )}
 
-        {/* Category Label */}
+        {/* Category Label with 3D Parallax Depth */}
         <div style={{
           position: 'absolute',
           bottom: '12px',
@@ -195,27 +206,31 @@ export default function ProjectCard({ project, index, onSelectProject }) {
           borderRadius: 'var(--radius-sm)',
           fontSize: '0.75rem',
           fontWeight: '600',
-          zIndex: 3
+          zIndex: 4,
+          transform: 'translateZ(30px)'
         }}>
           {project.categoryLabel}
         </div>
       </div>
 
-      {/* Content Info */}
+      {/* Content Info with 3D Parallax Depth */}
       <div style={{
         padding: '24px',
         display: 'flex',
         flexDirection: 'column',
         flexGrow: 1,
         justifyContent: 'space-between',
-        zIndex: 3
+        zIndex: 3,
+        transform: 'translateZ(20px)',
+        transformStyle: 'preserve-3d'
       }}>
         <div>
           <h3 style={{
             fontSize: '1.2rem',
             fontWeight: '700',
             marginBottom: '10px',
-            color: 'var(--text-main)'
+            color: 'var(--text-main)',
+            transform: 'translateZ(25px)'
           }}>
             {project.title}
           </h3>
@@ -228,19 +243,21 @@ export default function ProjectCard({ project, index, onSelectProject }) {
             WebkitLineClamp: 3,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
-            lineHeight: 1.6
+            lineHeight: 1.6,
+            transform: 'translateZ(15px)'
           }}>
             {project.description}
           </p>
         </div>
 
         <div>
-          {/* Tech Badges */}
+          {/* Tech Badges with 3D Parallax Depth */}
           <div style={{
             display: 'flex',
             flexWrap: 'wrap',
             gap: '6px',
-            marginBottom: '20px'
+            marginBottom: '20px',
+            transform: 'translateZ(28px)'
           }}>
             {project.technologies.slice(0, 4).map((tech, i) => (
               <span key={i} style={{
@@ -273,7 +290,8 @@ export default function ProjectCard({ project, index, onSelectProject }) {
             alignItems: 'center',
             justifyContent: 'space-between',
             paddingTop: '14px',
-            borderTop: '1px solid var(--border-color)'
+            borderTop: '1px solid var(--border-color)',
+            transform: 'translateZ(30px)'
           }}>
             <button
               onClick={() => onSelectProject(project)}
@@ -303,6 +321,21 @@ export default function ProjectCard({ project, index, onSelectProject }) {
       </div>
 
       <style>{`
+        .glass-card .card-glare-shimmer {
+          position: absolute;
+          top: 0;
+          left: -150%;
+          width: 70%;
+          height: 100%;
+          background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.25) 50%, transparent 100%);
+          transform: skewX(-25deg);
+          pointer-events: none;
+          z-index: 5;
+          transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .glass-card:hover .card-glare-shimmer {
+          transform: translateX(450%) skewX(-25deg);
+        }
         .glass-card:hover .project-img {
           transform: scale(1.08);
         }
