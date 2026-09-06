@@ -33,29 +33,25 @@ const wordVariants = {
 };
 
 function TypewriterTitle({ name = personalInfo.name }) {
-  const fullText = `Hi, I'm ${name} — ${personalInfo.role}`;
+  const fullText = `Hi, I'm ${name}`;
   const [charCount, setCharCount] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     let timeout;
     if (!isDeleting && charCount < fullText.length) {
-      // Typing phase
       timeout = setTimeout(() => {
         setCharCount((prev) => prev + 1);
       }, 70);
     } else if (!isDeleting && charCount === fullText.length) {
-      // Hold phase: 3 seconds
       timeout = setTimeout(() => {
         setIsDeleting(true);
       }, 3000);
     } else if (isDeleting && charCount > 0) {
-      // Erasing phase
       timeout = setTimeout(() => {
         setCharCount((prev) => prev - 1);
       }, 35);
     } else if (isDeleting && charCount === 0) {
-      // Restart loop
       timeout = setTimeout(() => {
         setIsDeleting(false);
       }, 400);
@@ -86,6 +82,50 @@ function TypewriterTitle({ name = personalInfo.name }) {
       <span className="text-shimmer">{currentText}</span>
       <span className="typing-cursor" />
     </motion.h1>
+  );
+}
+
+function TypewriterRole({ role = personalInfo.role }) {
+  const [charCount, setCharCount] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timeout;
+    if (!isDeleting && charCount < role.length) {
+      timeout = setTimeout(() => {
+        setCharCount((prev) => prev + 1);
+      }, 80);
+    } else if (!isDeleting && charCount === role.length) {
+      timeout = setTimeout(() => {
+        setIsDeleting(true);
+      }, 3500);
+    } else if (isDeleting && charCount > 0) {
+      timeout = setTimeout(() => {
+        setCharCount((prev) => prev - 1);
+      }, 45);
+    } else if (isDeleting && charCount === 0) {
+      timeout = setTimeout(() => {
+        setIsDeleting(false);
+      }, 500);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [charCount, isDeleting, role.length]);
+
+  const currentRole = role.slice(0, charCount);
+
+  return (
+    <motion.h2 variants={itemVariants} style={{
+      fontSize: 'clamp(1.2rem, 2.2vw, 1.75rem)',
+      fontWeight: '700',
+      marginBottom: '16px',
+      lineHeight: 1.3,
+      display: 'inline-flex',
+      alignItems: 'center'
+    }}>
+      <span className="gradient-text">{currentRole}</span>
+      <span className="typing-cursor" style={{ height: '0.75em', width: '3px' }} />
+    </motion.h2>
   );
 }
 
@@ -174,15 +214,8 @@ export default function HeroSection() {
               {/* Main Title with Coding Typing Animation */}
               <TypewriterTitle name={personalInfo.name} />
 
-              {/* Subtitle / Tagline */}
-              <motion.h2 variants={itemVariants} style={{
-                fontSize: 'clamp(1.2rem, 2.2vw, 1.75rem)',
-                fontWeight: '700',
-                marginBottom: '16px',
-                lineHeight: 1.3
-              }}>
-                <span className="gradient-text">{personalInfo.role}</span>
-              </motion.h2>
+              {/* Subtitle / Tagline with Typing Animation */}
+              <TypewriterRole role={personalInfo.role} />
 
               {/* Bio Description */}
               <motion.p variants={itemVariants} style={{
@@ -279,24 +312,17 @@ export default function HeroSection() {
               width: '100%',
               height: '100%',
               borderRadius: '50%',
-              background: '#0d1117',
+              background: 'var(--bg-primary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              fontSize: '5.5rem',
+              fontWeight: '900',
+              fontFamily: 'Space Grotesk',
               position: 'relative',
-              zIndex: 2,
-              overflow: 'hidden'
+              zIndex: 2
             }}>
-              <img
-                src="/avatar.png"
-                alt={personalInfo.name}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  borderRadius: '50%'
-                }}
-              />
+              <span className="gradient-text">A</span>
             </div>
           </div>
 

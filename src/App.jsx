@@ -9,7 +9,6 @@ import FilterSearch from './components/FilterSearch';
 import ProjectCard from './components/ProjectCard';
 import ProjectModal from './components/ProjectModal';
 import TechStack from './components/TechStack';
-import InteractiveProjectShowcase from './components/InteractiveProjectShowcase';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import { projectsData } from './data/projectsData';
@@ -116,8 +115,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Interactive Feature Simulation Playground Section */}
-        <InteractiveProjectShowcase />
+        {/* Tech Stack Section */}
 
         {/* Tech Stack Section */}
         <TechStack />
