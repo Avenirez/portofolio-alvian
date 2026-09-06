@@ -25,6 +25,9 @@ export default function GlobalBackground() {
     let lastScrollY = window.scrollY;
     let scrollSpeed = 0;
 
+    // Click effects array for GIS Radar Waypoint Pings & Cosmic Spark Bursts
+    const clickEffects = [];
+
     const handleMouseMove = (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
@@ -33,6 +36,38 @@ export default function GlobalBackground() {
 
     const handleMouseLeave = () => {
       mouse.active = false;
+    };
+
+    const handleMouseDown = (e) => {
+      const clickX = e.clientX;
+      const clickY = e.clientY;
+
+      // 1. GIS Radar Waypoint Ping Ring Wave
+      clickEffects.push({
+        type: 'radar',
+        x: clickX,
+        y: clickY,
+        radius: 4,
+        maxRadius: 65,
+        alpha: 0.85
+      });
+
+      // 2. Cosmic Supernova Stardust Burst Particles
+      const burstCount = 12;
+      for (let i = 0; i < burstCount; i++) {
+        const angle = (Math.PI * 2 * i) / burstCount + (Math.random() - 0.5) * 0.4;
+        const speed = Math.random() * 3.5 + 1.5;
+        clickEffects.push({
+          type: 'spark',
+          x: clickX,
+          y: clickY,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          size: Math.random() * 2.2 + 1,
+          alpha: 1,
+          decay: Math.random() * 0.025 + 0.02
+        });
+      }
     };
 
     const handleScroll = () => {
@@ -49,6 +84,7 @@ export default function GlobalBackground() {
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('scroll', handleScroll, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
 
@@ -382,6 +418,48 @@ export default function GlobalBackground() {
         ctx.stroke();
       });
 
+      // I. Render Mouse Click Effects (GIS Radar Waypoint Pings & Cosmic Spark Bursts)
+      for (let i = clickEffects.length - 1; i >= 0; i--) {
+        const fx = clickEffects[i];
+
+        if (fx.type === 'radar') {
+          fx.radius += 2.4;
+          fx.alpha *= 0.93;
+
+          ctx.beginPath();
+          ctx.arc(fx.x, fx.y, fx.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${primaryRgbStr}, ${fx.alpha})`;
+          ctx.lineWidth = 1.4;
+          ctx.stroke();
+
+          // Outer secondary ring
+          ctx.beginPath();
+          ctx.arc(fx.x, fx.y, Math.max(0, fx.radius - 12), 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${secondaryRgbStr}, ${fx.alpha * 0.6})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+
+          if (fx.radius >= fx.maxRadius || fx.alpha <= 0.03) {
+            clickEffects.splice(i, 1);
+          }
+        } else if (fx.type === 'spark') {
+          fx.x += fx.vx;
+          fx.y += fx.vy;
+          fx.vx *= 0.94;
+          fx.vy *= 0.94;
+          fx.alpha -= fx.decay;
+
+          ctx.beginPath();
+          ctx.arc(fx.x, fx.y, fx.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${primaryRgbStr}, ${Math.max(0, fx.alpha)})`;
+          ctx.fill();
+
+          if (fx.alpha <= 0.05) {
+            clickEffects.splice(i, 1);
+          }
+        }
+      }
+
       animationFrameId = requestAnimationFrame(render);
     };
 
@@ -390,6 +468,7 @@ export default function GlobalBackground() {
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('mouseleave', handleMouseLeave);
       observerTheme.disconnect();
