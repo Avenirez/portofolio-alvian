@@ -36,7 +36,7 @@ export const projectsData = [
     "categoryLabel": "E-Commerce",
     "description": "Platform e-commerce top-up game online murah, terpercaya & instan dengan integrasi pembayaran QRIS, promo flash sale, dan fitur lacak pesanan.",
     "fullDescription": "Kizu Topup adalah platform web e-commerce top-up game online 24/7. Menyediakan transaksi instan untuk 10+ game populer (Mobile Legends, Free Fire, Genshin Impact, PUBG Mobile, Valorant, HSR), fitur flash sale diskon otomatis, integrasi QRIS & E-Wallet, serta halaman lacak status transaksi.",
-    "image": "/projects/kizutopup.webp",
+    "image": "/projects/kizutopup.jpg",
     "demoUrl": "https://kizutopup.vercel.app/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
@@ -63,7 +63,7 @@ export const projectsData = [
     "categoryLabel": "Fullstack & Geographic Information System",
     "description": "Peta interaktif berbasis data OpenStreetMap (OSM) untuk memantau sebaran fasilitas publik riil di seluruh kelurahan DKI Jakarta secara real-time.",
     "fullDescription": "JakScope adalah platform pemetaan digital interaktif yang menyajikan data sebaran fasilitas sosial & publik seperti sekolah, puskesmas/klinik, taman hijau, hingga pos keamanan di seluruh kelurahan DKI Jakarta. Pengguna cukup mengklik wilayah kelurahan untuk melihat statistik dan lokasi fasilitas publik secara langsung.",
-    "image": "/projects/jakscope.webp",
+    "image": "/projects/jakscope.jpg",
     "demoUrl": "https://jakscope.vercel.app/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
@@ -91,7 +91,7 @@ export const projectsData = [
     "categoryLabel": "E-Commerce",
     "description": "Toko e-commerce akun digital premium dengan pengiriman instan otomatis 24/7, integrasi pembayaran QRIS, dan fitur lacak pesanan.",
     "fullDescription": "Lexaa Store adalah platform e-commerce yang menyediakan pembelian akun digital premium. Dilengkapi sistem checkout otomatis 24 jam non-stop, pengiriman detail akun instan setelah pembayaran QRIS, serta halaman lacak pesanan berbasis invoice.",
-    "image": "/projects/lexaastore.webp",
+    "image": "/projects/lexaastore.jpg",
     "demoUrl": "https://lexaastore.cloud/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
@@ -118,7 +118,7 @@ export const projectsData = [
     "categoryLabel": "Frontend & Web App",
     "description": "Aplikasi cuaca modern dengan visualisasi dinamis, peta temperatur geografis Leaflet, dan indeks kualitas cuaca real-time.",
     "fullDescription": "SkyFlow adalah aplikasi prakiraan cuaca interaktif berbasis Svelte yang menampilkan informasi suhu, kelembapan, kecepatan angin, hingga indeks UV di berbagai kota di dunia. Menggunakan Leaflet.js untuk menyajikan lokasi cuaca di atas peta interaktif.",
-    "image": "/projects/skyflow.webp",
+    "image": "/projects/skyflow.jpg",
     "demoUrl": "https://avenirez-weather.vercel.app/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
@@ -145,7 +145,7 @@ export const projectsData = [
     "categoryLabel": "Frontend & Web App",
     "description": "Aplikasi pengelolaan keuangan pribadi interaktif untuk mencatat arus kas, pengeluaran bulanan, dan visualisasi grafik anggaran.",
     "fullDescription": "Fintrack membantu pengguna mengontrol keuangan pribadi dengan lebih bijak. Dilengkapi ringkasan saldo, statistik grafik pemasukan vs pengeluaran, kategorisasi transaksi, serta pembuatan batas anggaran bulanan.",
-    "image": "/projects/fintrack.webp",
+    "image": "/projects/fintrack.jpg",
     "demoUrl": "https://avenirez-fintrack.vercel.app/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
@@ -172,7 +172,7 @@ export const projectsData = [
     "categoryLabel": "Frontend & Web App",
     "description": "Platform penjelajah film modern dengan trailer player interaktif, jajaran trending, filter genre, dan simpan ke watchlist.",
     "fullDescription": "Pentaflix menghadirkan pengalaman menjelajahi katalog film kelas dunia. Pengguna dapat menonton trailer HD secara langsung, melihat jajaran film trending & top-rated, memfilter genre favorit, serta menyimpan film ke dalam daftar tontonan (watchlist).",
-    "image": "/projects/pentaflix.webp",
+    "image": "/projects/pentaflix.jpg",
     "demoUrl": "https://avenirez-pentaflix.vercel.app/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
@@ -199,7 +199,7 @@ export const projectsData = [
     "categoryLabel": "Frontend & Web App",
     "description": "Aplikasi manajemen tugas produktivitas dengan statistik progres, skala prioritas warna, kategori tugas, dan pencarian instan.",
     "fullDescription": "TaskFlow (Tugasku) adalah web app pengelola tugas harian yang dilengkapi indikator persentase progres tugas, pemilahan tingkat prioritas (Tinggi, Sedang, Rendah), tenggat waktu, dan filter status tugas (Semua, Aktif, Selesai).",
-    "image": "/projects/taskflow.webp",
+    "image": "/projects/taskflow.jpg",
     "demoUrl": "https://avenirez-taskflow.vercel.app/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
