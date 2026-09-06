@@ -164,20 +164,32 @@ export default function ProjectCard({ project, index, onSelectProject }) {
           </button>
         </div>
 
+        {/* Top Vignette Gradient Overlay for better contrast & chamfer integration */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '60px',
+          background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.45) 0%, transparent 100%)',
+          pointerEvents: 'none',
+          zIndex: 2
+        }} />
+
         {/* Featured Badge */}
         {project.featured && (
           <div style={{
             position: 'absolute',
-            top: '12px',
-            left: '12px',
+            top: '16px',
+            left: '18px',
             background: 'var(--accent-gradient)',
             color: '#ffffff',
-            padding: '4px 12px',
+            padding: '5px 14px',
             clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
             fontSize: '0.75rem',
             fontWeight: '700',
-            boxShadow: '0 4px 12px var(--accent-glow)',
-            zIndex: 3
+            boxShadow: '0 4px 14px var(--accent-glow)',
+            zIndex: 4
           }}>
             Featured
           </div>
@@ -186,16 +198,18 @@ export default function ProjectCard({ project, index, onSelectProject }) {
         {/* Category Label */}
         <div style={{
           position: 'absolute',
-          bottom: '12px',
-          right: '12px',
-          background: 'rgba(0, 0, 0, 0.65)',
+          bottom: '14px',
+          right: '14px',
+          background: 'rgba(5, 8, 16, 0.75)',
           backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
           color: '#ffffff',
-          padding: '4px 10px',
-          borderRadius: 'var(--radius-sm)',
+          padding: '4px 12px',
+          clipPath: 'polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px)',
           fontSize: '0.75rem',
           fontWeight: '600',
-          zIndex: 3
+          zIndex: 4
         }}>
           {project.categoryLabel}
         </div>
