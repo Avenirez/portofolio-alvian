@@ -42,32 +42,39 @@ export default function GlobalBackground() {
       const clickX = e.clientX;
       const clickY = e.clientY;
 
-      // 1. GIS Radar Waypoint Ping Ring Wave
-      clickEffects.push({
-        type: 'radar',
-        x: clickX,
-        y: clickY,
-        radius: 4,
-        maxRadius: 65,
-        alpha: 0.85
-      });
+      // Cosmic Supernova Stardust Explosion Particles
+      const particles = [];
+      const particleCount = 36;
+      const starColors = ['#ffffff', '#fbbf24', '#f59e0b', '#ec4899', '#3b82f6', '#60a5fa', '#a855f7'];
 
-      // 2. Cosmic Supernova Stardust Burst Particles
-      const burstCount = 12;
-      for (let i = 0; i < burstCount; i++) {
-        const angle = (Math.PI * 2 * i) / burstCount + (Math.random() - 0.5) * 0.4;
-        const speed = Math.random() * 3.5 + 1.5;
-        clickEffects.push({
-          type: 'spark',
+      for (let i = 0; i < particleCount; i++) {
+        const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.4;
+        const speed = Math.random() * 6.5 + 2.5;
+        particles.push({
           x: clickX,
           y: clickY,
           vx: Math.cos(angle) * speed,
           vy: Math.sin(angle) * speed,
-          size: Math.random() * 2.2 + 1,
+          size: Math.random() * 3.2 + 1.2,
+          color: starColors[Math.floor(Math.random() * starColors.length)],
           alpha: 1,
-          decay: Math.random() * 0.025 + 0.02
+          decay: Math.random() * 0.02 + 0.012,
+          isStarShape: Math.random() > 0.35
         });
       }
+
+      clickEffects.push({
+        type: 'supernova',
+        x: clickX,
+        y: clickY,
+        coreRadius: 3,
+        maxCoreRadius: 85,
+        shockwaveRadius: 6,
+        maxShockwaveRadius: 150,
+        starFlareScale: 1,
+        alpha: 1,
+        particles
+      });
     };
 
     const handleScroll = () => {
@@ -418,43 +425,124 @@ export default function GlobalBackground() {
         ctx.stroke();
       });
 
-      // I. Render Mouse Click Effects (GIS Radar Waypoint Pings & Cosmic Spark Bursts)
+      // I. Render Supernova Mouse Click Explosions
       for (let i = clickEffects.length - 1; i >= 0; i--) {
         const fx = clickEffects[i];
 
-        if (fx.type === 'radar') {
-          fx.radius += 2.4;
+        if (fx.type === 'supernova') {
+          fx.coreRadius += 3.8;
+          fx.shockwaveRadius += 6.0;
           fx.alpha *= 0.93;
+          fx.starFlareScale *= 0.91;
 
-          ctx.beginPath();
-          ctx.arc(fx.x, fx.y, fx.radius, 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(${primaryRgbStr}, ${fx.alpha})`;
-          ctx.lineWidth = 1.4;
-          ctx.stroke();
+          const currentAlpha = Math.max(0, fx.alpha);
 
-          // Outer secondary ring
-          ctx.beginPath();
-          ctx.arc(fx.x, fx.y, Math.max(0, fx.radius - 12), 0, Math.PI * 2);
-          ctx.strokeStyle = `rgba(${secondaryRgbStr}, ${fx.alpha * 0.6})`;
-          ctx.lineWidth = 0.8;
-          ctx.stroke();
+          // 1. Central Supernova Flash Core
+          if (fx.coreRadius < fx.maxCoreRadius && currentAlpha > 0.03) {
+            const grad = ctx.createRadialGradient(fx.x, fx.y, 0, fx.x, fx.y, fx.coreRadius);
+            grad.addColorStop(0, `rgba(255, 255, 255, ${currentAlpha * 0.95})`);
+            grad.addColorStop(0.3, `rgba(${primaryRgbStr}, ${currentAlpha * 0.75})`);
+            grad.addColorStop(0.65, `rgba(${secondaryRgbStr}, ${currentAlpha * 0.4})`);
+            grad.addColorStop(1, 'transparent');
 
-          if (fx.radius >= fx.maxRadius || fx.alpha <= 0.03) {
-            clickEffects.splice(i, 1);
+            ctx.beginPath();
+            ctx.arc(fx.x, fx.y, fx.coreRadius, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
           }
-        } else if (fx.type === 'spark') {
-          fx.x += fx.vx;
-          fx.y += fx.vy;
-          fx.vx *= 0.94;
-          fx.vy *= 0.94;
-          fx.alpha -= fx.decay;
 
-          ctx.beginPath();
-          ctx.arc(fx.x, fx.y, fx.size, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${primaryRgbStr}, ${Math.max(0, fx.alpha)})`;
-          ctx.fill();
+          // 2. Exploding 4-Point Diffraction Star Flare Beams
+          if (fx.starFlareScale > 0.06 && currentAlpha > 0.05) {
+            const flareLength = 75 * fx.starFlareScale;
+            ctx.save();
+            ctx.translate(fx.x, fx.y);
 
-          if (fx.alpha <= 0.05) {
+            // Horizontal & Vertical major flare beams
+            ctx.beginPath();
+            ctx.moveTo(-flareLength, 0);
+            ctx.lineTo(flareLength, 0);
+            ctx.moveTo(0, -flareLength);
+            ctx.lineTo(0, flareLength);
+            ctx.strokeStyle = `rgba(255, 255, 255, ${currentAlpha * 0.95})`;
+            ctx.lineWidth = 2.2 * fx.starFlareScale;
+            ctx.stroke();
+
+            // Diagonal secondary flare beams
+            const diagLength = flareLength * 0.55;
+            ctx.beginPath();
+            ctx.moveTo(-diagLength, -diagLength);
+            ctx.lineTo(diagLength, diagLength);
+            ctx.moveTo(diagLength, -diagLength);
+            ctx.lineTo(-diagLength, diagLength);
+            ctx.strokeStyle = `rgba(${primaryRgbStr}, ${currentAlpha * 0.8})`;
+            ctx.lineWidth = 1.4 * fx.starFlareScale;
+            ctx.stroke();
+
+            ctx.restore();
+          }
+
+          // 3. Dual Expanding Supernova Shockwave Rings
+          if (fx.shockwaveRadius < fx.maxShockwaveRadius && currentAlpha > 0.02) {
+            ctx.beginPath();
+            ctx.arc(fx.x, fx.y, fx.shockwaveRadius, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(${primaryRgbStr}, ${currentAlpha * 0.8})`;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(fx.x, fx.y, Math.max(0, fx.shockwaveRadius * 0.65), 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(${secondaryRgbStr}, ${currentAlpha * 0.5})`;
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+          }
+
+          // 4. Stardust Particles & Light Trails
+          for (let pIdx = fx.particles.length - 1; pIdx >= 0; pIdx--) {
+            const p = fx.particles[pIdx];
+            const prevX = p.x;
+            const prevY = p.y;
+
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vx *= 0.94;
+            p.vy *= 0.94;
+            p.alpha -= p.decay;
+
+            if (p.alpha <= 0.02) {
+              fx.particles.splice(pIdx, 1);
+              continue;
+            }
+
+            const pAlpha = Math.max(0, p.alpha);
+
+            // Light streak trail
+            ctx.beginPath();
+            ctx.moveTo(prevX, prevY);
+            ctx.lineTo(p.x, p.y);
+            ctx.strokeStyle = p.color;
+            ctx.globalAlpha = pAlpha * 0.75;
+            ctx.lineWidth = p.size * 0.75;
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+
+            // Star spark dot / star symbol
+            if (p.isStarShape) {
+              ctx.font = `${Math.floor(p.size * 3.8)}px sans-serif`;
+              ctx.fillStyle = p.color;
+              ctx.globalAlpha = pAlpha;
+              ctx.fillText('✦', p.x, p.y);
+              ctx.globalAlpha = 1;
+            } else {
+              ctx.beginPath();
+              ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+              ctx.fillStyle = p.color;
+              ctx.globalAlpha = pAlpha;
+              ctx.fill();
+              ctx.globalAlpha = 1;
+            }
+          }
+
+          if (currentAlpha <= 0.02 && fx.particles.length === 0) {
             clickEffects.splice(i, 1);
           }
         }
