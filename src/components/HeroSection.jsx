@@ -32,100 +32,95 @@ const wordVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } }
 };
 
-function TypewriterTitle({ name = personalInfo.name }) {
-  const fullText = `Hi, I'm ${name}`;
-  const [charCount, setCharCount] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
+function SequentialTypewriterHeadline({ name = personalInfo.name, role = personalInfo.role }) {
+  const titleText = `Hi, I'm ${name}`;
+  const roleText = role;
+
+  const [titleCount, setTitleCount] = useState(0);
+  const [roleCount, setRoleCount] = useState(0);
+  const [phase, setPhase] = useState('TYPING_TITLE');
 
   useEffect(() => {
     let timeout;
-    if (!isDeleting && charCount < fullText.length) {
-      timeout = setTimeout(() => {
-        setCharCount((prev) => prev + 1);
-      }, 70);
-    } else if (!isDeleting && charCount === fullText.length) {
-      timeout = setTimeout(() => {
-        setIsDeleting(true);
-      }, 3000);
-    } else if (isDeleting && charCount > 0) {
-      timeout = setTimeout(() => {
-        setCharCount((prev) => prev - 1);
-      }, 35);
-    } else if (isDeleting && charCount === 0) {
-      timeout = setTimeout(() => {
-        setIsDeleting(false);
-      }, 400);
+
+    if (phase === 'TYPING_TITLE') {
+      if (titleCount < titleText.length) {
+        timeout = setTimeout(() => setTitleCount((prev) => prev + 1), 65);
+      } else {
+        setPhase('TYPING_ROLE');
+      }
+    } else if (phase === 'TYPING_ROLE') {
+      if (roleCount < roleText.length) {
+        timeout = setTimeout(() => setRoleCount((prev) => prev + 1), 75);
+      } else {
+        setPhase('HOLD');
+      }
+    } else if (phase === 'HOLD') {
+      timeout = setTimeout(() => setPhase('ERASING_ROLE'), 3500);
+    } else if (phase === 'ERASING_ROLE') {
+      if (roleCount > 0) {
+        timeout = setTimeout(() => setRoleCount((prev) => prev - 1), 35);
+      } else {
+        setPhase('ERASING_TITLE');
+      }
+    } else if (phase === 'ERASING_TITLE') {
+      if (titleCount > 0) {
+        timeout = setTimeout(() => setTitleCount((prev) => prev - 1), 30);
+      } else {
+        setPhase('PAUSE');
+      }
+    } else if (phase === 'PAUSE') {
+      timeout = setTimeout(() => setPhase('TYPING_TITLE'), 400);
     }
 
     return () => clearTimeout(timeout);
-  }, [charCount, isDeleting, fullText.length]);
+  }, [phase, titleCount, roleCount, titleText.length, roleText.length]);
 
-  const currentText = fullText.slice(0, charCount);
+  const currentTitle = titleText.slice(0, titleCount);
+  const currentRole = roleText.slice(0, roleCount);
 
-  return (
-    <motion.h1
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      style={{
-        fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)',
-        fontWeight: '800',
-        lineHeight: 1.15,
-        marginBottom: '12px',
-        letterSpacing: '-0.02em',
-        color: '#ffffff',
-        display: 'inline-flex',
-        alignItems: 'baseline',
-        flexWrap: 'wrap'
-      }}
-    >
-      <span className="text-shimmer">{currentText}</span>
-      <span className="typing-cursor" />
-    </motion.h1>
-  );
-}
-
-function TypewriterRole({ role = personalInfo.role }) {
-  const [charCount, setCharCount] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    let timeout;
-    if (!isDeleting && charCount < role.length) {
-      timeout = setTimeout(() => {
-        setCharCount((prev) => prev + 1);
-      }, 80);
-    } else if (!isDeleting && charCount === role.length) {
-      timeout = setTimeout(() => {
-        setIsDeleting(true);
-      }, 3500);
-    } else if (isDeleting && charCount > 0) {
-      timeout = setTimeout(() => {
-        setCharCount((prev) => prev - 1);
-      }, 45);
-    } else if (isDeleting && charCount === 0) {
-      timeout = setTimeout(() => {
-        setIsDeleting(false);
-      }, 500);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [charCount, isDeleting, role.length]);
-
-  const currentRole = role.slice(0, charCount);
+  const isCursorOnTitle = phase === 'TYPING_TITLE' || (phase === 'ERASING_TITLE' && roleCount === 0);
+  const isCursorOnRole = phase === 'TYPING_ROLE' || phase === 'HOLD' || phase === 'ERASING_ROLE';
 
   return (
-    <motion.h2 variants={itemVariants} style={{
-      fontSize: 'clamp(1.2rem, 2.2vw, 1.75rem)',
-      fontWeight: '700',
-      marginBottom: '16px',
-      lineHeight: 1.3,
-      display: 'inline-flex',
-      alignItems: 'center'
-    }}>
-      <span className="gradient-text">{currentRole}</span>
-      <span className="typing-cursor" style={{ height: '0.75em', width: '3px' }} />
-    </motion.h2>
+    <div style={{ marginBottom: '16px' }}>
+      {/* Title H1 */}
+      <motion.h1
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        style={{
+          fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)',
+          fontWeight: '800',
+          lineHeight: 1.15,
+          marginBottom: '10px',
+          letterSpacing: '-0.02em',
+          color: '#ffffff',
+          display: 'flex',
+          alignItems: 'baseline',
+          flexWrap: 'wrap'
+        }}
+      >
+        <span className="text-shimmer">{currentTitle}</span>
+        {isCursorOnTitle && <span className="typing-cursor" />}
+      </motion.h1>
+
+      {/* Subtitle H2 */}
+      <motion.h2
+        variants={itemVariants}
+        style={{
+          fontSize: 'clamp(1.2rem, 2.2vw, 1.75rem)',
+          fontWeight: '700',
+          lineHeight: 1.3,
+          minHeight: '2.2rem',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
+        <span className="gradient-text">{currentRole}</span>
+        {isCursorOnRole && <span className="typing-cursor" style={{ height: '0.75em', width: '3px' }} />}
+      </motion.h2>
+    </div>
   );
 }
 
@@ -211,11 +206,8 @@ export default function HeroSection() {
 
             {/* Terminal Body */}
             <div className="terminal-body">
-              {/* Main Title with Coding Typing Animation */}
-              <TypewriterTitle name={personalInfo.name} />
-
-              {/* Subtitle / Tagline with Typing Animation */}
-              <TypewriterRole role={personalInfo.role} />
+              {/* Sequential Typewriter Headline (Title -> Role) */}
+              <SequentialTypewriterHeadline name={personalInfo.name} role={personalInfo.role} />
 
               {/* Bio Description */}
               <motion.p variants={itemVariants} style={{
