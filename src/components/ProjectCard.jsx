@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
 import BorderBeam from './BorderBeam';
 
@@ -7,6 +7,7 @@ export default function ProjectCard({ project, index, onSelectProject }) {
   const rectRef = useRef(null);
   const rafRef = useRef(null);
   const lastEventRef = useRef(null);
+  const [isFlipping, setIsFlipping] = useState(false);
 
   const isBentoHero = index === 0;
 
@@ -70,14 +71,34 @@ export default function ProjectCard({ project, index, onSelectProject }) {
     spotOpacity.set(0);
   };
 
+  const handleCardClick = (e) => {
+    // Trigger 3D Spin Rotation Animation
+    setIsFlipping(true);
+    setTimeout(() => {
+      setIsFlipping(false);
+    }, 700);
+  };
+
   return (
     <motion.div
       ref={cardRef}
       initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
+      animate={{ opacity: 1, scale: 1, rotateY: isFlipping ? 360 : 0 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      whileTap={{ scale: 0.97, transition: { duration: 0.12 } }}
-      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      drag
+      dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+      dragElastic={0.45}
+      dragSnapToOrigin={true}
+      whileDrag={{
+        scale: 1.06,
+        rotateZ: 4,
+        zIndex: 99,
+        cursor: 'grabbing',
+        boxShadow: '0 30px 60px rgba(0,0,0,0.85), 0 0 40px var(--accent-glow)'
+      }}
+      whileTap={{ scale: 0.97 }}
+      transition={isFlipping ? { duration: 0.7, ease: [0.34, 1.56, 0.64, 1] } : { duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      onClick={handleCardClick}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -93,7 +114,7 @@ export default function ProjectCard({ project, index, onSelectProject }) {
         rotateY,
         transformStyle: 'preserve-3d',
         perspective: 1000,
-        cursor: 'pointer'
+        cursor: 'grab'
       }}
     >
 
