@@ -13,8 +13,9 @@ export default function GlobalBackground() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     let animationFrameId;
+    let isVisible = true;
 
     let width = (canvas.width = window.innerWidth);
     let height = (canvas.height = window.innerHeight);
@@ -27,41 +28,52 @@ export default function GlobalBackground() {
 
     window.addEventListener('resize', handleResize);
 
-    // Particle constellation system
-    const particleCount = Math.min(Math.floor(width / 18), 65);
-    const particles = Array.from({ length: particleCount }, () => ({
+    // Pause animation when background is not visible (performance saver)
+    const observerVisibility = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) {
+        cancelAnimationFrame(animationFrameId);
+        render();
+      }
+    });
+    observerVisibility.observe(canvas);
+
+    // Cosmic Space Starfield System (Twinkling Stars)
+    const starCount = Math.min(Math.floor((width * height) / 12000), 75);
+    const stars = Array.from({ length: starCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 2.2 + 0.8,
-      speedY: Math.random() * 0.45 + 0.15,
-      speedX: (Math.random() - 0.5) * 0.35,
-      opacity: Math.random() * 0.6 + 0.2,
-      pulseSpeed: Math.random() * 0.02 + 0.005
+      size: Math.random() * 1.8 + 0.5,
+      alpha: Math.random() * 0.7 + 0.2,
+      twinkleSpeed: Math.random() * 0.015 + 0.005,
+      twinkleDir: Math.random() > 0.5 ? 1 : -1,
+      speedY: Math.random() * 0.25 + 0.05,
+      speedX: (Math.random() - 0.5) * 0.15
     }));
 
-    // Floating tech symbols
-    const techSymbols = ['{ }', '</>', '01', 'JS', 'React', 'Vite', 'GIS', 'API', 'SQL', 'CSS'];
-    const floatingNodes = Array.from({ length: 12 }, () => ({
+    // Floating tech & space symbols
+    const techSymbols = ['{ }', '</>', '01', 'JS', 'React', 'Vite', 'GIS', 'API', 'SQL', 'CSS', '🪐', '✦'];
+    const floatingNodes = Array.from({ length: 10 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       symbol: techSymbols[Math.floor(Math.random() * techSymbols.length)],
-      speedY: Math.random() * 0.3 + 0.1,
-      speedX: (Math.random() - 0.5) * 0.2,
-      opacity: Math.random() * 0.3 + 0.1,
+      speedY: Math.random() * 0.25 + 0.1,
+      speedX: (Math.random() - 0.5) * 0.15,
+      opacity: Math.random() * 0.25 + 0.1,
       size: Math.floor(Math.random() * 6) + 12
     }));
 
-    // Shooting Meteors
-    const meteors = Array.from({ length: 4 }, () => ({
+    // Space Shooting Meteors
+    const meteors = Array.from({ length: 3 }, () => ({
       x: Math.random() * width * 1.5,
-      y: Math.random() * height * 0.5 - 200,
-      length: Math.random() * 80 + 50,
-      speed: Math.random() * 4 + 2,
+      y: Math.random() * height * 0.4 - 200,
+      length: Math.random() * 100 + 60,
+      speed: Math.random() * 4 + 2.5,
       opacity: Math.random() * 0.7 + 0.3,
       size: Math.random() * 1.5 + 0.8
     }));
 
-    // Dynamic theme accent color parser for HTML5 Canvas
+    // Dynamic theme accent color parser
     const parseHexToRgb = (hexStr) => {
       if (!hexStr) return { r: 245, g: 158, b: 11 };
       let clean = hexStr.replace('#', '').trim();
@@ -89,60 +101,71 @@ export default function GlobalBackground() {
 
     let themeColors = getThemeRgbColors();
 
-    // Listen to theme attribute changes on <html> element
-    const observer = new MutationObserver(() => {
+    const observerTheme = new MutationObserver(() => {
       themeColors = getThemeRgbColors();
     });
-    observer.observe(document.documentElement, {
+    observerTheme.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme', 'data-mode']
     });
 
     const render = () => {
+      if (!isVisible) return;
+
       ctx.clearRect(0, 0, width, height);
       const { primary, secondary } = themeColors;
       const primaryRgbStr = `${primary.r}, ${primary.g}, ${primary.b}`;
       const secondaryRgbStr = `${secondary.r}, ${secondary.g}, ${secondary.b}`;
 
-      // Draw constellation connecting lines between close particles
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
+      // 1. Render Cosmic Constellation Lines
+      const maxDist = 120;
+      for (let i = 0; i < stars.length; i++) {
+        for (let j = i + 1; j < stars.length; j++) {
+          const dx = stars[i].x - stars[j].x;
+          const dy = stars[i].y - stars[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < 110) {
+          if (dist < maxDist) {
+            const lineOpacity = (1 - dist / maxDist) * 0.14 * stars[i].alpha;
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(${primaryRgbStr}, ${(1 - dist / 110) * 0.18})`;
-            ctx.lineWidth = 0.6;
+            ctx.moveTo(stars[i].x, stars[i].y);
+            ctx.lineTo(stars[j].x, stars[j].y);
+            ctx.strokeStyle = `rgba(${primaryRgbStr}, ${lineOpacity})`;
+            ctx.lineWidth = 0.5;
             ctx.stroke();
           }
         }
       }
 
-      // Render glowing particle dots
-      particles.forEach((p) => {
-        p.y -= p.speedY;
-        p.x += p.speedX;
+      // 2. Render Twinkling Space Stars (Optimized without shadowBlur)
+      stars.forEach((s) => {
+        s.y -= s.speedY;
+        s.x += s.speedX;
 
-        if (p.y < -10) {
-          p.y = height + 10;
-          p.x = Math.random() * width;
+        // Twinkle pulse effect
+        s.alpha += s.twinkleSpeed * s.twinkleDir;
+        if (s.alpha >= 0.85) {
+          s.alpha = 0.85;
+          s.twinkleDir = -1;
+        } else if (s.alpha <= 0.15) {
+          s.alpha = 0.15;
+          s.twinkleDir = 1;
         }
-        if (p.x < -10) p.x = width + 10;
-        if (p.x > width + 10) p.x = -10;
+
+        if (s.y < -10) {
+          s.y = height + 10;
+          s.x = Math.random() * width;
+        }
+        if (s.x < -10) s.x = width + 10;
+        if (s.x > width + 10) s.x = -10;
 
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = `rgba(${primaryRgbStr}, 0.6)`;
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
         ctx.fill();
       });
 
-      // Render floating code symbols
+      // 3. Render Floating Tech & Space Code Symbols
       ctx.font = '600 13px Space Grotesk, monospace';
       floatingNodes.forEach((node) => {
         node.y -= node.speedY;
@@ -159,9 +182,9 @@ export default function GlobalBackground() {
         ctx.fillText(node.symbol, node.x, node.y);
       });
 
-      // Render shooting meteors
+      // 4. Render Space Meteors (Shooting Stars)
       meteors.forEach((m) => {
-        m.x -= m.speed * 1.4;
+        m.x -= m.speed * 1.5;
         m.y += m.speed;
 
         if (m.y > height + 100 || m.x < -100) {
@@ -172,7 +195,7 @@ export default function GlobalBackground() {
 
         const gradient = ctx.createLinearGradient(m.x, m.y, m.x + m.length, m.y - m.length);
         gradient.addColorStop(0, `rgba(${primaryRgbStr}, ${m.opacity})`);
-        gradient.addColorStop(0.5, `rgba(${secondaryRgbStr}, ${m.opacity * 0.6})`);
+        gradient.addColorStop(0.5, `rgba(${secondaryRgbStr}, ${m.opacity * 0.5})`);
         gradient.addColorStop(1, 'transparent');
 
         ctx.beginPath();
@@ -190,7 +213,8 @@ export default function GlobalBackground() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      observer.disconnect();
+      observerTheme.disconnect();
+      observerVisibility.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

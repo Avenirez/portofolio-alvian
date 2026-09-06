@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
+import Preloader from './components/Preloader';
 import CursorGlow from './components/CursorGlow';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import GlobalBackground from './components/GlobalBackground';
@@ -17,9 +18,17 @@ export default function App() {
   const [currentTheme, setTheme] = useState(() => {
     return localStorage.getItem('portfolio-theme') || 'sunset';
   });
+  const [isLoading, setIsLoading] = useState(() => {
+    return !sessionStorage.getItem('portfolio-preloader-seen');
+  });
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
+
+  const handlePreloaderComplete = () => {
+    sessionStorage.setItem('portfolio-preloader-seen', 'true');
+    setIsLoading(false);
+  };
 
   // Apply Theme & Dark mode attribute to HTML root element
   useEffect(() => {
@@ -49,6 +58,13 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      {/* Initial Cyber Preloader Screen */}
+      <AnimatePresence>
+        {isLoading && (
+          <Preloader key="initial-preloader" onComplete={handlePreloaderComplete} />
+        )}
+      </AnimatePresence>
+
       {/* Global Multi-Layered Background System */}
       <GlobalBackground />
 

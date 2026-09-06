@@ -123,11 +123,11 @@ export default function ProjectCard({ project, index, onSelectProject }) {
       }}>
         <motion.img
           layoutId={`project-image-${project.id}`}
-          src={`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`}
+          src={project.image}
           onError={(e) => {
-            if (!e.target.dataset.triedLocal) {
-              e.target.dataset.triedLocal = 'true';
-              e.target.src = project.image;
+            if (!e.target.dataset.triedMshots) {
+              e.target.dataset.triedMshots = 'true';
+              e.target.src = `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`;
             }
           }}
           alt={project.title}
