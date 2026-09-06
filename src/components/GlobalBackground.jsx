@@ -38,67 +38,45 @@ export default function GlobalBackground() {
       mouse.active = false;
     };
 
-    const handleMouseDown = (e) => {
-      const clickX = e.clientX;
-      const clickY = e.clientY;
-
-      // Cosmic Supernova Stardust Explosion Particles
-      const particles = [];
-      const particleCount = 36;
-      const starColors = ['#ffffff', '#fbbf24', '#f59e0b', '#ec4899', '#3b82f6', '#60a5fa', '#a855f7'];
-
-      for (let i = 0; i < particleCount; i++) {
-        const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.4;
-        const speed = Math.random() * 6.5 + 2.5;
-        particles.push({
-          x: clickX,
-          y: clickY,
+    const spawnWhiteStardustBurst = (clickX, clickY) => {
+      // Spawn 50 drifting white stardust dots (bintik-bintik putih berpendar ✦)
+      const whiteDotsCount = 50;
+      for (let i = 0; i < whiteDotsCount; i++) {
+        const angle = (Math.PI * 2 * i) / whiteDotsCount + (Math.random() - 0.5) * 0.5;
+        const speed = Math.random() * 6.0 + 2.0;
+        clickEffects.push({
+          type: 'driftingWhiteDot',
+          x: clickX + (Math.random() - 0.5) * 30,
+          y: clickY + (Math.random() - 0.5) * 30,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          size: Math.random() * 3.2 + 1.2,
-          color: starColors[Math.floor(Math.random() * starColors.length)],
+          vy: Math.sin(angle) * speed - 1.2, // gentle upward drifting bias
+          size: Math.random() * 3.5 + 1.2,
+          color: Math.random() > 0.2 ? '#ffffff' : '#f8fafc',
           alpha: 1,
-          decay: Math.random() * 0.02 + 0.012,
-          isStarShape: Math.random() > 0.35
+          decay: Math.random() * 0.012 + 0.007,
+          isStarSymbol: Math.random() > 0.4
         });
       }
 
+      // Add expanding glowing white shockwave ring
       clickEffects.push({
-        type: 'supernova',
+        type: 'whiteShockwave',
         x: clickX,
         y: clickY,
-        coreRadius: 3,
-        maxCoreRadius: 85,
-        shockwaveRadius: 6,
-        maxShockwaveRadius: 150,
-        starFlareScale: 1,
-        alpha: 1,
-        particles
+        radius: 4,
+        maxRadius: 110,
+        alpha: 0.95
       });
+    };
+
+    const handleMouseDown = (e) => {
+      spawnWhiteStardustBurst(e.clientX, e.clientY);
     };
 
     const handleCardSpinBurst = (e) => {
       const clickX = e.detail?.x || width / 2;
       const clickY = e.detail?.y || height / 2;
-
-      // Spawn 45 drifting white stardust dots (bintik-bintik putih)
-      const whiteDotsCount = 45;
-      for (let i = 0; i < whiteDotsCount; i++) {
-        const angle = (Math.PI * 2 * i) / whiteDotsCount + (Math.random() - 0.5) * 0.6;
-        const speed = Math.random() * 5.5 + 2.0;
-        clickEffects.push({
-          type: 'driftingWhiteDot',
-          x: clickX + (Math.random() - 0.5) * 60,
-          y: clickY + (Math.random() - 0.5) * 60,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 1.5, // upward drifting bias
-          size: Math.random() * 3.0 + 1.2,
-          color: Math.random() > 0.25 ? '#ffffff' : '#f8fafc',
-          alpha: 1,
-          decay: Math.random() * 0.014 + 0.008,
-          isStarSymbol: Math.random() > 0.45
-        });
-      }
+      spawnWhiteStardustBurst(clickX, clickY);
     };
 
     const handleScroll = () => {
@@ -570,6 +548,32 @@ export default function GlobalBackground() {
           if (currentAlpha <= 0.02 && fx.particles.length === 0) {
             clickEffects.splice(i, 1);
           }
+        } else if (fx.type === 'whiteShockwave') {
+          fx.radius += 4.5;
+          fx.alpha *= 0.92;
+
+          if (fx.alpha <= 0.02 || fx.radius >= fx.maxRadius) {
+            clickEffects.splice(i, 1);
+            continue;
+          }
+
+          const ringAlpha = Math.max(0, fx.alpha);
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(fx.x, fx.y, fx.radius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${ringAlpha * 0.8})`;
+          ctx.shadowColor = 'rgba(255, 255, 255, 0.9)';
+          ctx.shadowBlur = 12;
+          ctx.lineWidth = 1.6;
+          ctx.stroke();
+
+          // Inner subtle ring
+          ctx.beginPath();
+          ctx.arc(fx.x, fx.y, Math.max(0, fx.radius - 14), 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${ringAlpha * 0.4})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+          ctx.restore();
         } else if (fx.type === 'driftingWhiteDot') {
           fx.x += fx.vx;
           fx.y += fx.vy;
