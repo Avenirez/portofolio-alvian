@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Preloader from './components/Preloader';
@@ -13,12 +13,30 @@ import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import { projectsData } from './data/projectsData';
 
+// Safe web storage wrapper for Incognito / Sandboxed environments
+const safeStorage = {
+  get: (type, key, fallback = null) => {
+    try {
+      const storage = type === 'local' ? window.localStorage : window.sessionStorage;
+      return storage ? storage.getItem(key) || fallback : fallback;
+    } catch (e) {
+      return fallback;
+    }
+  },
+  set: (type, key, val) => {
+    try {
+      const storage = type === 'local' ? window.localStorage : window.sessionStorage;
+      if (storage) storage.setItem(key, val);
+    } catch (e) {}
+  }
+};
+
 export default function App() {
   const [currentTheme, setTheme] = useState(() => {
-    return localStorage.getItem('portfolio-theme') || 'sunset';
+    return safeStorage.get('local', 'portfolio-theme', 'sunset');
   });
   const [isLoading, setIsLoading] = useState(() => {
-    return !sessionStorage.getItem('portfolio-preloader-seen');
+    return !safeStorage.get('session', 'portfolio-preloader-seen');
   });
   const [projectsList, setProjectsList] = useState(projectsData);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -31,7 +49,7 @@ export default function App() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   const handlePreloaderComplete = useCallback(() => {
-    sessionStorage.setItem('portfolio-preloader-seen', 'true');
+    safeStorage.set('session', 'portfolio-preloader-seen', 'true');
     setIsLoading(false);
   }, []);
 
@@ -48,9 +66,11 @@ export default function App() {
 
   // Apply Theme & Dark mode attribute to HTML root element
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', currentTheme);
-    document.documentElement.setAttribute('data-mode', 'dark');
-    localStorage.setItem('portfolio-theme', currentTheme);
+    try {
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      document.documentElement.setAttribute('data-mode', 'dark');
+    } catch (e) {}
+    safeStorage.set('local', 'portfolio-theme', currentTheme);
   }, [currentTheme]);
 
   // Auto-shift project cards left/right every 3.0 seconds
@@ -66,20 +86,6 @@ export default function App() {
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, isPausedByHover, isClickPaused, projectsList.length]);
-
-  const handleNextShift = () => {
-    setProjectsList((prevList) => {
-      if (prevList.length <= 1) return prevList;
-      return [...prevList.slice(1), prevList[0]];
-    });
-  };
-
-  const handlePrevShift = () => {
-    setProjectsList((prevList) => {
-      if (prevList.length <= 1) return prevList;
-      return [prevList[prevList.length - 1], ...prevList.slice(0, prevList.length - 1)];
-    });
-  };
 
   // Filter projects by category & search query
   const filteredProjects = projectsList.filter((project) => {
@@ -188,8 +194,6 @@ export default function App() {
             </AnimatePresence>
           </div>
         </section>
-
-        {/* Tech Stack Section */}
 
         {/* Tech Stack Section */}
         <TechStack />
