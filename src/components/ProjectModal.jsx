@@ -95,7 +95,7 @@ export default function ProjectModal({ project, onClose }) {
         }}>
           <motion.img
             layoutId={`project-image-${project.id}`}
-            src={`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`}
+            src={`https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl.includes('?') ? project.demoUrl : `${project.demoUrl}${project.demoUrl.endsWith('/') ? '' : '/'}?v=live`)}?w=1200&h=800`}
             onError={(e) => {
               if (!e.target.dataset.triedLocal) {
                 e.target.dataset.triedLocal = 'true';
