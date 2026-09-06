@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion, Reorder } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import Navbar from './components/Navbar';
 import Preloader from './components/Preloader';
 import CursorGlow from './components/CursorGlow';
@@ -22,6 +23,8 @@ export default function App() {
     return !sessionStorage.getItem('portfolio-preloader-seen');
   });
   const [projectsList, setProjectsList] = useState(projectsData);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isPausedByHover, setIsPausedByHover] = useState(false);
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
@@ -37,6 +40,34 @@ export default function App() {
     document.documentElement.setAttribute('data-mode', 'dark');
     localStorage.setItem('portfolio-theme', currentTheme);
   }, [currentTheme]);
+
+  // Auto-shift project cards left/right every 3.5 seconds
+  useEffect(() => {
+    if (!isAutoPlaying || isPausedByHover || projectsList.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setProjectsList((prevList) => {
+        if (prevList.length <= 1) return prevList;
+        return [...prevList.slice(1), prevList[0]];
+      });
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, isPausedByHover, projectsList.length]);
+
+  const handleNextShift = () => {
+    setProjectsList((prevList) => {
+      if (prevList.length <= 1) return prevList;
+      return [...prevList.slice(1), prevList[0]];
+    });
+  };
+
+  const handlePrevShift = () => {
+    setProjectsList((prevList) => {
+      if (prevList.length <= 1) return prevList;
+      return [prevList[prevList.length - 1], ...prevList.slice(0, prevList.length - 1)];
+    });
+  };
 
   // Filter projects by category & search query
   const filteredProjects = projectsList.filter((project) => {
@@ -94,40 +125,118 @@ export default function App() {
             setActiveCategory={setActiveCategory}
           />
 
-          {/* Reorderable Project Showcase Grid */}
-          <Reorder.Group
-            axis="y"
-            values={filteredProjects}
-            onReorder={(newOrder) => {
-              setProjectsList((prevList) => {
-                const newIds = new Set(newOrder.map((p) => p.id));
-                const remaining = prevList.filter((p) => !newIds.has(p.id));
-                return [...newOrder, ...remaining];
-              });
-            }}
+          {/* Header Controls for Auto-Shift Slider */}
+          <div style={{
+            maxWidth: '1140px',
+            margin: '0 auto 20px auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 4px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+              <span style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                background: isAutoPlaying && !isPausedByHover ? 'var(--accent-primary)' : '#6b7280',
+                boxShadow: isAutoPlaying && !isPausedByHover ? '0 0 10px var(--accent-glow)' : 'none',
+                display: 'inline-block'
+              }} />
+              <span>{isPausedByHover ? 'Auto-Slide Terhenti (Hover)' : isAutoPlaying ? 'Bergeser Otomatis Secara Berkala' : 'Auto-Slide Nonaktif'}</span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <button
+                onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+                title={isAutoPlaying ? "Jeda Auto-Slide" : "Jalankan Auto-Slide"}
+                style={{
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-main)',
+                  padding: '6px 14px',
+                  borderRadius: 'var(--radius-full)',
+                  fontSize: '0.8rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px'
+                }}
+              >
+                {isAutoPlaying ? <Pause size={14} /> : <Play size={14} />}
+                <span>{isAutoPlaying ? 'Jeda' : 'Putar'}</span>
+              </button>
+
+              <button
+                onClick={handlePrevShift}
+                title="Geser Ke Kiri"
+                style={{
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-main)',
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <ChevronLeft size={18} />
+              </button>
+
+              <button
+                onClick={handleNextShift}
+                title="Geser Ke Kanan"
+                style={{
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border-color)',
+                  color: 'var(--text-main)',
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer'
+                }}
+              >
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          </div>
+
+          {/* Smooth Auto-Shifting Project Showcase Grid */}
+          <div
+            onMouseEnter={() => setIsPausedByHover(true)}
+            onMouseLeave={() => setIsPausedByHover(false)}
             style={{
               maxWidth: '1140px',
               margin: '0 auto',
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-              gap: '28px',
-              padding: 0
+              gap: '28px'
             }}
           >
             <AnimatePresence mode="popLayout">
               {filteredProjects.length > 0 ? (
                 filteredProjects.map((project, index) => (
-                  <Reorder.Item
+                  <motion.div
                     key={project.id}
-                    value={project}
-                    style={{ listStyle: 'none' }}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 32 }}
                   >
                     <ProjectCard
                       project={project}
                       index={index}
                       onSelectProject={setSelectedProject}
                     />
-                  </Reorder.Item>
+                  </motion.div>
                 ))
               ) : (
                 <motion.div
@@ -146,7 +255,7 @@ export default function App() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </Reorder.Group>
+          </div>
         </section>
 
         {/* Tech Stack Section */}
