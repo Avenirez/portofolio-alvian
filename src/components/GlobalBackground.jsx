@@ -61,8 +61,48 @@ export default function GlobalBackground() {
       size: Math.random() * 1.5 + 0.8
     }));
 
+    // Dynamic theme accent color parser for HTML5 Canvas
+    const parseHexToRgb = (hexStr) => {
+      if (!hexStr) return { r: 245, g: 158, b: 11 };
+      let clean = hexStr.replace('#', '').trim();
+      if (clean.length === 3) {
+        clean = clean.split('').map((c) => c + c).join('');
+      }
+      const num = parseInt(clean, 16);
+      if (isNaN(num)) return { r: 245, g: 158, b: 11 };
+      return {
+        r: (num >> 16) & 255,
+        g: (num >> 8) & 255,
+        b: num & 255
+      };
+    };
+
+    const getThemeRgbColors = () => {
+      const styles = getComputedStyle(document.documentElement);
+      const primaryHex = styles.getPropertyValue('--accent-primary').trim() || '#f59e0b';
+      const secondaryHex = styles.getPropertyValue('--accent-secondary').trim() || '#ec4899';
+      return {
+        primary: parseHexToRgb(primaryHex),
+        secondary: parseHexToRgb(secondaryHex)
+      };
+    };
+
+    let themeColors = getThemeRgbColors();
+
+    // Listen to theme attribute changes on <html> element
+    const observer = new MutationObserver(() => {
+      themeColors = getThemeRgbColors();
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme', 'data-mode']
+    });
+
     const render = () => {
       ctx.clearRect(0, 0, width, height);
+      const { primary, secondary } = themeColors;
+      const primaryRgbStr = `${primary.r}, ${primary.g}, ${primary.b}`;
+      const secondaryRgbStr = `${secondary.r}, ${secondary.g}, ${secondary.b}`;
 
       // Draw constellation connecting lines between close particles
       for (let i = 0; i < particles.length; i++) {
@@ -75,7 +115,7 @@ export default function GlobalBackground() {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(0, 242, 254, ${(1 - dist / 110) * 0.15})`;
+            ctx.strokeStyle = `rgba(${primaryRgbStr}, ${(1 - dist / 110) * 0.18})`;
             ctx.lineWidth = 0.6;
             ctx.stroke();
           }
@@ -98,7 +138,7 @@ export default function GlobalBackground() {
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
         ctx.shadowBlur = 10;
-        ctx.shadowColor = 'rgba(0, 242, 254, 0.6)';
+        ctx.shadowColor = `rgba(${primaryRgbStr}, 0.6)`;
         ctx.fill();
       });
 
@@ -115,7 +155,7 @@ export default function GlobalBackground() {
         if (node.x < -20) node.x = width + 20;
         if (node.x > width + 20) node.x = -20;
 
-        ctx.fillStyle = `rgba(245, 158, 11, ${node.opacity})`;
+        ctx.fillStyle = `rgba(${primaryRgbStr}, ${node.opacity})`;
         ctx.fillText(node.symbol, node.x, node.y);
       });
 
@@ -131,8 +171,8 @@ export default function GlobalBackground() {
         }
 
         const gradient = ctx.createLinearGradient(m.x, m.y, m.x + m.length, m.y - m.length);
-        gradient.addColorStop(0, `rgba(245, 158, 11, ${m.opacity})`);
-        gradient.addColorStop(0.5, `rgba(236, 72, 153, ${m.opacity * 0.6})`);
+        gradient.addColorStop(0, `rgba(${primaryRgbStr}, ${m.opacity})`);
+        gradient.addColorStop(0.5, `rgba(${secondaryRgbStr}, ${m.opacity * 0.6})`);
         gradient.addColorStop(1, 'transparent');
 
         ctx.beginPath();
@@ -150,6 +190,7 @@ export default function GlobalBackground() {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      observer.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
