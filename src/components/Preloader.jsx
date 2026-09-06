@@ -1,52 +1,82 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState('Proses Memuat Halaman...');
+  const onCompleteRef = useRef(onComplete);
 
   useEffect(() => {
-    let startTimestamp = null;
-    const duration = 3500; // 3.5 seconds total duration for readable, smooth progression
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
-    const updateProgress = (timestamp) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const elapsed = timestamp - startTimestamp;
-      
-      // Smooth cubic-bezier-like easing curve so progression slows down gracefully in stages
-      const progressRatio = Math.min(elapsed / duration, 1);
-      // Easing: decelerate towards completion
-      const easedRatio = 1 - Math.pow(1 - progressRatio, 2.2);
-      const currentProgress = Math.min(Math.floor(easedRatio * 100), 100);
+  useEffect(() => {
+    let animId;
+    let timerId;
+    let currentVal = 0;
+    let isWindowLoaded = document.readyState === 'complete';
 
-      setProgress(currentProgress);
+    const handleWindowLoad = () => {
+      isWindowLoaded = true;
+    };
 
-      // Update formal status text based on selected ranges
-      if (currentProgress < 30) {
+    if (!isWindowLoaded) {
+      window.addEventListener('load', handleWindowLoad);
+    }
+
+    const startTime = performance.now();
+    const minDuration = 2200; // Optimal 2.2s for clean smooth preloader progression
+
+    const updateProgress = (now) => {
+      const elapsed = now - startTime;
+      const timeRatio = Math.min(elapsed / minDuration, 1);
+
+      // Smooth easeOutCubic curve for continuous, fluid progress
+      const easeOut = 1 - Math.pow(1 - timeRatio, 3);
+
+      let targetProgress;
+      if (isWindowLoaded || timeRatio >= 0.85) {
+        targetProgress = Math.min(Math.floor(easeOut * 100), 100);
+      } else {
+        // Linear smooth progression capped at 85% until window completes
+        targetProgress = Math.min(Math.floor(timeRatio * 85), 85);
+      }
+
+      if (targetProgress > currentVal) {
+        currentVal = targetProgress;
+        setProgress(currentVal);
+      }
+
+      // Update status text based on current progress
+      if (currentVal < 30) {
         setStatusText('Proses Memuat Halaman...');
-      } else if (currentProgress < 65) {
+      } else if (currentVal < 70) {
         setStatusText('Mengunduh Informasi Portofolio dan Proyek...');
-      } else if (currentProgress < 95) {
+      } else if (currentVal < 99) {
         setStatusText('Menyiapkan Tampilan Interaktif...');
-      } else if (currentProgress < 100) {
-        setStatusText('Memvalidasi Seluruh Komponen...');
       } else {
         setStatusText('Selamat Datang di Portofolio Alvian Ariadi!');
       }
 
-      if (elapsed < duration) {
-        requestAnimationFrame(updateProgress);
+      if (currentVal < 100) {
+        animId = requestAnimationFrame(updateProgress);
       } else {
-        // Hold at 100% for 600ms so user can read final welcome status before smooth fade out
-        setTimeout(() => {
-          if (onComplete) onComplete();
-        }, 600);
+        timerId = setTimeout(() => {
+          if (onCompleteRef.current) {
+            onCompleteRef.current();
+          }
+        }, 400);
       }
     };
 
-    const animId = requestAnimationFrame(updateProgress);
-    return () => cancelAnimationFrame(animId);
-  }, [onComplete]);
+    animId = requestAnimationFrame(updateProgress);
+
+    return () => {
+      window.removeEventListener('load', handleWindowLoad);
+      if (animId) cancelAnimationFrame(animId);
+      if (timerId) clearTimeout(timerId);
+    };
+  }, []);
 
   return (
     <motion.div
@@ -119,19 +149,11 @@ export default function Preloader({ onComplete }) {
               fontSize: '0.78rem',
               fontWeight: '700',
               letterSpacing: '0.22em',
-              marginBottom: '6px',
+              marginBottom: '0px',
               textTransform: 'uppercase'
             }}
           >
             [ ALVIAN ARIADI // PORTFOLIO ]
-          </div>
-          <div
-            style={{
-              fontSize: '0.85rem',
-              color: 'var(--text-muted)'
-            }}
-          >
-            Fullstack Web & GIS Engineer
           </div>
         </div>
 
@@ -143,7 +165,8 @@ export default function Preloader({ onComplete }) {
               fontSize: '3.6rem',
               fontWeight: '800',
               lineHeight: 1,
-              letterSpacing: '-0.02em'
+              letterSpacing: '-0.02em',
+              fontVariantNumeric: 'tabular-nums'
             }}
           >
             {progress}%
@@ -171,7 +194,7 @@ export default function Preloader({ onComplete }) {
               background: 'var(--accent-gradient)',
               borderRadius: 'var(--radius-full)',
               boxShadow: '0 0 16px var(--accent-glow)',
-              transition: 'width 0.08s linear'
+              transition: 'width 0.05s linear'
             }}
           />
         </div>

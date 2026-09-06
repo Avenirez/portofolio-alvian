@@ -1,8 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, ExternalLink, Monitor, Image as ImageIcon } from 'lucide-react';
+import RealtimeProjectImage from './RealtimeProjectImage';
 
 export default function ProjectModal({ project, onClose }) {
+  const [viewMode, setViewMode] = useState('snapshot'); // 'snapshot' | 'iframe'
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -53,8 +56,8 @@ export default function ProjectModal({ project, onClose }) {
         style={{
           position: 'relative',
           width: '100%',
-          maxWidth: '820px',
-          maxHeight: '90vh',
+          maxWidth: '860px',
+          maxHeight: '92vh',
           overflowY: 'auto',
           zIndex: 10000,
           padding: '32px',
@@ -84,40 +87,104 @@ export default function ProjectModal({ project, onClose }) {
           <X size={20} />
         </button>
 
-        {/* Project Screenshot HD */}
+        {/* Preview Control Header */}
+        <div style={{
+          display: 'flex',
+          justify: 'space-between',
+          alignItems: 'center',
+          marginBottom: '12px'
+        }}>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              onClick={() => setViewMode('snapshot')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '0.8rem',
+                fontWeight: '600',
+                border: '1px solid',
+                borderColor: viewMode === 'snapshot' ? 'var(--accent-primary)' : 'var(--border-color)',
+                background: viewMode === 'snapshot' ? 'var(--accent-light)' : 'var(--bg-input)',
+                color: viewMode === 'snapshot' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <ImageIcon size={14} /> Snapshot Realtime
+            </button>
+            <button
+              onClick={() => setViewMode('iframe')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 14px',
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '0.8rem',
+                fontWeight: '600',
+                border: '1px solid',
+                borderColor: viewMode === 'iframe' ? 'var(--accent-primary)' : 'var(--border-color)',
+                background: viewMode === 'iframe' ? 'var(--accent-light)' : 'var(--bg-input)',
+                color: viewMode === 'iframe' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <Monitor size={14} /> Live Interactive Web
+            </button>
+          </div>
+
+          <a
+            href={project.demoUrl}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '0.8rem',
+              color: 'var(--accent-primary)',
+              textDecoration: 'none',
+              fontWeight: '600'
+            }}
+          >
+            Buka Website Direct <ExternalLink size={13} />
+          </a>
+        </div>
+
+        {/* Project Preview (Snapshot or Live Iframe) */}
         <div style={{
           position: 'relative',
           clipPath: 'polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px)',
           overflow: 'hidden',
           marginBottom: '24px',
           boxShadow: '0 15px 30px rgba(0,0,0,0.4)',
-          maxHeight: '380px'
+          height: '400px',
+          background: '#090d16'
         }}>
-          <motion.img
-            layoutId={`project-image-${project.id}`}
-            src={
-              project.demoUrl?.includes('lexaastore.cloud')
-                ? `https://image.thum.io/get/width/1200/crop/800/${project.demoUrl}`
-                : `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`
-            }
-            onError={(e) => {
-              if (!e.target.dataset.triedThum) {
-                e.target.dataset.triedThum = 'true';
-                e.target.src = `https://image.thum.io/get/width/1200/crop/800/${project.demoUrl}`;
-              } else if (!e.target.dataset.triedLocal) {
-                e.target.dataset.triedLocal = 'true';
-                e.target.src = project.image;
-              }
-            }}
-            alt={project.title}
-            decoding="async"
-            style={{
-              width: '100%',
-              height: '100%',
-              maxHeight: '380px',
-              objectFit: 'cover'
-            }}
-          />
+          {viewMode === 'snapshot' ? (
+            <RealtimeProjectImage
+              demoUrl={project.demoUrl}
+              alt={project.title}
+              layoutId={`project-image-${project.id}`}
+              showLiveBadge={true}
+            />
+          ) : (
+            <iframe
+              src={project.demoUrl}
+              title={project.title}
+              style={{
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                background: '#ffffff'
+              }}
+              sandbox="allow-scripts allow-same-origin allow-forms"
+            />
+          )}
         </div>
 
         {/* Header Info */}

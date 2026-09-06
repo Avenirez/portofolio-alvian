@@ -30,10 +30,10 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState(null);
 
-  const handlePreloaderComplete = () => {
+  const handlePreloaderComplete = useCallback(() => {
     sessionStorage.setItem('portfolio-preloader-seen', 'true');
     setIsLoading(false);
-  };
+  }, []);
 
   // Temporarily pause auto-slide when a card is clicked/interacted with
   const handleCardInteract = () => {

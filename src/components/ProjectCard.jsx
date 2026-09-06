@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
 import BorderBeam from './BorderBeam';
+import RealtimeProjectImage from './RealtimeProjectImage';
 
 export default function ProjectCard({ project, index, onSelectProject, onCardInteract }) {
   const cardRef = useRef(null);
@@ -166,31 +167,10 @@ export default function ProjectCard({ project, index, onSelectProject, onCardInt
           transform: 'translateZ(10px)',
           transformStyle: 'preserve-3d'
         }}>
-          <motion.img
-            layoutId={`project-image-${project.id}`}
-            src={
-              project.demoUrl?.includes('lexaastore.cloud')
-                ? `https://image.thum.io/get/width/1200/crop/800/${project.demoUrl}`
-                : `https://s.wordpress.com/mshots/v1/${encodeURIComponent(project.demoUrl)}?w=1200&h=800`
-            }
-            onError={(e) => {
-              if (!e.target.dataset.triedThum) {
-                e.target.dataset.triedThum = 'true';
-                e.target.src = `https://image.thum.io/get/width/1200/crop/800/${project.demoUrl}`;
-              } else if (!e.target.dataset.triedLocal) {
-                e.target.dataset.triedLocal = 'true';
-                e.target.src = project.image;
-              }
-            }}
+          <RealtimeProjectImage
+            demoUrl={project.demoUrl}
             alt={project.title}
-            loading="lazy"
-            decoding="async"
-            style={{
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              transition: 'transform 0.5s ease'
-            }}
+            layoutId={`project-image-${project.id}`}
             className="project-img"
           />
 
