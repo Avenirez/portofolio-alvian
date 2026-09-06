@@ -78,6 +78,14 @@ export default function ProjectCard({ project, index, onSelectProject, onCardInt
       onCardInteract();
     }
 
+    // Trigger white stardust dots burst event on global background
+    const rect = cardRef.current ? cardRef.current.getBoundingClientRect() : null;
+    const centerX = rect ? rect.left + rect.width / 2 : e.clientX;
+    const centerY = rect ? rect.top + rect.height / 2 : e.clientY;
+    window.dispatchEvent(new CustomEvent('card-spin-burst', {
+      detail: { x: centerX, y: centerY }
+    }));
+
     if (isSpinning) return;
 
     // Reset mouse tilt springs during 360 spin
@@ -89,45 +97,45 @@ export default function ProjectCard({ project, index, onSelectProject, onCardInt
 
     setTimeout(() => {
       setIsSpinning(false);
-    }, 700);
+    }, 800);
   };
 
   return (
-    <motion.div
-      animate={{ rotateY: spinRotation }}
-      transition={{ duration: 0.7, ease: [0.34, 1.25, 0.64, 1] }}
-      style={{
-        width: '100%',
-        height: '100%',
-        perspective: 1000,
-        transformStyle: 'preserve-3d'
-      }}
-    >
+    <div style={{ perspective: '1200px', width: '100%', height: '100%' }}>
       <motion.div
         ref={cardRef}
         initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
+        animate={{ opacity: 1, scale: 1, rotateY: spinRotation }}
         exit={{ opacity: 0, scale: 0.9 }}
         whileTap={{ scale: 0.97 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        transition={{
+          rotateY: { duration: 0.8, ease: [0.34, 1.25, 0.64, 1] },
+          default: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+        }}
         onClick={handleCardClick}
         onMouseEnter={handleMouseEnter}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="glass-card"
         style={{
-          borderRadius: 'var(--radius-md)',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
+          width: '100%',
           height: '100%',
-          position: 'relative',
+          transformStyle: 'preserve-3d',
           rotateX,
           rotateY,
-          transformStyle: 'preserve-3d',
           cursor: 'grab'
         }}
       >
+        <div
+          className="glass-card"
+          style={{
+            borderRadius: 'var(--radius-md)',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            position: 'relative'
+          }}
+        >
         {/* 21st.dev Border Beam for Featured or Highlighted cards */}
         {project.featured && (
           <BorderBeam size={160} duration={6} borderRadius="var(--radius-md)" />
@@ -369,35 +377,36 @@ export default function ProjectCard({ project, index, onSelectProject, onCardInt
             </div>
           </div>
         </div>
-      </motion.div>
-      <style>{`
-        .glass-card .card-glare-shimmer {
-          position: absolute;
-          top: 0;
-          left: -150%;
-          width: 70%;
-          height: 100%;
-          background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%);
-          transform: skewX(-25deg);
-          pointer-events: none;
-          z-index: 5;
-          transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .glass-card:hover .card-glare-shimmer {
-          transform: translateX(450%) skewX(-25deg);
-        }
-        .glass-card:hover .project-img {
-          transform: scale(1.08);
-        }
-        .glass-card:hover .card-overlay {
-          opacity: 1 !important;
-        }
-        .glass-card:active {
-          border-color: var(--accent-primary) !important;
-          box-shadow: 0 0 35px var(--accent-glow), 0 10px 30px rgba(0, 0, 0, 0.8) !important;
-        }
-      `}</style>
+        <style>{`
+          .glass-card .card-glare-shimmer {
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, 0.22) 50%, transparent 100%);
+            transform: skewX(-25deg);
+            pointer-events: none;
+            z-index: 5;
+            transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+          }
+          .glass-card:hover .card-glare-shimmer {
+            transform: translateX(450%) skewX(-25deg);
+          }
+          .glass-card:hover .project-img {
+            transform: scale(1.08);
+          }
+          .glass-card:hover .card-overlay {
+            opacity: 1 !important;
+          }
+          .glass-card:active {
+            border-color: var(--accent-primary) !important;
+            box-shadow: 0 0 35px var(--accent-glow), 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+          }
+        `}</style>
+      </div>
     </motion.div>
+  </div>
   );
 }
 

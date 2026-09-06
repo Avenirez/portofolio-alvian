@@ -77,6 +77,30 @@ export default function GlobalBackground() {
       });
     };
 
+    const handleCardSpinBurst = (e) => {
+      const clickX = e.detail?.x || width / 2;
+      const clickY = e.detail?.y || height / 2;
+
+      // Spawn 45 drifting white stardust dots (bintik-bintik putih)
+      const whiteDotsCount = 45;
+      for (let i = 0; i < whiteDotsCount; i++) {
+        const angle = (Math.PI * 2 * i) / whiteDotsCount + (Math.random() - 0.5) * 0.6;
+        const speed = Math.random() * 5.5 + 2.0;
+        clickEffects.push({
+          type: 'driftingWhiteDot',
+          x: clickX + (Math.random() - 0.5) * 60,
+          y: clickY + (Math.random() - 0.5) * 60,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 1.5, // upward drifting bias
+          size: Math.random() * 3.0 + 1.2,
+          color: Math.random() > 0.25 ? '#ffffff' : '#f8fafc',
+          alpha: 1,
+          decay: Math.random() * 0.014 + 0.008,
+          isStarSymbol: Math.random() > 0.45
+        });
+      }
+    };
+
     const handleScroll = () => {
       const delta = Math.abs(window.scrollY - lastScrollY);
       scrollSpeed = Math.min(delta * 0.4, 25);
@@ -93,6 +117,7 @@ export default function GlobalBackground() {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('card-spin-burst', handleCardSpinBurst);
     document.addEventListener('mouseleave', handleMouseLeave);
 
     // Pause animation when background is not visible (performance saver)
@@ -545,6 +570,36 @@ export default function GlobalBackground() {
           if (currentAlpha <= 0.02 && fx.particles.length === 0) {
             clickEffects.splice(i, 1);
           }
+        } else if (fx.type === 'driftingWhiteDot') {
+          fx.x += fx.vx;
+          fx.y += fx.vy;
+          fx.vx *= 0.96;
+          fx.vy *= 0.96;
+          fx.alpha -= fx.decay;
+
+          if (fx.alpha <= 0.02) {
+            clickEffects.splice(i, 1);
+            continue;
+          }
+
+          const dotAlpha = Math.max(0, fx.alpha);
+          ctx.save();
+          ctx.globalAlpha = dotAlpha;
+
+          if (fx.isStarSymbol) {
+            ctx.font = `${Math.floor(fx.size * 3.8)}px sans-serif`;
+            ctx.fillStyle = fx.color;
+            ctx.fillText('✦', fx.x, fx.y);
+          } else {
+            ctx.beginPath();
+            ctx.arc(fx.x, fx.y, fx.size, 0, Math.PI * 2);
+            ctx.fillStyle = fx.color;
+            ctx.shadowColor = 'rgba(255, 255, 255, 0.9)';
+            ctx.shadowBlur = 9;
+            ctx.fill();
+          }
+
+          ctx.restore();
         }
       }
 
@@ -558,6 +613,7 @@ export default function GlobalBackground() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('card-spin-burst', handleCardSpinBurst);
       document.removeEventListener('mouseleave', handleMouseLeave);
       observerTheme.disconnect();
       observerVisibility.disconnect();
