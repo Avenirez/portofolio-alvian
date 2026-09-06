@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/Navbar';
 import Preloader from './components/Preloader';
-import CursorGlow from './components/CursorGlow';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import GlobalBackground from './components/GlobalBackground';
 import HeroSection from './components/HeroSection';
@@ -115,9 +114,6 @@ export default function App() {
 
       {/* Scroll Progress Indicator */}
       <ScrollProgressBar />
-
-      {/* Dynamic Cursor Glow Spotlight */}
-      <CursorGlow />
 
       {/* Responsive Navigation Header */}
       <Navbar
