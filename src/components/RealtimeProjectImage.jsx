@@ -7,7 +7,7 @@ export default function RealtimeProjectImage({
   style = {},
   className = '',
   layoutId = null,
-  showLiveBadge = true
+  showLiveBadge = false
 }) {
   const [providerIndex, setProviderIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -52,7 +52,7 @@ export default function RealtimeProjectImage({
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', ...style }}>
-      {/* Loading Skeleton with Shimmer & Live Indicator */}
+      {/* Loading Skeleton with Shimmer */}
       {isLoading && (
         <div style={{
           position: 'absolute',
@@ -81,12 +81,12 @@ export default function RealtimeProjectImage({
               width: '8px',
               height: '8px',
               borderRadius: '50%',
-              background: '#10b981',
-              boxShadow: '0 0 10px #10b981',
+              background: 'var(--accent-primary)',
+              boxShadow: '0 0 10px var(--accent-glow)',
               animation: 'pulse 1.5s infinite'
             }} />
             <span style={{ fontSize: '0.72rem', fontWeight: '600', color: '#94a3b8', letterSpacing: '0.5px' }}>
-              MEMUAT REALTIME...
+              Memuat Pratinjau...
             </span>
           </div>
         </div>
@@ -135,7 +135,7 @@ export default function RealtimeProjectImage({
         </div>
       )}
 
-      {/* Realtime Live Source Badge */}
+      {/* Badge overlay if explicitly enabled */}
       {showLiveBadge && !isLoading && !hasError && (
         <div style={{
           position: 'absolute',
@@ -143,12 +143,12 @@ export default function RealtimeProjectImage({
           right: '10px',
           background: 'rgba(5, 8, 18, 0.8)',
           backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(16, 185, 129, 0.4)',
+          border: '1px solid var(--border-color)',
           padding: '3px 8px',
           borderRadius: '12px',
           fontSize: '0.68rem',
           fontWeight: '700',
-          color: '#34d399',
+          color: 'var(--text-main)',
           display: 'flex',
           alignItems: 'center',
           gap: '5px',
@@ -160,10 +160,10 @@ export default function RealtimeProjectImage({
             width: '6px',
             height: '6px',
             borderRadius: '50%',
-            background: '#10b981',
-            boxShadow: '0 0 8px #10b981'
+            background: 'var(--accent-primary)',
+            boxShadow: '0 0 8px var(--accent-glow)'
           }} />
-          REALTIME
+          LIVE
         </div>
       )}
 

@@ -113,7 +113,7 @@ export default function ProjectModal({ project, onClose }) {
                 transition: 'all 0.2s ease'
               }}
             >
-              <ImageIcon size={14} /> Snapshot Realtime
+              <ImageIcon size={14} /> Snapshot Gambar
             </button>
             <button
               onClick={() => setViewMode('iframe')}
@@ -170,7 +170,7 @@ export default function ProjectModal({ project, onClose }) {
               demoUrl={project.demoUrl}
               alt={project.title}
               layoutId={`project-image-${project.id}`}
-              showLiveBadge={true}
+              showLiveBadge={false}
             />
           ) : (
             <iframe
