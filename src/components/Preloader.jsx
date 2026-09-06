@@ -13,6 +13,7 @@ export default function Preloader({ onComplete }) {
   useEffect(() => {
     let animId;
     let timerId;
+    let failsafeTimerId;
     let currentVal = 0;
     let isWindowLoaded = document.readyState === 'complete';
 
@@ -25,20 +26,32 @@ export default function Preloader({ onComplete }) {
     }
 
     const startTime = performance.now();
-    const minDuration = 2200; // Optimal 2.2s for clean smooth preloader progression
+    const minDuration = 2000; // 2 seconds optimal duration
+
+    const completePreloader = () => {
+      setProgress(100);
+      setStatusText('Selamat Datang di Portofolio Alvian Ariadi!');
+      timerId = setTimeout(() => {
+        if (onCompleteRef.current) {
+          onCompleteRef.current();
+        }
+      }, 300);
+    };
+
+    // Failsafe timer: Guarantees preloader never gets stuck and unmounts in max 2.5s
+    failsafeTimerId = setTimeout(() => {
+      completePreloader();
+    }, 2500);
 
     const updateProgress = (now) => {
       const elapsed = now - startTime;
       const timeRatio = Math.min(elapsed / minDuration, 1);
-
-      // Smooth easeOutCubic curve for continuous, fluid progress
       const easeOut = 1 - Math.pow(1 - timeRatio, 3);
 
       let targetProgress;
       if (isWindowLoaded || timeRatio >= 0.85) {
         targetProgress = Math.min(Math.floor(easeOut * 100), 100);
       } else {
-        // Linear smooth progression capped at 85% until window completes
         targetProgress = Math.min(Math.floor(timeRatio * 85), 85);
       }
 
@@ -47,7 +60,6 @@ export default function Preloader({ onComplete }) {
         setProgress(currentVal);
       }
 
-      // Update status text based on current progress
       if (currentVal < 30) {
         setStatusText('Proses Memuat Halaman...');
       } else if (currentVal < 70) {
@@ -58,14 +70,11 @@ export default function Preloader({ onComplete }) {
         setStatusText('Selamat Datang di Portofolio Alvian Ariadi!');
       }
 
-      if (currentVal < 100) {
+      if (currentVal < 100 && elapsed < minDuration) {
         animId = requestAnimationFrame(updateProgress);
       } else {
-        timerId = setTimeout(() => {
-          if (onCompleteRef.current) {
-            onCompleteRef.current();
-          }
-        }, 400);
+        clearTimeout(failsafeTimerId);
+        completePreloader();
       }
     };
 
@@ -75,13 +84,14 @@ export default function Preloader({ onComplete }) {
       window.removeEventListener('load', handleWindowLoad);
       if (animId) cancelAnimationFrame(animId);
       if (timerId) clearTimeout(timerId);
+      if (failsafeTimerId) clearTimeout(failsafeTimerId);
     };
   }, []);
 
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, y: -40, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
+      exit={{ opacity: 0, y: -40, transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] } }}
       style={{
         position: 'fixed',
         inset: 0,
