@@ -152,9 +152,12 @@ export default function GlobalBackground() {
       };
     });
 
-    // 2. Rotating Cosmic Orbital Satellite Rings
+    // 2. Rotating Cosmic Orbital Satellite Rings & Celestial Angles
     let orbitAngle1 = 0;
     let orbitAngle2 = Math.PI;
+    let galaxyAngle = 0;
+    let planetTime = 0;
+    let blackHoleAngle = 0;
 
     // 3. Pulsing GIS Radar Rings
     let radarPulseRadius = 0;
@@ -162,26 +165,25 @@ export default function GlobalBackground() {
     // 4. Topographic Wave Offset
     let topoOffset = 0;
 
-    // 5. Floating tech & space symbols
-    const techSymbols = ['{ }', '</>', '01', 'JS', 'React', 'Vite', 'GIS', 'API', 'SQL', 'CSS', '🪐', '✦'];
-    const floatingNodes = Array.from({ length: 10 }, () => ({
+    // 5. Floating tech & space symbols (Planets, Comets, Galaxies, UFOs, Satellites)
+    const techSymbols = ['🪐', '☄️', '🌌', '🛸', '✦', '⭐', '🛰️', 'GIS', 'API', 'SQL', '{ }', '</>'];
+    const floatingNodes = Array.from({ length: 14 }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       symbol: techSymbols[Math.floor(Math.random() * techSymbols.length)],
       speedY: Math.random() * 0.25 + 0.1,
       speedX: (Math.random() - 0.5) * 0.15,
-      opacity: Math.random() * 0.25 + 0.1,
-      size: Math.floor(Math.random() * 6) + 12
+      opacity: Math.random() * 0.35 + 0.15,
+      size: Math.floor(Math.random() * 8) + 14
     }));
 
-    // 6. Space Shooting Meteors
-    const meteors = Array.from({ length: 3 }, () => ({
-      x: Math.random() * width * 1.5,
-      y: Math.random() * height * 0.4 - 200,
-      length: Math.random() * 100 + 60,
-      speed: Math.random() * 4 + 2.5,
-      opacity: Math.random() * 0.7 + 0.3,
-      size: Math.random() * 1.5 + 0.8
+    // 6. Blazing Fiery Space Comets with Shedding Embers
+    const comets = Array.from({ length: 2 }, () => ({
+      x: Math.random() * width * 1.4,
+      y: Math.random() * height * 0.3 - 150,
+      length: Math.random() * 140 + 80,
+      speed: Math.random() * 4.5 + 3.0,
+      size: Math.random() * 3.0 + 2.0
     }));
 
     // Dynamic theme accent color parser
@@ -308,6 +310,139 @@ export default function GlobalBackground() {
       ctx.fillStyle = `rgba(${secondaryRgbStr}, 0.8)`;
       ctx.fill();
 
+      // C2. Render Rotating Spiral Galaxy (Galaksi Spiral Bintang)
+      galaxyAngle += 0.0018;
+      const gx = width * 0.85;
+      const gy = height * 0.22;
+
+      ctx.save();
+      ctx.translate(gx, gy);
+      ctx.rotate(galaxyAngle);
+
+      // Core glow
+      const gCoreGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, 40);
+      gCoreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+      gCoreGrad.addColorStop(0.2, `rgba(${primaryRgbStr}, 0.65)`);
+      gCoreGrad.addColorStop(0.55, `rgba(${secondaryRgbStr}, 0.25)`);
+      gCoreGrad.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(0, 0, 40, 0, Math.PI * 2);
+      ctx.fillStyle = gCoreGrad;
+      ctx.fill();
+
+      // Dual Spiral Arms
+      const numSpiralPoints = 45;
+      for (let arm = 0; arm < 2; arm++) {
+        const armAngleOffset = arm * Math.PI;
+        for (let i = 0; i < numSpiralPoints; i++) {
+          const t = (i / numSpiralPoints) * 3.2;
+          const r = t * 20;
+          const theta = t * 2.2 + armAngleOffset;
+          const px = Math.cos(theta) * r;
+          const py = Math.sin(theta) * r;
+          const pSize = Math.random() * 1.8 + 0.6;
+          const pAlpha = (1 - t / 3.2) * 0.75 + 0.1;
+
+          ctx.beginPath();
+          ctx.arc(px, py, pSize, 0, Math.PI * 2);
+          ctx.fillStyle = arm === 0 ? `rgba(${primaryRgbStr}, ${pAlpha})` : `rgba(${secondaryRgbStr}, ${pAlpha})`;
+          ctx.fill();
+        }
+      }
+      ctx.restore();
+
+      // C3. Render Saturn-Ringed Planet (Planet Ber-Cincin Saturnus)
+      planetTime += 0.008;
+      const planetX = width * 0.12;
+      const planetY = height * 0.54 + Math.sin(planetTime) * 10;
+      const planetR = 20;
+
+      ctx.save();
+      ctx.translate(planetX, planetY);
+
+      // Back half of Saturn's ring
+      ctx.save();
+      ctx.rotate(-0.35);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 48, 12, 0, Math.PI, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${primaryRgbStr}, 0.45)`;
+      ctx.lineWidth = 3.5;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 56, 14, 0, Math.PI, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${secondaryRgbStr}, 0.25)`;
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+      ctx.restore();
+
+      // Planet Body Sphere (3D Radial Gradient)
+      const pGrad = ctx.createRadialGradient(-planetR * 0.35, -planetR * 0.35, planetR * 0.1, 0, 0, planetR);
+      pGrad.addColorStop(0, '#ffffff');
+      pGrad.addColorStop(0.3, `rgba(${primaryRgbStr}, 0.95)`);
+      pGrad.addColorStop(0.7, `rgba(${secondaryRgbStr}, 0.8)`);
+      pGrad.addColorStop(1, 'rgba(10, 14, 26, 0.95)');
+
+      ctx.beginPath();
+      ctx.arc(0, 0, planetR, 0, Math.PI * 2);
+      ctx.fillStyle = pGrad;
+      ctx.shadowColor = `rgba(${primaryRgbStr}, 0.6)`;
+      ctx.shadowBlur = 15;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+
+      // Front half of Saturn's ring
+      ctx.save();
+      ctx.rotate(-0.35);
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 48, 12, 0, 0, Math.PI);
+      ctx.strokeStyle = `rgba(${primaryRgbStr}, 0.75)`;
+      ctx.lineWidth = 3.5;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 56, 14, 0, 0, Math.PI);
+      ctx.strokeStyle = `rgba(${secondaryRgbStr}, 0.45)`;
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.restore();
+
+      // C4. Render Black Hole Singularity (Lubang Hitam Outer Ring)
+      blackHoleAngle += 0.005;
+      const bhx = width * 0.78;
+      const bhy = height * 0.76;
+
+      ctx.save();
+      ctx.translate(bhx, bhy);
+
+      // Accretion disk event horizon glow
+      ctx.save();
+      ctx.rotate(blackHoleAngle);
+      for (let ring = 1; ring <= 3; ring++) {
+        ctx.beginPath();
+        ctx.setLineDash([12 * ring, 16 * ring]);
+        ctx.ellipse(0, 0, 32 + ring * 12, 10 + ring * 4, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = ring % 2 === 1 ? `rgba(${primaryRgbStr}, ${0.5 - ring * 0.1})` : `rgba(${secondaryRgbStr}, ${0.4 - ring * 0.1})`;
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+      ctx.restore();
+
+      // Dark Singularity Core
+      const bhGrad = ctx.createRadialGradient(0, 0, 0, 0, 0, 16);
+      bhGrad.addColorStop(0, '#000000');
+      bhGrad.addColorStop(0.7, '#04060a');
+      bhGrad.addColorStop(1, `rgba(${primaryRgbStr}, 0.6)`);
+
+      ctx.beginPath();
+      ctx.arc(0, 0, 16, 0, Math.PI * 2);
+      ctx.fillStyle = bhGrad;
+      ctx.fill();
+      ctx.restore();
+
       // D. Render Cosmic Constellation Lines
       const maxDist = 145;
       for (let i = 0; i < stars.length; i++) {
@@ -426,28 +561,39 @@ export default function GlobalBackground() {
         ctx.fillText(node.symbol, node.x, node.y);
       });
 
-      // H. Render Space Meteors (Shooting Stars)
-      meteors.forEach((m) => {
-        m.x -= m.speed * 1.5;
-        m.y += m.speed;
+      // H. Render Blazing Space Comets (Komet Luar Angkasa Berbuntut)
+      comets.forEach((c) => {
+        c.x -= c.speed * 1.5;
+        c.y += c.speed;
 
-        if (m.y > height + 100 || m.x < -100) {
-          m.x = Math.random() * width * 1.5;
-          m.y = Math.random() * height * 0.3 - 200;
-          m.speed = Math.random() * 4 + 2.5;
+        if (c.y > height + 150 || c.x < -150) {
+          c.x = Math.random() * width * 1.4;
+          c.y = Math.random() * height * 0.3 - 150;
+          c.speed = Math.random() * 4.5 + 3.0;
         }
 
-        const gradient = ctx.createLinearGradient(m.x, m.y, m.x + m.length, m.y - m.length);
-        gradient.addColorStop(0, `rgba(${primaryRgbStr}, ${m.opacity})`);
-        gradient.addColorStop(0.5, `rgba(${secondaryRgbStr}, ${m.opacity * 0.5})`);
-        gradient.addColorStop(1, 'transparent');
+        // Tail Gradient Stream
+        const cGrad = ctx.createLinearGradient(c.x, c.y, c.x + c.length, c.y - c.length);
+        cGrad.addColorStop(0, '#ffffff');
+        cGrad.addColorStop(0.2, `rgba(${primaryRgbStr}, 0.95)`);
+        cGrad.addColorStop(0.65, `rgba(${secondaryRgbStr}, 0.45)`);
+        cGrad.addColorStop(1, 'transparent');
 
         ctx.beginPath();
-        ctx.moveTo(m.x, m.y);
-        ctx.lineTo(m.x + m.length, m.y - m.length);
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = m.size;
+        ctx.moveTo(c.x, c.y);
+        ctx.lineTo(c.x + c.length, c.y - c.length);
+        ctx.strokeStyle = cGrad;
+        ctx.lineWidth = c.size;
         ctx.stroke();
+
+        // Nucleus Core Head Glow
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.size * 1.4, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = `rgba(${primaryRgbStr}, 0.9)`;
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.shadowBlur = 0;
       });
 
       // I. Render Supernova Mouse Click Explosions
