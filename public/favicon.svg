@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="sciFiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe"/>
+      <stop offset="50%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Chamfered Outer Shield Container -->
+  <path d="M 96 32 L 416 32 L 480 96 L 480 416 L 416 480 L 96 480 L 32 416 L 32 96 Z" fill="#08090e" stroke="url(#sciFiGrad)" stroke-width="14"/>
+
+  <!-- Inner Monogram 'A' -->
+  <path d="M 256 90 L 370 380 H 305 L 280 310 H 232 L 207 380 H 142 Z M 256 185 L 245 255 H 267 Z" fill="url(#sciFiGrad)"/>
+</svg>

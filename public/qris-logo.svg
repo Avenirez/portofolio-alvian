@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 90" width="160" height="90">
+  <g fill="currentColor">
+    <!-- Top-left bracket -->
+    <path d="M10 32 V14 H32 V18 H14 V32 Z"/>
+    
+    <!-- Bottom-right bracket -->
+    <path d="M150 48 V66 H128 V62 H146 V48 Z"/>
+
+    <!-- 'Q' Letter -->
+    <path d="M22 18 H50 V54 H40 V64 H32 V54 H22 Z M30 24 V48 H42 V24 Z"/>
+    <!-- QR Finder Pattern in Q -->
+    <rect x="33" y="27" width="6" height="6"/>
+
+    <!-- 'R' Letter -->
+    <path d="M54 18 H78 V36 H68 L78 54 H66 L58 40 H62 V36 H62 V54 H54 Z M62 24 V30 H70 V24 Z"/>
+
+    <!-- 'I' Letter -->
+    <path d="M82 18 H90 V54 H82 Z"/>
+
+    <!-- 'S' Letter -->
+    <path d="M94 18 H118 V28 H102 V34 H118 V54 H94 V44 H110 V38 H94 Z"/>
+
+    <!-- 'SuperApp' Badge -->
+    <path d="M50 58 H118 L112 74 H44 Z"/>
+    <text x="81" y="70" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="900" font-style="italic" font-size="10" fill="var(--bg-card, #0a0c14)" text-anchor="middle">SuperApp</text>
+  </g>
+</svg>
