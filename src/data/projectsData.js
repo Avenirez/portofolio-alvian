@@ -31,28 +31,28 @@ export const categories = [
 export const projectsData = [
   {
     "id": 7,
-    "title": "Kizu Topup — Platform Top-Up Game Online",
+    "title": "Kizu Topup — Platform Top-Up Game Terpercaya, Cepat & Murah",
     "category": "ecommerce",
     "categoryLabel": "E-Commerce",
-    "description": "Platform e-commerce top-up game online murah, terpercaya & instan dengan integrasi pembayaran QRIS, promo flash sale, dan fitur lacak pesanan.",
-    "fullDescription": "Kizu Topup adalah platform web e-commerce top-up game online 24/7. Menyediakan transaksi instan untuk 10+ game populer (Mobile Legends, Free Fire, Genshin Impact, PUBG Mobile, Valorant, HSR), fitur flash sale diskon otomatis, integrasi QRIS & E-Wallet, serta halaman lacak status transaksi.",
+    "description": "Platform e-commerce top-up game online. Isi diamond, UC, dan voucher game favoritmu dengan harga termurah. Proses otomatis, cepat, dan aman.",
+    "fullDescription": "Kizu Topup adalah platform web e-commerce top-up game online 24/7. Menyediakan transaksi instan untuk 10+ game populer (Mobile Legends, Genshin Impact, PUBG Mobile, Valorant, HSR, Honor of Kings, Wild Rift, dll), fitur cek status transaksi mandiri, serta integrasi layanan bantuan WhatsApp.",
     "image": "/projects/kizutopup.webp",
-    "demoUrl": "https://kizutopup.vercel.app/",
+    "demoUrl": "https://kizutopup.store/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
       "Astro (Frontend)",
       "Node.js Serverless (Backend)",
       "QRIS Payment Gateway (API)",
       "WhatsApp CS (API)",
-      "TailwindCSS"
+      "Custom CSS / Glassmorphism"
     ],
     "featured": true,
     "keyFeatures": [
-      "Katalog Top Up instan untuk 10+ game populer (MLBB, FF, Genshin, Valorant, PUBG)",
-      "Sistem Flash Sale & Kode Promo diskon otomatis saat checkout",
+      "Katalog Top Up instan untuk 10+ game populer (MLBB, Genshin, PUBG, Valorant, HSR, HoK)",
+      "Proses transaksi otomatis, cepat, dan aman",
       "Halaman Cek Transaksi mandiri untuk memantau status pesanan",
-      "Integrasi WhatsApp CS & Pembayaran QRIS / E-Wallet instan 24/7",
-      "Tampilan UI/UX modern dengan filter pencarian game & responsif"
+      "Integrasi WhatsApp CS untuk bantuan langsung",
+      "Tampilan UI/UX modern dengan fitur filter pencarian game"
     ],
     "challenges": "Merancang antarmuka checkout instan yang responsif serta integrasi sistem pembayaran QRIS yang cepat."
   },
