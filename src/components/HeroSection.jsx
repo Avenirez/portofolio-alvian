@@ -34,32 +34,32 @@ function SequentialTypewriterHeadline({ name = personalInfo.name, role = persona
 
     if (phase === 'TYPING_TITLE') {
       if (titleCount < titleText.length) {
-        timeout = setTimeout(() => setTitleCount((prev) => prev + 1), 40); // lebih cepat
+        timeout = setTimeout(() => setTitleCount((prev) => prev + 1), 80); // Diperlambat sedikit agar lebih natural
       } else {
-        timeout = setTimeout(() => setPhase('TYPING_ROLE'), 100); // jeda sangat singkat antar baris
+        timeout = setTimeout(() => setPhase('TYPING_ROLE'), 200); // Jeda bernafas antar baris
       }
     } else if (phase === 'TYPING_ROLE') {
       if (roleCount < roleText.length) {
-        timeout = setTimeout(() => setRoleCount((prev) => prev + 1), 50); // lebih cepat
+        timeout = setTimeout(() => setRoleCount((prev) => prev + 1), 90); // Diperlambat sedikit
       } else {
         setPhase('HOLD');
       }
     } else if (phase === 'HOLD') {
-      timeout = setTimeout(() => setPhase('ERASING_ROLE'), 2000); // dikurangi dari 3.5s ke 2s
+      timeout = setTimeout(() => setPhase('ERASING_ROLE'), 3000); // Kembali ke 3 detik agar sempat dibaca
     } else if (phase === 'ERASING_ROLE') {
       if (roleCount > 0) {
-        timeout = setTimeout(() => setRoleCount((prev) => prev - 1), 20); // hapus cepat
+        timeout = setTimeout(() => setRoleCount((prev) => prev - 1), 40); // Hapus dengan kecepatan sedang
       } else {
         setPhase('ERASING_TITLE');
       }
     } else if (phase === 'ERASING_TITLE') {
       if (titleCount > 0) {
-        timeout = setTimeout(() => setTitleCount((prev) => prev - 1), 20); // hapus cepat
+        timeout = setTimeout(() => setTitleCount((prev) => prev - 1), 35); // Hapus dengan kecepatan sedang
       } else {
         setPhase('PAUSE');
       }
     } else if (phase === 'PAUSE') {
-      timeout = setTimeout(() => setPhase('TYPING_TITLE'), 250); // mulai lagi lebih cepat
+      timeout = setTimeout(() => setPhase('TYPING_TITLE'), 500); // Jeda sebelum mengulang
     }
 
     return () => clearTimeout(timeout);
