@@ -34,32 +34,32 @@ function SequentialTypewriterHeadline({ name = personalInfo.name, role = persona
 
     if (phase === 'TYPING_TITLE') {
       if (titleCount < titleText.length) {
-        timeout = setTimeout(() => setTitleCount((prev) => prev + 1), 65);
+        timeout = setTimeout(() => setTitleCount((prev) => prev + 1), 40); // lebih cepat
       } else {
-        setPhase('TYPING_ROLE');
+        timeout = setTimeout(() => setPhase('TYPING_ROLE'), 100); // jeda sangat singkat antar baris
       }
     } else if (phase === 'TYPING_ROLE') {
       if (roleCount < roleText.length) {
-        timeout = setTimeout(() => setRoleCount((prev) => prev + 1), 75);
+        timeout = setTimeout(() => setRoleCount((prev) => prev + 1), 50); // lebih cepat
       } else {
         setPhase('HOLD');
       }
     } else if (phase === 'HOLD') {
-      timeout = setTimeout(() => setPhase('ERASING_ROLE'), 3500);
+      timeout = setTimeout(() => setPhase('ERASING_ROLE'), 2000); // dikurangi dari 3.5s ke 2s
     } else if (phase === 'ERASING_ROLE') {
       if (roleCount > 0) {
-        timeout = setTimeout(() => setRoleCount((prev) => prev - 1), 35);
+        timeout = setTimeout(() => setRoleCount((prev) => prev - 1), 20); // hapus cepat
       } else {
         setPhase('ERASING_TITLE');
       }
     } else if (phase === 'ERASING_TITLE') {
       if (titleCount > 0) {
-        timeout = setTimeout(() => setTitleCount((prev) => prev - 1), 30);
+        timeout = setTimeout(() => setTitleCount((prev) => prev - 1), 20); // hapus cepat
       } else {
         setPhase('PAUSE');
       }
     } else if (phase === 'PAUSE') {
-      timeout = setTimeout(() => setPhase('TYPING_TITLE'), 400);
+      timeout = setTimeout(() => setPhase('TYPING_TITLE'), 250); // mulai lagi lebih cepat
     }
 
     return () => clearTimeout(timeout);
@@ -263,21 +263,31 @@ export default function HeroSection() {
           }}
         >
           {/* Dynamic Halo Glow behind circle */}
-          <div style={{
+          <motion.div 
+            animate={{ 
+              scale: [1, 1.25, 1],
+              opacity: [0.5, 1, 0.5]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            style={{
             position: 'absolute',
             top: '50%',
             left: '50%',
-            transform: 'translate(-50%, -50%)',
+            x: '-50%',
+            y: '-50%',
             width: '280px',
             height: '280px',
             background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
             borderRadius: '50%',
-            filter: 'blur(35px)',
             zIndex: 0
           }} />
 
           {/* Circular Monogram Container with Border Beam running on the circle */}
-          <div className="animate-float" style={{
+          <div style={{
             position: 'relative',
             width: '210px',
             height: '210px',

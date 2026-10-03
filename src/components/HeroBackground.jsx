@@ -35,7 +35,6 @@ export default function HeroBackground() {
         width: '380px',
         height: '380px',
         background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
-        filter: 'blur(70px)',
         opacity: 0.7
       }} />
 
@@ -46,7 +45,6 @@ export default function HeroBackground() {
         width: '420px',
         height: '420px',
         background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
-        filter: 'blur(80px)',
         opacity: 0.5
       }} />
 

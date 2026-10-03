@@ -1,22 +1,23 @@
 import { useEffect } from 'react';
 
-export default function useSpinningFavicon(imageUrl = '/favicon.png', speedMs = 100) {
+export default function useSpinningFavicon(imageUrl = '/favicon.png', speedMs = 500) {
   useEffect(() => {
-    let intervalId;
-    let angle = 0;
+    let faviconIntervalId;
+    let titleIntervalId;
+    let step = 0;
     
+    // ==========================================
+    // 1. SETUP FAVICON
+    // ==========================================
     const canvas = document.createElement('canvas');
-    // Ukuran standar favicon adalah 32x32 agar ringan dirender
     canvas.width = 32;
     canvas.height = 32;
     const ctx = canvas.getContext('2d');
     
     const img = new Image();
-    // Memastikan tidak ada masalah CORS saat memuat gambar
     img.crossOrigin = 'anonymous'; 
     img.src = imageUrl;
 
-    // Mencari tag <link rel="icon"> di file index.html
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
       link = document.createElement('link');
@@ -24,42 +25,83 @@ export default function useSpinningFavicon(imageUrl = '/favicon.png', speedMs = 
       document.head.appendChild(link);
     }
 
-    // Saat gambar berhasil dimuat, mulai jalankan animasi
+    // ==========================================
+    // 2. SETUP TITLE TYPEWRITER
+    // ==========================================
+    const fullTitle = "Portofolio Alvian Ariadi";
+    let titleIndex = 0;
+
+    const animateTitle = () => {
+      if (titleIndex <= fullTitle.length) {
+        // Mengetik huruf per huruf, ditambah kursor "|"
+        document.title = fullTitle.substring(0, titleIndex) + (titleIndex < fullTitle.length ? "|" : "");
+        titleIndex++;
+      } else {
+        // Tahan teks penuh selama beberapa detik sambil mengedipkan kursor
+        if (titleIndex > fullTitle.length + 10) { 
+          titleIndex = 1; // Mulai ngetik dari huruf pertama lagi
+        } else {
+          titleIndex++;
+          document.title = fullTitle + (titleIndex % 2 === 0 ? "|" : "");
+        }
+      }
+    };
+
+    // Mulai animasi mengetik (kecepatan 200ms per huruf)
+    titleIntervalId = setInterval(animateTitle, 200);
+
+    // ==========================================
+    // 3. ANIMASI FAVICON (SAAT GAMBAR LOADED)
+    // ==========================================
     img.onload = () => {
       const drawFrame = () => {
-        // Hapus kanvas dari frame sebelumnya
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Simpan state, pindah ke tengah, putar, lalu gambar avatar Anda
         ctx.save();
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate((angle * Math.PI) / 180);
         
-        // Buat wajahnya menjadi bulat sempurna di tab (opsional)
+        // Memastikan avatar tetap berbentuk bulat
         ctx.beginPath();
-        ctx.arc(0, 0, canvas.width / 2, 0, Math.PI * 2, true);
+        ctx.arc(16, 16, 16, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.clip();
 
-        // Gambar avatar
-        ctx.drawImage(img, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
+        // Render Avatar Normal
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        
         ctx.restore();
 
-        // Terapkan hasil gambaran dari kanvas ke tab browser!
-        link.href = canvas.toDataURL('image/png');
+        // Logika berkedip (Blinking Notification Dot)
+        const showDot = step % 4 < 2;
 
-        // Tambah sudut putaran sebesar 10 derajat untuk frame selanjutnya
-        angle = (angle + 10) % 360;
+        if (showDot) {
+          ctx.beginPath();
+          // Titik hijau di pojok kanan atas
+          ctx.arc(27, 5, 4, 0, Math.PI * 2, true);
+          ctx.fillStyle = '#22c55e'; // Hijau terang
+          ctx.fill();
+          
+          // Border luar putih/hitam
+          ctx.lineWidth = 1;
+          ctx.strokeStyle = '#000000';
+          ctx.stroke();
+          ctx.closePath();
+        }
+
+        link.href = canvas.toDataURL('image/png');
+        step++;
       };
 
-      // Menjalankan fungsi drawFrame berulang-ulang seperti GIF
-      intervalId = setInterval(drawFrame, speedMs);
+      // Interval favicon (500ms)
+      faviconIntervalId = setInterval(drawFrame, speedMs);
     };
 
     return () => {
-      // Bersihkan interval jika komponen dihancurkan (best practice React)
-      clearInterval(intervalId);
+      // Bersihkan semua interval agar tidak bocor
+      clearInterval(faviconIntervalId);
+      clearInterval(titleIntervalId);
       link.href = imageUrl;
+      document.title = fullTitle; // Kembalikan title ke normal jika keluar
     };
   }, [imageUrl, speedMs]);
 }
+
