@@ -7,7 +7,7 @@ export const personalInfo = {
   focus: "Focus: Fullstack Development, Geographic Information System & E-Commerce Systems",
   availableForWork: true,
   stats: {
-    projectsCompleted: 7,
+    projectsCompleted: 6,
     satisfiedClients: 12,
     yearsExperience: "3+",
     technologiesMastered: 10
@@ -15,9 +15,9 @@ export const personalInfo = {
   socials: {
     github: "https://github.com/Avenirez",
     linkedin: "https://www.linkedin.com/in/alvianariadi/",
-    twitter: "https://twitter.com",
     email: "alvianariadiii@gmail.com",
-    website: "https://alviandev.my.id"
+    website: "https://alviandev.my.id",
+    whatsapp: "https://wa.me/6282117283760"
   }
 };
 
@@ -41,10 +41,10 @@ export const projectsData = [
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
       "Astro (Frontend)",
-      "Node.js Serverless (Backend)",
-      "QRIS Payment Gateway (API)",
-      "WhatsApp CS (API)",
-      "Custom CSS / Glassmorphism"
+      "Golang (Backend)",
+      "PostgreSQL (Database)",
+      "Redis (Background Worker)",
+      "Docker & Nginx"
     ],
     "featured": true,
     "keyFeatures": [
@@ -64,7 +64,7 @@ export const projectsData = [
     "description": "Peta interaktif berbasis data OpenStreetMap (OSM) untuk memantau sebaran fasilitas publik riil di seluruh kelurahan DKI Jakarta secara real-time.",
     "fullDescription": "JakScope adalah platform pemetaan digital interaktif yang menyajikan data sebaran fasilitas sosial & publik seperti sekolah, puskesmas/klinik, taman hijau, hingga pos keamanan di seluruh kelurahan DKI Jakarta. Pengguna cukup mengklik wilayah kelurahan untuk melihat statistik dan lokasi fasilitas publik secara langsung.",
     "image": "/projects/jakscope.webp",
-    "demoUrl": "https://jakscope.vercel.app/",
+    "demoUrl": "https://www.jakscope.my.id/",
     "githubUrl": "https://github.com/Avenirez",
     "technologies": [
       "Next.js App Router (Fullstack)",
@@ -164,33 +164,6 @@ export const projectsData = [
       "Penyimpanan data lokal yang aman tanpa perlu login"
     ],
     "challenges": "Merancang logika kalkulasi saldo dan statistik grafik agar secara langsung memperbarui persentase anggaran saat transaksi baru ditambahkan."
-  },
-  {
-    "id": 3,
-    "title": "Pentaflix — Platform Penjelajah Film",
-    "category": "frontend",
-    "categoryLabel": "Frontend & Web App",
-    "description": "Platform penjelajah film modern dengan trailer player interaktif, jajaran trending, filter genre, dan simpan ke watchlist.",
-    "fullDescription": "Pentaflix menghadirkan pengalaman menjelajahi katalog film kelas dunia. Pengguna dapat menonton trailer HD secara langsung, melihat jajaran film trending & top-rated, memfilter genre favorit, serta menyimpan film ke dalam daftar tontonan (watchlist).",
-    "image": "/projects/pentaflix.webp",
-    "demoUrl": "https://avenirez-pentaflix.vercel.app/",
-    "githubUrl": "https://github.com/Avenirez",
-    "technologies": [
-      "Next.js & React (Frontend)",
-      "Node.js API Proxy (Backend)",
-      "TMDB REST API (API)",
-      "LocalStorage Watchlist (Database/Storage)",
-      "Framer Motion"
-    ],
-    "featured": false,
-    "keyFeatures": [
-      "Hero slider film featured dengan pemutar trailer video instan",
-      "Integrasi TMDB API untuk data film, rating, dan sinopsis terbaru",
-      "Fitur Watchlist tersinkronisasi dengan LocalStorage",
-      "Mode gelap & terang bawaan (Dark/Light Mode)",
-      "Pencarian kata kunci judul film, aktor, dan sutradara"
-    ],
-    "challenges": "Menangani fetching data asynchronous dari TMDB API secara smooth dengan skeleton loading indicator saat pengguna berpindah antar halaman."
   },
   {
     "id": 6,

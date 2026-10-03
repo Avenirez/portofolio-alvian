@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { GithubIcon, LinkedinIcon } from './SocialIcons';
+import { GithubIcon, LinkedinIcon, WhatsappIcon, EmailIcon } from './SocialIcons';
 import { personalInfo } from '../data/projectsData';
 
 export default function ContactSection() {
@@ -26,7 +26,7 @@ export default function ContactSection() {
     
     setLoading(true);
     try {
-      await fetch("https://formsubmit.co/ajax/" + personalInfo.socials.email, {
+      const response = await fetch("/api/telegram", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -35,21 +35,26 @@ export default function ContactSection() {
         body: JSON.stringify({
           name: trimmedName.slice(0, 100),
           email: trimmedEmail.slice(0, 100),
-          message: trimmedMessage.slice(0, 1000),
-          _subject: `New Portfolio Message from ${trimmedName.slice(0, 50)}`
+          message: trimmedMessage.slice(0, 1000)
         })
       });
+      
+      if (!response.ok) {
+        throw new Error('Gagal mengirim pesan ke server.');
+      }
+      
       setSubmitted(true);
       setFormData({ name: '', email: '', message: '' });
     } catch (err) {
-      console.error(err);
+      console.error('Error saat mengirim form:', err);
+      alert('Mohon maaf, terjadi kesalahan jaringan. Pesan gagal terkirim.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <section id="kontak" style={{
+    <section id="kontak" aria-label="Hubungi Saya" style={{
       padding: '100px 24px 80px 24px',
       maxWidth: '1140px',
       margin: '0 auto'
@@ -63,6 +68,13 @@ export default function ContactSection() {
 
         {/* Left Column: Heading & Social Links */}
         <div>
+          {/* Status Indicator */}
+          <div style={{ marginBottom: '16px' }}>
+            <span style={{ fontSize: '0.85rem', color: 'var(--accent-primary)', fontWeight: '600', letterSpacing: '0.02em' }}>
+              Available for new projects
+            </span>
+          </div>
+
           <span style={{
             fontSize: '0.8rem',
             fontWeight: '700',
@@ -88,19 +100,34 @@ export default function ContactSection() {
             fontSize: '1.05rem',
             color: 'var(--text-muted)',
             lineHeight: 1.7,
-            marginBottom: '36px',
+            marginBottom: '16px',
             maxWidth: '480px'
           }}>
             Saya selalu terbuka untuk peluang kolaborasi baru, pengembangan aplikasi web interaktif, maupun konsultasi teknis. Tinggalkan pesan Anda pada formulir ini:
           </p>
 
+          {/* Location Info */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-dim)', fontSize: '0.9rem', marginBottom: '36px' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>Based in Jakarta, Indonesia (GMT+7)</span>
+          </div>
+
           {/* Social Icons Row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <a href={personalInfo.socials.github} target="_blank" rel="noreferrer" className="social-icon-btn">
+            <a href={personalInfo.socials.github} target="_blank" rel="noopener noreferrer" className="social-icon-btn" aria-label="GitHub">
               <GithubIcon size={18} />
             </a>
-            <a href={personalInfo.socials.linkedin} target="_blank" rel="noreferrer" className="social-icon-btn">
+            <a href={personalInfo.socials.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon-btn" aria-label="LinkedIn">
               <LinkedinIcon size={18} />
+            </a>
+            <a href={personalInfo.socials.whatsapp} target="_blank" rel="noopener noreferrer" className="social-icon-btn" aria-label="WhatsApp">
+              <WhatsappIcon size={18} />
+            </a>
+            <a href={`mailto:${personalInfo.socials.email}`} className="social-icon-btn" aria-label="Email">
+              <EmailIcon size={18} />
             </a>
           </div>
         </div>

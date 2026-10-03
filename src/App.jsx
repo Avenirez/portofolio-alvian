@@ -11,6 +11,7 @@ import TechStack from './components/TechStack';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
 import { projectsData } from './data/projectsData';
+import useSpinningFavicon from './hooks/useSpinningFavicon';
 
 // Code-split: the modal (and its focus-trap/iframe logic) is only
 // needed once a visitor actually opens a project, so it doesn't need
@@ -36,6 +37,9 @@ const safeStorage = {
 };
 
 export default function App() {
+  // Aktifkan animasi favicon berputar (50ms per frame untuk kehalusan maksimal)
+  useSpinningFavicon('/favicon.png', 50);
+
   const [currentTheme, setTheme] = useState(() => {
     return safeStorage.get('local', 'portfolio-theme', 'sunset');
   });
@@ -118,6 +122,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative' }}>
+      <a href="#main-content" className="skip-to-content">Skip to content</a>
       {/* Initial Cyber Preloader Screen */}
       <AnimatePresence>
         {isLoading && (
@@ -139,12 +144,12 @@ export default function App() {
       />
 
       {/* Main Content */}
-      <main style={{ flexGrow: 1 }}>
+      <main id="main-content" style={{ flexGrow: 1 }}>
         {/* Hero Section */}
         <HeroSection />
 
         {/* Projects Showcase Section */}
-        <section id="projek" style={{ padding: '80px 24px 60px 24px' }}>
+        <section id="projek" aria-label="Koleksi Projek Portofolio" style={{ padding: '80px 24px 60px 24px' }}>
           <FilterSearch
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}

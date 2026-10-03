@@ -2,23 +2,23 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 const techBadges = [
-  { name: 'React', icon: 'https://cdn.simpleicons.org/react/61DAFB', url: 'https://react.dev' },
-  { name: 'Next.js', icon: 'https://cdn.simpleicons.org/nextdotjs/white', url: 'https://nextjs.org' },
-  { name: 'Astro', icon: 'https://cdn.simpleicons.org/astro/FF5D01', url: 'https://astro.build' },
-  { name: 'Svelte', icon: 'https://cdn.simpleicons.org/svelte/FF3E00', url: 'https://svelte.dev' },
-  { name: 'Node.js', icon: 'https://cdn.simpleicons.org/nodedotjs/5FA04E', url: 'https://nodejs.org' },
-  { name: 'Supabase', icon: 'https://cdn.simpleicons.org/supabase/3FCF8E', url: 'https://supabase.com' },
-  { name: 'PostgreSQL', icon: 'https://cdn.simpleicons.org/postgresql/4169E1', url: 'https://www.postgresql.org' },
-  { name: 'Tailwind CSS', icon: 'https://cdn.simpleicons.org/tailwindcss/06B6D4', url: 'https://tailwindcss.com' },
-  { name: 'TypeScript', icon: 'https://cdn.simpleicons.org/typescript/3178C6', url: 'https://www.typescriptlang.org' },
+  { name: 'React', icon: '/icons/react.svg', url: 'https://react.dev' },
+  { name: 'Next.js', icon: '/icons/nextjs.svg', url: 'https://nextjs.org' },
+  { name: 'Astro', icon: '/icons/astro.svg', url: 'https://astro.build' },
+  { name: 'Svelte', icon: '/icons/svelte.svg', url: 'https://svelte.dev' },
+  { name: 'Node.js', icon: '/icons/nodejs.svg', url: 'https://nodejs.org' },
+  { name: 'Supabase', icon: '/icons/supabase.svg', url: 'https://supabase.com' },
+  { name: 'PostgreSQL', icon: '/icons/postgresql.svg', url: 'https://www.postgresql.org' },
+  { name: 'Tailwind CSS', icon: '/icons/tailwindcss.svg', url: 'https://tailwindcss.com' },
+  { name: 'TypeScript', icon: '/icons/typescript.svg', url: 'https://www.typescriptlang.org' },
   { name: 'QRIS Payment Gateway', icon: '/qris-logo.svg', url: 'https://qris.id' },
-  { name: 'FastAPI', icon: 'https://cdn.simpleicons.org/fastapi/009688', url: 'https://fastapi.tiangolo.com' },
-  { name: 'OpenStreetMap API', icon: 'https://cdn.simpleicons.org/openstreetmap/7EBC6F', url: 'https://www.openstreetmap.org' },
-  { name: 'Leaflet GL', icon: 'https://cdn.simpleicons.org/leaflet/199900', url: 'https://leafletjs.com' },
-  { name: 'Vite', icon: 'https://cdn.simpleicons.org/vite/646CFF', url: 'https://vite.dev' },
-  { name: 'Framer Motion', icon: 'https://cdn.simpleicons.org/framer/0055FF', url: 'https://motion.dev' },
-  { name: 'Vercel Cloud', icon: 'https://cdn.simpleicons.org/vercel/white', url: 'https://vercel.com' },
-  { name: 'Figma', icon: 'https://cdn.simpleicons.org/figma/F24E1E', url: 'https://www.figma.com' }
+  { name: 'FastAPI', icon: '/icons/fastapi.svg', url: 'https://fastapi.tiangolo.com' },
+  { name: 'OpenStreetMap API', icon: '/icons/openstreetmap.svg', url: 'https://www.openstreetmap.org' },
+  { name: 'Leaflet GL', icon: '/icons/leaflet.svg', url: 'https://leafletjs.com' },
+  { name: 'Vite', icon: '/icons/vite.svg', url: 'https://vite.dev' },
+  { name: 'Framer Motion', icon: '/icons/framer.svg', url: 'https://motion.dev' },
+  { name: 'Vercel Cloud', icon: '/icons/vercel.svg', url: 'https://vercel.com' },
+  { name: 'Figma', icon: '/icons/figma.svg', url: 'https://www.figma.com' }
 ];
 
 const row1 = techBadges.slice(0, 9);
@@ -26,7 +26,7 @@ const row2 = techBadges.slice(9);
 
 export default function TechStack() {
   return (
-    <section id="keahlian" style={{
+    <section id="keahlian" aria-label="Keahlian dan Teknologi" style={{
       padding: '70px 24px',
       maxWidth: '1200px',
       margin: '0 auto',
@@ -81,7 +81,7 @@ export default function TechStack() {
                 key={`r1-${tech.name}-${index}`}
                 href={tech.url}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 style={{ textDecoration: 'none' }}
               >
                 <motion.div
@@ -128,7 +128,7 @@ export default function TechStack() {
                 key={`r2-${tech.name}-${index}`}
                 href={tech.url}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 style={{ textDecoration: 'none' }}
               >
                 <motion.div

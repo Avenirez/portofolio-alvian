@@ -291,12 +291,12 @@ export default function ProjectCard({ project, onSelectProject, onCardInteract }
             }}>
               {project.technologies.slice(0, 4).map((tech, i) => (
                 <span key={i} style={{
-                  background: 'var(--bg-input)',
-                  border: '1px solid var(--border-color)',
-                  color: 'var(--text-dim)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: 'var(--text-main)',
                   fontSize: '0.75rem',
                   fontWeight: '600',
-                  padding: '3px 10px',
+                  padding: '4px 10px',
                   borderRadius: 'var(--radius-sm)'
                 }}>
                   {tech}
@@ -319,7 +319,7 @@ export default function ProjectCard({ project, onSelectProject, onCardInteract }
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              paddingTop: '14px',
+              paddingTop: '16px',
               borderTop: '1px solid var(--border-color)',
               transform: 'translateZ(30px)'
             }}>
@@ -330,33 +330,46 @@ export default function ProjectCard({ project, onSelectProject, onCardInteract }
                   onSelectProject(project);
                 }}
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--accent-primary)',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  color: '#ffffff',
                   fontWeight: '700',
-                  fontSize: '0.85rem',
+                  fontSize: '0.8rem',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px'
+                  gap: '6px',
+                  padding: '8px 16px',
+                  borderRadius: 'var(--radius-sm)',
+                  transition: 'all 0.2s ease'
                 }}
               >
                 Lihat Selengkapnya
               </button>
 
-              <div style={{ display: 'flex', gap: '10px' }}>
+              <div style={{ display: 'flex' }}>
                 <a
                   href={project.demoUrl}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   title="Live Demo"
                   onClick={(e) => {
                     e.stopPropagation();
                     if (onCardInteract) onCardInteract();
                   }}
-                  style={{ color: 'var(--accent-primary)', fontSize: '0.85rem', fontWeight: '700', textDecoration: 'none' }}
+                  style={{ 
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid var(--border-color)',
+                    color: 'var(--text-main)', 
+                    fontSize: '0.8rem', 
+                    fontWeight: '700', 
+                    textDecoration: 'none',
+                    padding: '8px 16px',
+                    borderRadius: 'var(--radius-sm)',
+                    transition: 'all 0.2s ease'
+                  }}
                 >
-                  Demo
+                  Demo Website
                 </a>
               </div>
             </div>

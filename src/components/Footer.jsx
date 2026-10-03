@@ -27,15 +27,24 @@ export default function Footer({ onGoHome }) {
         gap: '20px'
       }}>
         {/* Brand Logo */}
-        <div
+        <button
           onClick={scrollToTop}
           title="Kembali ke Halaman Utama"
-          style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '10px', 
+            cursor: 'pointer',
+            background: 'none',
+            border: 'none',
+            color: 'inherit',
+            padding: 0
+          }}
         >
           <span style={{ fontWeight: '700', fontSize: '1.1rem' }}>
             Alvian<span className="gradient-text">Dev</span>
           </span>
-        </div>
+        </button>
 
         {/* Copyright */}
         <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>

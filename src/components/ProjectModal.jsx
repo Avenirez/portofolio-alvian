@@ -87,73 +87,6 @@ export default function ProjectModal({ project, onClose }) {
           <X size={20} />
         </button>
 
-        {/* Preview Control Header */}
-        <div style={{
-          display: 'flex',
-          justify: 'space-between',
-          alignItems: 'center',
-          marginBottom: '12px'
-        }}>
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button
-              onClick={() => setViewMode('snapshot')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 14px',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '0.8rem',
-                fontWeight: '600',
-                border: '1px solid',
-                borderColor: viewMode === 'snapshot' ? 'var(--accent-primary)' : 'var(--border-color)',
-                background: viewMode === 'snapshot' ? 'var(--accent-light)' : 'var(--bg-input)',
-                color: viewMode === 'snapshot' ? 'var(--accent-primary)' : 'var(--text-muted)',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <ImageIcon size={14} /> Snapshot Gambar
-            </button>
-            <button
-              onClick={() => setViewMode('iframe')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 14px',
-                borderRadius: 'var(--radius-sm)',
-                fontSize: '0.8rem',
-                fontWeight: '600',
-                border: '1px solid',
-                borderColor: viewMode === 'iframe' ? 'var(--accent-primary)' : 'var(--border-color)',
-                background: viewMode === 'iframe' ? 'var(--accent-light)' : 'var(--bg-input)',
-                color: viewMode === 'iframe' ? 'var(--accent-primary)' : 'var(--text-muted)',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-            >
-              <Monitor size={14} /> Live Interactive Web
-            </button>
-          </div>
-
-          <a
-            href={project.demoUrl}
-            target="_blank"
-            rel="noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '4px',
-              fontSize: '0.8rem',
-              color: 'var(--accent-primary)',
-              textDecoration: 'none',
-              fontWeight: '600'
-            }}
-          >
-            Buka Website Direct <ExternalLink size={13} />
-          </a>
-        </div>
 
         {/* Project Preview (Snapshot or Live Iframe) */}
         <div style={{
@@ -182,7 +115,8 @@ export default function ProjectModal({ project, onClose }) {
                 border: 'none',
                 background: '#ffffff'
               }}
-              sandbox="allow-scripts allow-same-origin allow-forms"
+              sandbox="allow-scripts allow-forms"
+              referrerPolicy="no-referrer"
             />
           )}
         </div>
@@ -198,10 +132,26 @@ export default function ProjectModal({ project, onClose }) {
             fontWeight: '700',
             textTransform: 'uppercase',
             display: 'inline-block',
-            marginBottom: '10px'
+            marginBottom: '10px',
+            marginRight: '10px'
           }}>
             {project.categoryLabel}
           </span>
+          <span style={{
+            background: 'rgba(255, 255, 255, 0.05)',
+            color: 'var(--text-muted)',
+            border: '1px solid var(--border-color)',
+            padding: '3px 12px',
+            clipPath: 'polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px)',
+            fontSize: '0.75rem',
+            fontWeight: '600',
+            textTransform: 'uppercase',
+            display: 'inline-block',
+            marginBottom: '10px'
+          }}>
+            Peran: Solo Developer
+          </span>
+
 
           <h2 style={{ fontSize: '1.8rem', fontWeight: '800', marginBottom: '12px' }}>
             {project.title}
@@ -283,8 +233,8 @@ export default function ProjectModal({ project, onClose }) {
           paddingTop: '20px',
           borderTop: '1px solid var(--border-color)'
         }}>
-          <a href={project.demoUrl} target="_blank" rel="noreferrer" className="btn-primary" style={{ clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)' }}>
-            Uji Coba Live Demo
+          <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)' }}>
+            Demo Website
           </a>
         </div>
 

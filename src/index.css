@@ -138,6 +138,28 @@ body {
   border-radius: var(--radius-full);
 }
 
+/* Accessibility Utilities */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent-primary);
+  color: #fff;
+  padding: 8px 16px;
+  z-index: 999999;
+  transition: top 0.2s ease;
+  font-weight: 700;
+  text-decoration: none;
+}
+.skip-to-content:focus {
+  top: 0;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
 /* Typography Utilities */
 h1, h2, h3, h4, .font-display {
   font-family: var(--font-display);
