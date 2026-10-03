@@ -80,7 +80,7 @@ function SequentialTypewriterHeadline({ name = personalInfo.name, role = persona
         transition={{ duration: 0.4 }}
         style={{
           fontSize: 'clamp(2.4rem, 4.6vw, 3.6rem)',
-          fontWeight: '800',
+          fontWeight: '400',
           lineHeight: 1.15,
           marginBottom: '10px',
           letterSpacing: '-0.02em',
