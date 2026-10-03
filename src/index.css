@@ -643,7 +643,7 @@ h1, h2, h3, h4, .font-display {
 .terminal-dot.green { background-color: #27c93f; }
 
 .terminal-tab {
-  font-family: 'Space Grotesk', monospace;
+  font-family: 'Poppins', monospace;
   font-size: 0.82rem;
   color: var(--text-muted);
   background: rgba(255, 255, 255, 0.05);
@@ -729,7 +729,7 @@ h1, h2, h3, h4, .font-display {
 .hud-br { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
 
 .hud-label {
-  font-family: 'Space Grotesk', monospace;
+  font-family: 'Poppins', monospace;
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   color: var(--accent-primary);

@@ -186,7 +186,7 @@ export default function HeroSection() {
               <div className="terminal-tab">
                 alvian_bio.config.ts
               </div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', fontFamily: 'Space Grotesk' }}>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', fontFamily: 'Poppins' }}>
                 UTF-8
               </div>
             </div>
@@ -312,7 +312,7 @@ export default function HeroSection() {
               justifyContent: 'center',
               fontSize: '5.5rem',
               fontWeight: '900',
-              fontFamily: 'Space Grotesk',
+              fontFamily: 'Poppins',
               position: 'relative',
               zIndex: 2
             }}>

@@ -410,7 +410,7 @@ export default function GlobalBackground() {
       });
 
       // G. Render Floating Tech & Space Code Symbols
-      ctx.font = '600 13px Space Grotesk, monospace';
+      ctx.font = '600 13px Poppins, monospace';
       floatingNodes.forEach((node) => {
         node.y -= node.speedY;
         node.x += node.speedX;
